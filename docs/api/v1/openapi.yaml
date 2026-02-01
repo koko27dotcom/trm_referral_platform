@@ -1,0 +1,815 @@
+openapi: 3.0.3
+info:
+  title: TRM API
+  description: |
+    The Referral Marketplace (TRM) API allows developers to build on the TRM platform.
+    Manage job postings, referrals, companies, and receive real-time webhook notifications.
+  version: 1.0.0
+  contact:
+    name: TRM API Support
+    email: api-support@trm.com
+    url: https://docs.trm.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.trm.com/v1
+    description: Production server
+  - url: https://api.staging.trm.com/v1
+    description: Staging server
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Jobs
+    description: Job posting management
+  - name: Referrals
+    description: Candidate referral management
+  - name: Companies
+    description: Company profile management
+  - name: Users
+    description: User profile management
+  - name: Authentication
+    description: API key management
+  - name: Webhooks
+    description: Webhook configuration and management
+
+paths:
+  /jobs:
+    get:
+      summary: List jobs
+      description: Retrieve a paginated list of jobs with optional filtering
+      tags:
+        - Jobs
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, closed, draft]
+        - name: company
+          in: query
+          schema:
+            type: string
+        - name: location
+          in: query
+          schema:
+            type: string
+        - name: jobType
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListResponse'
+    post:
+      summary: Create job
+      description: Create a new job posting (requires jobs:write permission)
+      tags:
+        - Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobCreateRequest'
+      responses:
+        '201':
+          description: Job created successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /jobs/{id}:
+    get:
+      summary: Get job
+      description: Retrieve detailed information about a specific job
+      tags:
+        - Jobs
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job found
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update job
+      description: Update an existing job (requires jobs:write permission)
+      tags:
+        - Jobs
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobUpdateRequest'
+      responses:
+        '200':
+          description: Job updated successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete job
+      description: Delete (close) a job (requires jobs:write permission)
+      tags:
+        - Jobs
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job closed successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /jobs/{id}/related:
+    get:
+      summary: Get related jobs
+      description: Get jobs related to a specific job
+      tags:
+        - Jobs
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+
+  /referrals:
+    get:
+      summary: List referrals
+      description: Retrieve a list of referrals with optional filtering
+      tags:
+        - Referrals
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: job
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create referral
+      description: Create a new candidate referral
+      tags:
+        - Referrals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReferralCreateRequest'
+      responses:
+        '201':
+          description: Referral created successfully
+        '409':
+          description: Duplicate referral
+
+  /referrals/{id}:
+    get:
+      summary: Get referral
+      description: Get detailed information about a referral
+      tags:
+        - Referrals
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /referrals/{id}/status:
+    patch:
+      summary: Update referral status
+      description: Update the status of a referral
+      tags:
+        - Referrals
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReferralStatusUpdate'
+      responses:
+        '200':
+          description: Status updated successfully
+
+  /companies:
+    get:
+      summary: List companies
+      description: Retrieve a list of companies
+      tags:
+        - Companies
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create company
+      description: Create a new company (requires companies:write permission)
+      tags:
+        - Companies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyCreateRequest'
+      responses:
+        '201':
+          description: Company created successfully
+
+  /companies/{id}:
+    get:
+      summary: Get company
+      description: Get detailed information about a company
+      tags:
+        - Companies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    put:
+      summary: Update company
+      description: Update a company (requires companies:write permission)
+      tags:
+        - Companies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Company updated successfully
+
+  /companies/{id}/jobs:
+    get:
+      summary: Get company jobs
+      description: Get all jobs for a specific company
+      tags:
+        - Companies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+
+  /users/me:
+    get:
+      summary: Get current user
+      description: Get the authenticated user's profile
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Successful response
+    put:
+      summary: Update current user
+      description: Update the authenticated user's profile
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        '200':
+          description: Profile updated successfully
+
+  /users/me/referrals:
+    get:
+      summary: Get my referrals
+      description: Get referrals created by the current user
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Successful response
+
+  /users/me/stats:
+    get:
+      summary: Get my stats
+      description: Get statistics for the current user
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Successful response
+
+  /auth/apikey:
+    post:
+      summary: Create API key
+      description: Generate a new API key
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKeyCreateRequest'
+      responses:
+        '201':
+          description: API key created successfully
+
+  /auth/apikeys:
+    get:
+      summary: List API keys
+      description: Get all API keys for the authenticated user
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Successful response
+
+  /auth/apikeys/{id}:
+    get:
+      summary: Get API key
+      description: Get details of a specific API key
+      tags:
+        - Authentication
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    put:
+      summary: Update API key
+      description: Update an API key
+      tags:
+        - Authentication
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: API key updated successfully
+    delete:
+      summary: Revoke API key
+      description: Revoke an API key
+      tags:
+        - Authentication
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: API key revoked successfully
+
+  /auth/apikeys/{id}/rotate:
+    post:
+      summary: Rotate API key
+      description: Generate a new key value for an existing API key
+      tags:
+        - Authentication
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: API key rotated successfully
+
+  /auth/verify:
+    post:
+      summary: Verify API key
+      description: Verify the current API key and get associated information
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: API key is valid
+
+  /webhooks:
+    get:
+      summary: List webhooks
+      description: Get all webhooks for the authenticated user
+      tags:
+        - Webhooks
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create webhook
+      description: Register a new webhook endpoint
+      tags:
+        - Webhooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookCreateRequest'
+      responses:
+        '201':
+          description: Webhook created successfully
+
+  /webhooks/{id}:
+    get:
+      summary: Get webhook
+      description: Get details of a specific webhook
+      tags:
+        - Webhooks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    put:
+      summary: Update webhook
+      description: Update a webhook configuration
+      tags:
+        - Webhooks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Webhook updated successfully
+    delete:
+      summary: Delete webhook
+      description: Delete a webhook
+      tags:
+        - Webhooks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Webhook deleted successfully
+
+  /webhooks/{id}/test:
+    post:
+      summary: Test webhook
+      description: Send a test event to a webhook
+      tags:
+        - Webhooks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Test event sent
+
+  /webhooks/events/list:
+    get:
+      summary: List webhook events
+      description: Get available webhook event types
+      tags:
+        - Webhooks
+      responses:
+        '200':
+          description: Successful response
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication
+
+  schemas:
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        location:
+          type: object
+          properties:
+            city:
+              type: string
+            country:
+              type: string
+        jobType:
+          type: string
+        status:
+          type: string
+        description:
+          type: string
+        requirements:
+          type: array
+          items:
+            type: string
+        salary:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+
+    JobCreateRequest:
+      type: object
+      required:
+        - title
+        - company
+        - description
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        description:
+          type: string
+        location:
+          type: object
+        jobType:
+          type: string
+
+    JobUpdateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+
+    JobListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
+        meta:
+          type: object
+          properties:
+            pagination:
+              type: object
+
+    ReferralCreateRequest:
+      type: object
+      required:
+        - jobId
+        - candidate
+      properties:
+        jobId:
+          type: string
+        candidate:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+        notes:
+          type: string
+
+    ReferralStatusUpdate:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [submitted, screening, interview_scheduled, interviewing, offer_pending, hired, rejected, withdrawn]
+        notes:
+          type: string
+
+    Company:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        logo:
+          type: string
+        website:
+          type: string
+        industry:
+          type: string
+
+    CompanyCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        website:
+          type: string
+        industry:
+          type: string
+
+    UserUpdateRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        title:
+          type: string
+        bio:
+          type: string
+
+    APIKeyCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+        environment:
+          type: string
+          enum: [development, production]
+
+    WebhookCreateRequest:
+      type: object
+      required:
+        - name
+        - url
+        - events
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            type:
+              type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    RateLimitExceeded:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        X-RateLimit-Limit:
+          description: Request limit per window
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Remaining requests in current window
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Unix timestamp when limit resets
+          schema:
+            type: integer

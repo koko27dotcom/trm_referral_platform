@@ -1,0 +1,36 @@
+{
+  "name": "@trm/sdk",
+  "version": "1.0.0",
+  "description": "Official JavaScript SDK for The Referral Marketplace API",
+  "main": "trm.js",
+  "types": "trm.d.ts",
+  "files": [
+    "trm.js",
+    "trm.d.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint trm.js"
+  },
+  "keywords": [
+    "trm",
+    "referral",
+    "jobs",
+    "api",
+    "sdk"
+  ],
+  "author": "TRM Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trm/sdk-javascript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/trm/sdk-javascript/issues"
+  },
+  "homepage": "https://docs.trm.com",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

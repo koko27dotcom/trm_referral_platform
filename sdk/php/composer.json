@@ -1,0 +1,33 @@
+{
+    "name": "trm/sdk",
+    "description": "Official PHP SDK for The Referral Marketplace API",
+    "type": "library",
+    "version": "1.0.0",
+    "keywords": ["trm", "referral", "jobs", "api", "sdk"],
+    "homepage": "https://docs.trm.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TRM Team",
+            "email": "api@trm.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TRM\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TRM\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable"
+}
