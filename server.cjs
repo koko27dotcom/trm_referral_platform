@@ -415,6 +415,16 @@ app.get('/api/referrals/my', protect, async (req, res) => {
   }
 });
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // GLOBAL ERROR HANDLER - Enhanced
 app.use((error, req, res, next) => {
   console.error('=== GLOBAL ERROR HANDLER ===');
