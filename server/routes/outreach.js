@@ -535,20 +535,3 @@ TRM Recruitment Team`,
 }));
 
 export default router;
-
-This role offers excellent growth opportunities and competitive compensation.
-
-Interested in learning more? Reply to this message!
-
-Best regards,
-TRM Recruitment Team`,
-    },
-  ];
-
-  res.json({
-    success: true,
-    data: templates,
-  });
-}));
-
-export default router;
