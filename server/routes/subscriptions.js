@@ -4,7 +4,8 @@
  */
 
 import express from 'express';
-import { authenticate, requireRole } from '../middleware/auth.js';
+import { authenticate } from '../middleware/auth.js';
+import { requireRole } from '../middleware/rbac.js';
 import { subscriptionService } from '../services/subscriptionService.js';
 import { featureGateService } from '../services/featureGateService.js';
 import { paymentGatewayService } from '../services/paymentGatewayService.js';
