@@ -9,7 +9,6 @@ import {
   Subscription,
   Company,
   User,
-  PaymentMethod,
 } from '../models/index.js';
 import mongoose from 'mongoose';
 
