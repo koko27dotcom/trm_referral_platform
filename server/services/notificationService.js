@@ -447,6 +447,9 @@ async function sendPush(user, type, template) {
 }
 
 // Export service functions
+// Re-export constants from Notification model for convenience
+export { NOTIFICATION_TYPES, NOTIFICATION_PRIORITY, NOTIFICATION_CHANNELS } from '../models/Notification.js';
+
 export default {
   sendNotification,
   sendBulkNotification,
