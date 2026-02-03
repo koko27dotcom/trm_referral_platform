@@ -38,6 +38,7 @@ import FeaturedJobSlot from './FeaturedJobSlot.js';
 import EnterprisePlan from './EnterprisePlan.js';
 import KYCStatus from './KYCStatus.js';
 import KYCDocument from './KYCDocument.js';
+import Notification from './Notification.js';
 import PayoutBatch from './PayoutBatch.js';
 import PayoutProvider from './PayoutProvider.js';
 import PayoutTransaction from './PayoutTransaction.js';
@@ -115,6 +116,7 @@ export {
   EnterprisePlan,
   KYCStatus,
   KYCDocument,
+  Notification,
   // AI Analytics Models
   AnalyticsInsight,
   SalaryBenchmark,
@@ -182,6 +184,7 @@ export default {
   EnterprisePlan,
   KYCStatus,
   KYCDocument,
+  Notification,
   // AI Analytics Models
   AnalyticsInsight,
   SalaryBenchmark,
