@@ -381,4 +381,4 @@ WhatsAppTemplateSchema.statics.upsert = async function(templateData) {
 const WhatsAppTemplate = mongoose.model('WhatsAppTemplate', WhatsAppTemplateSchema);
 
 export default WhatsAppTemplate;
-export { TEMPLATE_STATUS, TEMPLATE_CATEGORY, TEMPLATE_TYPE };
+export { TEMPLATE_STATUS, TEMPLATE_CATEGORY };
