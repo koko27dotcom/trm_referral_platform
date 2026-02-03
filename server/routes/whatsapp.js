@@ -9,7 +9,7 @@ import WhatsAppTemplate, { TEMPLATE_TYPE, TEMPLATE_STATUS } from '../models/What
 import WhatsAppSession, { SESSION_STATUS } from '../models/WhatsAppSession.js';
 import WhatsAppMessage from '../models/WhatsAppMessage.js';
 import { User } from '../models/index.js';
-import { authenticate, requireAuth } from '../middleware/auth.js';
+import { authenticate } from '../middleware/auth.js';
 import { asyncHandler, ValidationError, NotFoundError, AuthorizationError } from '../middleware/errorHandler.js';
 import { requireAdmin } from '../middleware/rbac.js';
 
