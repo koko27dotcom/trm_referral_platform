@@ -5,7 +5,6 @@
 
 import express from 'express';
 import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
 import { matchingEngine } from '../services/matchingEngine.js';
 import { MatchScore, Job, User } from '../models/index.js';
 import { asyncHandler, AppError } from '../middleware/errorHandler.js';

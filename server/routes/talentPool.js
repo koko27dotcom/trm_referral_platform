@@ -6,7 +6,8 @@
 import express from 'express';
 import TalentPool from '../models/TalentPool.js';
 import CandidateSource from '../models/CandidateSource.js';
-import { authenticate, requireRole } from '../middleware/auth.js';
+import { authenticate } from '../middleware/auth.js';
+import { requireRole } from '../middleware/rbac.js';
 import { asyncHandler, ValidationError, NotFoundError } from '../middleware/errorHandler.js';
 import { talentScraperService } from '../services/talentScraperService.js';
 import { candidateEnrichmentService } from '../services/candidateEnrichmentService.js';

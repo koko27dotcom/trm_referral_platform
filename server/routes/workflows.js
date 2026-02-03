@@ -6,7 +6,8 @@
 
 import express from 'express';
 import mongoose from 'mongoose';
-import { authenticate, requireRole } from '../middleware/auth.js';
+import { authenticate } from '../middleware/auth.js';
+import { requireRole } from '../middleware/rbac.js';
 import Workflow, { WORKFLOW_STATUS, TRIGGER_TYPES } from '../models/Workflow.js';
 import WorkflowExecution, { EXECUTION_STATUS } from '../models/WorkflowExecution.js';
 import { 

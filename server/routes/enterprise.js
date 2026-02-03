@@ -5,7 +5,8 @@
  */
 
 import express from 'express';
-import { authenticate, requireRole } from '../middleware/auth.js';
+import { authenticate } from '../middleware/auth.js';
+import { requireRole } from '../middleware/rbac.js';
 import { Company, EnterprisePlan, CompanyUser } from '../models/index.js';
 import {
   getEnterpriseDashboard,
