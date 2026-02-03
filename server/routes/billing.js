@@ -7,7 +7,7 @@ import express from 'express';
 import { authenticate, requireRole } from '../middleware/auth.js';
 import { billingEngine } from '../services/billingEngine.js';
 import { paymentGatewayService } from '../services/paymentGatewayService.js';
-import { BillingRecord, PaymentMethod, Company, User } from '../models/index.js';
+import { BillingRecord, Company, User } from '../models/index.js';
 
 const router = express.Router();
 
