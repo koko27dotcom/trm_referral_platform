@@ -5,7 +5,8 @@
  */
 
 import { User, Job, MatchScore, Referral, Application, ReferralNetwork } from '../models/index.js';
-import { sendNotification, NOTIFICATION_TYPES, NOTIFICATION_PRIORITY, NOTIFICATION_CHANNELS } from './notificationService.js';
+import { sendNotification } from './notificationService.js';
+import { NOTIFICATION_TYPES, NOTIFICATION_PRIORITY, NOTIFICATION_CHANNELS } from '../models/Notification.js';
 
 // Default weights for scoring factors
 const DEFAULT_WEIGHTS = {
