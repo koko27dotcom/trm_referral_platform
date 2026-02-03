@@ -551,7 +551,3 @@ class CandidateEnrichmentService {
 // Export singleton instance
 export const candidateEnrichmentService = new CandidateEnrichmentService();
 export default CandidateEnrichmentService;
-
-// Export singleton instance
-export const candidateEnrichmentService = new CandidateEnrichmentService();
-export default CandidateEnrichmentService;
