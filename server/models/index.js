@@ -115,9 +115,6 @@ export {
   EnterprisePlan,
   KYCStatus,
   KYCDocument,
-  PayoutBatch,
-  PayoutProvider,
-  PayoutTransaction,
   // AI Analytics Models
   AnalyticsInsight,
   SalaryBenchmark,
