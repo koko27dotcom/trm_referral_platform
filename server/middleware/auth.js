@@ -7,6 +7,9 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../models/index.js';
 
+// Re-export requireRole from rbac.js for backward compatibility
+export { requireRole } from './rbac.js';
+
 // Token configuration
 const JWT_CONFIG = {
   accessTokenSecret: process.env.JWT_ACCESS_SECRET || 'your-access-secret-key-change-in-production',
