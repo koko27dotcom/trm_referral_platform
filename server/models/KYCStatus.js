@@ -578,4 +578,5 @@ KYCStatusSchema.pre('save', function(next) {
 
 const KYCStatus = mongoose.model('KYCStatus', KYCStatusSchema);
 
+export { KYCStatus };
 export default KYCStatus;
