@@ -3,48 +3,48 @@
  * Main entry point for the referral platform API
  */
 
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { connectDatabase, disconnectDatabase } from './config/database.js';
-import { errorHandler, notFoundHandler, setupUnhandledRejectionHandler, setupUncaughtExceptionHandler } from './middleware/errorHandler.js';
-import { initializeWorkflowCron, stopWorkflowCron } from './cron/workflowCron.js';
-import { initializeRevenueCron, stopRevenueCron } from './cron/revenueCron.js';
-import { initializePayoutCron, stopPayoutCron } from './cron/payoutCron.js';
-import { leaderboardCron } from './cron/leaderboardCron.js';
-import analyticsCron from './cron/analyticsCron.js';
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const { connectDatabase, disconnectDatabase } = require('./config/database.js');
+const { errorHandler, notFoundHandler, setupUnhandledRejectionHandler, setupUncaughtExceptionHandler } = require('./middleware/errorHandler.js');
+const { initializeWorkflowCron, stopWorkflowCron } = require('./cron/workflowCron.js');
+const { initializeRevenueCron, stopRevenueCron } = require('./cron/revenueCron.js');
+const { initializePayoutCron, stopPayoutCron } = require('./cron/payoutCron.js');
+const { leaderboardCron } = require('./cron/leaderboardCron.js');
+const analyticsCron = require('./cron/analyticsCron.js');
 
 // Import routes
-import authRoutes from './routes/auth.js';
-import userRoutes from './routes/users.js';
-import companyRoutes from './routes/companies.js';
-import jobRoutes from './routes/jobs.js';
-import referralRoutes from './routes/referrals.js';
-import referralNetworkRoutes from './routes/referralNetwork.js';
-import billingRoutes from './routes/billing.js';
-import subscriptionRoutes from './routes/subscriptions.js';
-import payoutRoutes from './routes/payouts.js';
-import whatsappRoutes from './routes/whatsapp.js';
-import leadRoutes from './routes/leads.js';
-import emailMarketingRoutes from './routes/emailMarketing.js';
-import matchingRoutes from './routes/matching.js';
-import workflowRoutes from './routes/workflows.js';
-import analyticsRoutes from './routes/analytics.js';
-import insightsRoutes from './routes/insights.js';
-import pricingRoutes from './routes/pricing.js';
-import featuredJobsRoutes from './routes/featuredJobs.js';
-import enterpriseRoutes from './routes/enterprise.js';
-import kycRoutes from './routes/kyc.js';
-import talentPoolRoutes from './routes/talentPool.js';
-import outreachRoutes from './routes/outreach.js';
-import gamificationRoutes from './routes/gamification.js';
-import leaderboardRoutes from './routes/leaderboards.js';
-import challengeRoutes from './routes/challenges.js';
-import dataProductsRoutes from './routes/dataProducts.js';
-import reportsRoutes from './routes/reports.js';
-import marketIntelligenceRoutes from './routes/marketIntelligence.js';
-import dataAPIRoutes from './routes/dataAPI.js';
-import predictiveRoutes from './routes/predictive.js';
+const authRoutes = require('./routes/auth.js');
+const userRoutes = require('./routes/users.js');
+const companyRoutes = require('./routes/companies.js');
+const jobRoutes = require('./routes/jobs.js');
+const referralRoutes = require('./routes/referrals.js');
+const referralNetworkRoutes = require('./routes/referralNetwork.js');
+const billingRoutes = require('./routes/billing.js');
+const subscriptionRoutes = require('./routes/subscriptions.js');
+const payoutRoutes = require('./routes/payouts.js');
+const whatsappRoutes = require('./routes/whatsapp.js');
+const leadRoutes = require('./routes/leads.js');
+const emailMarketingRoutes = require('./routes/emailMarketing.js');
+const matchingRoutes = require('./routes/matching.js');
+const workflowRoutes = require('./routes/workflows.js');
+const analyticsRoutes = require('./routes/analytics.js');
+const insightsRoutes = require('./routes/insights.js');
+const pricingRoutes = require('./routes/pricing.js');
+const featuredJobsRoutes = require('./routes/featuredJobs.js');
+const enterpriseRoutes = require('./routes/enterprise.js');
+const kycRoutes = require('./routes/kyc.js');
+const talentPoolRoutes = require('./routes/talentPool.js');
+const outreachRoutes = require('./routes/outreach.js');
+const gamificationRoutes = require('./routes/gamification.js');
+const leaderboardRoutes = require('./routes/leaderboards.js');
+const challengeRoutes = require('./routes/challenges.js');
+const dataProductsRoutes = require('./routes/dataProducts.js');
+const reportsRoutes = require('./routes/reports.js');
+const marketIntelligenceRoutes = require('./routes/marketIntelligence.js');
+const dataAPIRoutes = require('./routes/dataAPI.js');
+const predictiveRoutes = require('./routes/predictive.js');
 
 // Load environment variables
 dotenv.config();
@@ -307,5 +307,3 @@ const startServer = async () => {
 
 // Start the server
 startServer();
-
-export default app;
