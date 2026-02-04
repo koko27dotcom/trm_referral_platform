@@ -4,18 +4,18 @@
  * Part of the Auto-Followup Workflow Engine for TRM platform
  */
 
-import express from 'express';
-import mongoose from 'mongoose';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import Workflow, { WORKFLOW_STATUS, TRIGGER_TYPES } from '../models/Workflow.js';
-import WorkflowExecution, { EXECUTION_STATUS } from '../models/WorkflowExecution.js';
-import { 
+const express = require('express');
+const mongoose = require('mongoose');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const Workflow = require WORKFLOW_STATUS, TRIGGER_TYPES } = require('../models/Workflow.js');
+const WorkflowExecution = require EXECUTION_STATUS } = require('../models/WorkflowExecution.js');
+const { 
   triggerWorkflow, 
   executeWorkflow, 
   initializePredefinedWorkflows,
   PREDEFINED_WORKFLOWS 
-} from '../services/workflowEngine.js';
+} = require('../services/workflowEngine.js');
 
 const router = express.Router();
 
@@ -760,4 +760,4 @@ router.post('/initialize', authenticate, requireRole(['platform_admin']), async 
   }
 });
 
-export default router;
+module.exports = router;

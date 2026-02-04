@@ -4,8 +4,8 @@
  * Integrates with existing AuditLog model and adds security-specific logging
  */
 
-import AuditLog, { AUDIT_ACTIONS, ENTITY_TYPES } from '../models/AuditLog.js';
-import { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } from '../models/SecurityAudit.js';
+const AuditLog = require AUDIT_ACTIONS, ENTITY_TYPES } = require('../models/AuditLog.js');
+const { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } = require('../models/SecurityAudit.js');
 
 // Audit configuration
 const AUDIT_CONFIG = {
@@ -35,7 +35,7 @@ const AUDIT_CONFIG = {
  * @param {Object} options - Logging options
  * @returns {Promise<Object>}
  */
-export const logAction = async (options) => {
+const logAction = async (options) => {
   const {
     user,
     action,
@@ -106,7 +106,7 @@ export const logAction = async (options) => {
  * @param {Object} options - Access logging options
  * @returns {Promise<Object>}
  */
-export const logDataAccess = async (options) => {
+const logDataAccess = async (options) => {
   const {
     user,
     entityType,
@@ -137,7 +137,7 @@ export const logDataAccess = async (options) => {
  * @param {Object} options - Auth logging options
  * @returns {Promise<Object>}
  */
-export const logAuth = async (options) => {
+const logAuth = async (options) => {
   const {
     event,
     user,
@@ -184,7 +184,7 @@ export const logAuth = async (options) => {
  * @param {Object} options - Permission denied options
  * @returns {Promise<Object>}
  */
-export const logPermissionDenied = async (options) => {
+const logPermissionDenied = async (options) => {
   const {
     user,
     resource,
@@ -218,7 +218,7 @@ export const logPermissionDenied = async (options) => {
  * @param {Object} options - API access options
  * @returns {Promise<Object>}
  */
-export const logApiAccess = async (options) => {
+const logApiAccess = async (options) => {
   const {
     apiKey,
     endpoint,
@@ -250,7 +250,7 @@ export const logApiAccess = async (options) => {
  * @param {Object} options - Export options
  * @returns {Promise<Object>}
  */
-export const logDataExport = async (options) => {
+const logDataExport = async (options) => {
   const {
     user,
     exportType,
@@ -285,7 +285,7 @@ export const logDataExport = async (options) => {
  * @param {Object} options - Bulk action options
  * @returns {Promise<Object>}
  */
-export const logBulkAction = async (options) => {
+const logBulkAction = async (options) => {
   const {
     user,
     action,
@@ -313,7 +313,7 @@ export const logBulkAction = async (options) => {
  * @param {Object} options - Query options
  * @returns {Promise<Array>}
  */
-export const getEntityAuditTrail = async (entityType, entityId, options = {}) => {
+const getEntityAuditTrail = async (entityType, entityId, options = {}) => {
   return AuditLog.findByEntity(entityType, entityId, options);
 };
 
@@ -323,7 +323,7 @@ export const getEntityAuditTrail = async (entityType, entityId, options = {}) =>
  * @param {Object} options - Query options
  * @returns {Promise<Array>}
  */
-export const getUserActivityLog = async (userId, options = {}) => {
+const getUserActivityLog = async (userId, options = {}) => {
   return AuditLog.findByUser(userId, options);
 };
 
@@ -333,7 +333,7 @@ export const getUserActivityLog = async (userId, options = {}) => {
  * @param {Object} options - Query options
  * @returns {Promise<Array>}
  */
-export const getCompanyAuditLog = async (companyId, options = {}) => {
+const getCompanyAuditLog = async (companyId, options = {}) => {
   return AuditLog.findByCompany(companyId, options);
 };
 
@@ -343,7 +343,7 @@ export const getCompanyAuditLog = async (companyId, options = {}) => {
  * @param {Object} options - Query options
  * @returns {Promise<Array>}
  */
-export const searchAuditLogs = async (searchTerm, options = {}) => {
+const searchAuditLogs = async (searchTerm, options = {}) => {
   return AuditLog.search(searchTerm, options);
 };
 
@@ -352,7 +352,7 @@ export const searchAuditLogs = async (searchTerm, options = {}) => {
  * @param {Object} filters - Date filters
  * @returns {Promise<Object>}
  */
-export const getAuditStats = async (filters = {}) => {
+const getAuditStats = async (filters = {}) => {
   return AuditLog.getStats(filters);
 };
 
@@ -361,7 +361,7 @@ export const getAuditStats = async (filters = {}) => {
  * @param {Object} options - Query options
  * @returns {Promise<Array>}
  */
-export const getSecurityEvents = async (options = {}) => {
+const getSecurityEvents = async (options = {}) => {
   return SecurityAudit.findSuspicious(options);
 };
 
@@ -370,7 +370,7 @@ export const getSecurityEvents = async (options = {}) => {
  * @param {Object} options - Query options
  * @returns {Promise<Object>}
  */
-export const getCombinedLog = async (options = {}) => {
+const getCombinedLog = async (options = {}) => {
   const { userId, companyId, startDate, endDate, limit = 100 } = options;
   
   // Get audit logs
@@ -490,7 +490,7 @@ const mapSeverity = (severity) => {
  * @param {number} days - Days to retain
  * @returns {Promise<Object>}
  */
-export const purgeOldLogs = async (days = AUDIT_CONFIG.retentionDays) => {
+const purgeOldLogs = async (days = AUDIT_CONFIG.retentionDays) => {
   const cutoffDate = new Date();
   cutoffDate.setDate(cutoffDate.getDate() - days);
   
@@ -516,7 +516,7 @@ export const purgeOldLogs = async (days = AUDIT_CONFIG.retentionDays) => {
  * @param {Object} filters - Export filters
  * @returns {Promise<Object>}
  */
-export const exportAuditLogs = async (filters = {}) => {
+const exportAuditLogs = async (filters = {}) => {
   const { startDate, endDate, entityType, userId } = filters;
   
   const query = {};
@@ -540,7 +540,7 @@ export const exportAuditLogs = async (filters = {}) => {
   };
 };
 
-export default {
+module.exports = {
   logAction,
   logDataAccess,
   logAuth,

@@ -4,7 +4,7 @@
  * Provides middleware and utility functions for feature gating
  */
 
-import {
+const {
   Subscription,
   SubscriptionPlan,
   TierBenefits,
@@ -12,7 +12,7 @@ import {
   User,
   Job,
   Referral,
-} from '../models/index.js';
+} = require('../models/index.js');
 
 class FeatureGateService {
   constructor() {
@@ -707,5 +707,5 @@ class FeatureGateService {
 }
 
 // Export singleton instance
-export const featureGateService = new FeatureGateService();
-export default FeatureGateService;
+const featureGateService = new FeatureGateService();
+module.exports = FeatureGateService;

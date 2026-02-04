@@ -4,18 +4,18 @@
  * For both public pricing previews and admin pricing management
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import {
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const {
   calculateJobPostingPrice,
   previewPricing,
   getVolumeDiscountInfo,
   applyPromotionalCode,
   initializeDefaultPricingRules,
-} from '../services/pricingEngine.js';
-import { PricingRule, PromotionalCode, Job } from '../models/index.js';
-import mongoose from 'mongoose';
+} = require('../services/pricingEngine.js');
+const { PricingRule, PromotionalCode, Job } = require('../models/index.js');
+const mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -811,4 +811,4 @@ router.get('/promo-codes/:id/usage', authenticate, requireRole(['admin']), async
   }
 });
 
-export default router;
+module.exports = router;

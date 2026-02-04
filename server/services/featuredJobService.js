@@ -4,8 +4,8 @@
  * Revenue generator for Phase 2 of TRM platform
  */
 
-import { FeaturedJobSlot, Job, Company, BillingRecord } from '../models/index.js';
-import mongoose from 'mongoose';
+const { FeaturedJobSlot, Job, Company, BillingRecord } = require('../models/index.js');
+const mongoose = require('mongoose');
 
 // Myanmar timezone configuration
 const MYANMAR_TIMEZONE = 'Asia/Yangon';
@@ -879,7 +879,6 @@ function getFeaturedSlotPricingInfo() {
 }
 
 // Export all functions
-export {
   getFeaturedJobsForCarousel,
   placeFeaturedJob,
   bidOnPremiumSlot,
@@ -901,7 +900,7 @@ export {
 };
 
 // Default export
-export default {
+module.exports = {
   getFeaturedJobsForCarousel,
   placeFeaturedJob,
   bidOnPremiumSlot,

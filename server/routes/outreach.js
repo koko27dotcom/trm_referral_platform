@@ -3,14 +3,14 @@
  * API endpoints for campaign management and message automation
  */
 
-import express from 'express';
-import OutreachCampaign from '../models/OutreachCampaign.js';
-import TalentPool from '../models/TalentPool.js';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { asyncHandler, ValidationError, NotFoundError } from '../middleware/errorHandler.js';
-import { outreachAutomationService } from '../services/outreachAutomationService.js';
-import { candidateEnrichmentService } from '../services/candidateEnrichmentService.js';
+const express = require('express');
+const OutreachCampaign = require('../models/OutreachCampaign.js');
+const TalentPool = require('../models/TalentPool.js');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { asyncHandler, ValidationError, NotFoundError } = require('../middleware/errorHandler.js');
+const { outreachAutomationService } = require('../services/outreachAutomationService.js');
+const { candidateEnrichmentService } = require('../services/candidateEnrichmentService.js');
 
 const router = express.Router();
 
@@ -535,4 +535,4 @@ TRM Recruitment Team`,
   });
 }));
 
-export default router;
+module.exports = router;

@@ -3,15 +3,15 @@
  * Manages dynamic challenges, progress tracking, and rewards
  */
 
-import Challenge, { 
+const Challenge = require 
   CHALLENGE_TYPES, 
   TARGET_ACTIONS,
   CHALLENGE_DIFFICULTY,
   PREDEFINED_CHALLENGES 
-} from '../models/Challenge.js';
-import GamificationProfile from '../models/GamificationProfile.js';
-import UserActivity from '../models/UserActivity.js';
-import Notification from '../models/Notification.js';
+} = require('../models/Challenge.js');
+const GamificationProfile = require('../models/GamificationProfile.js');
+const UserActivity = require('../models/UserActivity.js');
+const Notification = require('../models/Notification.js');
 
 class ChallengeEngine {
   constructor() {
@@ -580,5 +580,5 @@ class ChallengeEngine {
   }
 }
 
-export const challengeEngine = new ChallengeEngine();
-export default challengeEngine;
+const challengeEngine = new ChallengeEngine();
+module.exports = challengeEngine;

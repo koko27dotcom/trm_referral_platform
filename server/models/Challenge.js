@@ -3,12 +3,12 @@
  * Defines dynamic challenges for users to complete
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Challenge types
-export const CHALLENGE_TYPES = {
+const CHALLENGE_TYPES = {
   DAILY: 'daily',
   WEEKLY: 'weekly',
   SPECIAL: 'special',
@@ -17,7 +17,7 @@ export const CHALLENGE_TYPES = {
 };
 
 // Target actions
-export const TARGET_ACTIONS = {
+const TARGET_ACTIONS = {
   SUBMIT_REFERRAL: 'submit_referral',
   GET_HIRE: 'get_hire',
   SHARE_JOB: 'share_job',
@@ -31,7 +31,7 @@ export const TARGET_ACTIONS = {
 };
 
 // Challenge difficulty
-export const CHALLENGE_DIFFICULTY = {
+const CHALLENGE_DIFFICULTY = {
   EASY: 'easy',
   MEDIUM: 'medium',
   HARD: 'hard',
@@ -39,7 +39,7 @@ export const CHALLENGE_DIFFICULTY = {
 };
 
 // Predefined challenges
-export const PREDEFINED_CHALLENGES = [
+const PREDEFINED_CHALLENGES = [
   // Daily Challenges
   {
     challengeId: 'daily_login',
@@ -716,4 +716,4 @@ ChallengeSchema.statics.deactivateExpired = async function() {
 
 const Challenge = mongoose.model('Challenge', ChallengeSchema);
 
-export default Challenge;
+module.exports = Challenge;

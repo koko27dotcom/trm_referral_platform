@@ -4,7 +4,7 @@
  * Enables AI-powered hiring timeline predictions for jobs
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -618,4 +618,4 @@ HiringVelocitySchema.statics.getAccuracyStats = async function() {
 
 const HiringVelocity = mongoose.model('HiringVelocity', HiringVelocitySchema);
 
-export default HiringVelocity;
+module.exports = HiringVelocity;

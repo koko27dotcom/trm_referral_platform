@@ -4,17 +4,17 @@
  * Provides predictive insights, market analysis, and data-driven recommendations
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { insightEngine } from '../services/insightEngine.js';
-import {
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { insightEngine } = require('../services/insightEngine.js');
+const {
   AnalyticsInsight,
   SalaryBenchmark,
   MarketTrend,
   HiringVelocity,
   ReferrerPrediction,
-} from '../models/index.js';
+} = require('../models/index.js');
 
 const router = express.Router();
 
@@ -826,4 +826,4 @@ router.post('/:id/validate', authenticate, requireAdmin, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

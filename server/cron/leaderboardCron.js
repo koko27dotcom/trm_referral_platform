@@ -3,12 +3,12 @@
  * Scheduled tasks for updating leaderboards and managing gamification
  */
 
-import cron from 'node-cron';
-import leaderboardService from '../services/leaderboardService.js';
-import challengeEngine from '../services/challengeEngine.js';
-import gamificationService from '../services/gamificationService.js';
-import badgeService from '../services/badgeService.js';
-import achievementService from '../services/achievementService.js';
+const cron = require('node-cron');
+const leaderboardService = require('../services/leaderboardService.js');
+const challengeEngine = require('../services/challengeEngine.js');
+const gamificationService = require('../services/gamificationService.js');
+const badgeService = require('../services/badgeService.js');
+const achievementService = require('../services/achievementService.js');
 
 class LeaderboardCron {
   constructor() {
@@ -182,5 +182,5 @@ class LeaderboardCron {
 }
 
 // Export singleton instance
-export const leaderboardCron = new LeaderboardCron();
-export default leaderboardCron;
+const leaderboardCron = new LeaderboardCron();
+module.exports = leaderboardCron;

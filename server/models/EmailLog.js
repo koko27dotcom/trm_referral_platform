@@ -4,7 +4,7 @@
  * Provides comprehensive analytics for email campaigns
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -688,4 +688,4 @@ EmailLogSchema.statics.getEngagementReport = async function(options = {}) {
 
 const EmailLog = mongoose.model('EmailLog', EmailLogSchema);
 
-export default EmailLog;
+module.exports = EmailLog;

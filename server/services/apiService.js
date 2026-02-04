@@ -4,9 +4,9 @@
  * Handles rate limiting and API documentation
  */
 
-import crypto from 'crypto';
-import APIToken from '../models/APIToken.js';
-import Partner from '../models/Partner.js';
+const crypto = require('crypto');
+const APIToken = require('../models/APIToken.js');
+const Partner = require('../models/Partner.js');
 
 /**
  * Service class for managing API operations
@@ -798,4 +798,4 @@ print_r($jobs->data);`,
   }
 }
 
-export default new APIService();
+module.exports = new APIService();

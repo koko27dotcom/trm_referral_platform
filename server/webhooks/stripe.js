@@ -3,11 +3,11 @@
  * Handles payment notifications and events from Stripe
  */
 
-import express from 'express';
-import { paymentGatewayService } from '../services/paymentGatewayService.js';
-import { billingEngine } from '../services/billingEngine.js';
-import { subscriptionService } from '../services/subscriptionService.js';
-import { BillingRecord, Subscription, Company, User } from '../models/index.js';
+const express = require('express');
+const { paymentGatewayService } = require('../services/paymentGatewayService.js');
+const { billingEngine } = require('../services/billingEngine.js');
+const { subscriptionService } = require('../services/subscriptionService.js');
+const { BillingRecord, Subscription, Company, User } = require('../models/index.js');
 
 const router = express.Router();
 
@@ -240,4 +240,4 @@ async function handleChargeRefunded(charge) {
   }
 }
 
-export default router;
+module.exports = router;

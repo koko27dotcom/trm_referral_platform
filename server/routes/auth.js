@@ -3,13 +3,13 @@
  * Handles user registration, login, logout, token refresh, and password management
  */
 
-import express from 'express';
-import bcrypt from 'bcryptjs';
-import { User, Company, CompanyUser, AuditLog } from '../models/index.js';
-import { authenticate, generateTokens, generateEmailVerificationToken, generatePasswordResetToken, verifyPasswordResetToken, refreshToken as refreshTokenHandler } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, AuthenticationError, ConflictError, NotFoundError } from '../middleware/errorHandler.js';
-import { requireRole } from '../middleware/rbac.js';
-import referralNetworkService from '../services/referralNetworkService.js';
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const { User, Company, CompanyUser, AuditLog } = require('../models/index.js');
+const { authenticate, generateTokens, generateEmailVerificationToken, generatePasswordResetToken, verifyPasswordResetToken, refreshToken as refreshTokenHandler } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, AuthenticationError, ConflictError, NotFoundError } = require('../middleware/errorHandler.js');
+const { requireRole } = require('../middleware/rbac.js');
+const referralNetworkService = require('../services/referralNetworkService.js');
 
 const router = express.Router();
 
@@ -563,4 +563,4 @@ function generateInviteCode() {
   return `${prefix}-${code}`;
 }
 
-export default router;
+module.exports = router;

@@ -3,15 +3,15 @@
  * Handles WhatsApp Business API webhooks and messaging endpoints
  */
 
-import express from 'express';
-import whatsappService from '../services/whatsappService.js';
-import WhatsAppTemplate, { TEMPLATE_TYPE, TEMPLATE_STATUS } from '../models/WhatsAppTemplate.js';
-import WhatsAppSession, { SESSION_STATUS } from '../models/WhatsAppSession.js';
-import WhatsAppMessage from '../models/WhatsAppMessage.js';
-import { User } from '../models/index.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, AuthorizationError } from '../middleware/errorHandler.js';
-import { requireAdmin } from '../middleware/rbac.js';
+const express = require('express');
+const whatsappService = require('../services/whatsappService.js');
+const WhatsAppTemplate = require TEMPLATE_TYPE, TEMPLATE_STATUS } = require('../models/WhatsAppTemplate.js');
+const WhatsAppSession = require SESSION_STATUS } = require('../models/WhatsAppSession.js');
+const WhatsAppMessage = require('../models/WhatsAppMessage.js');
+const { User } = require('../models/index.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, AuthorizationError } = require('../middleware/errorHandler.js');
+const { requireAdmin } = require('../middleware/rbac.js');
 
 const router = express.Router();
 
@@ -820,4 +820,4 @@ router.get('/config', authenticate, requireAdmin, asyncHandler(async (req, res) 
   });
 }));
 
-export default router;
+module.exports = router;

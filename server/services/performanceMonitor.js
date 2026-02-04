@@ -4,10 +4,10 @@
  * Tracks response times, throughput, error rates, resource usage for DataDog/New Relic integration
  */
 
-import { EventEmitter } from 'events';
-import os from 'os';
-import cacheService from './cacheService.js';
-import connectionPoolService from './connectionPool.js';
+const { EventEmitter } = require('events');
+const os = require('os');
+const cacheService = require('./cacheService.js');
+const connectionPoolService = require('./connectionPool.js');
 
 // Configuration
 const CONFIG = {
@@ -1089,8 +1089,7 @@ class PerformanceMonitorService extends EventEmitter {
 
 // Export singleton instance
 const performanceMonitorService = new PerformanceMonitorService();
-export default performanceMonitorService;
-export { 
+module.exports = performanceMonitorService;
   PerformanceMonitorService, 
   CircularBuffer, 
   Histogram, 

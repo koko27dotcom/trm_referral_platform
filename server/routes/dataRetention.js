@@ -3,12 +3,12 @@
  * API routes for managing data retention policies
  */
 
-import express from 'express';
-import { authenticate, authorize } from '../middleware/auth.js';
-import { validateBody, validateQuery, validateParams } from '../middleware/requestValidator.js';
-import dataRetentionService from '../services/dataRetentionService.js';
-import auditService from '../services/auditService.js';
-import DataRetentionPolicy from '../models/DataRetentionPolicy.js';
+const express = require('express');
+const { authenticate, authorize } = require('../middleware/auth.js');
+const { validateBody, validateQuery, validateParams } = require('../middleware/requestValidator.js');
+const dataRetentionService = require('../services/dataRetentionService.js');
+const auditService = require('../services/auditService.js');
+const DataRetentionPolicy = require('../models/DataRetentionPolicy.js');
 
 const router = express.Router();
 
@@ -655,4 +655,4 @@ router.post(
   }
 );
 
-export default router;
+module.exports = router;

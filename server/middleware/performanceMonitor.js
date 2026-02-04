@@ -4,7 +4,7 @@
  * Features: Request timing, metrics recording, slow request detection, endpoint tracking
  */
 
-import performanceMonitorService from '../services/performanceMonitor.js';
+const performanceMonitorService = require('../services/performanceMonitor.js');
 
 // Configuration
 const CONFIG = {
@@ -52,7 +52,7 @@ const CONFIG = {
  * @param {Object} res - Express response object
  * @param {number} duration - Request duration in milliseconds
  */
-export const addResponseTimeHeader = (res, duration) => {
+const addResponseTimeHeader = (res, duration) => {
   // Round to 2 decimal places for cleaner output
   const formattedDuration = Math.round(duration * 100) / 100;
   res.setHeader(CONFIG.RESPONSE_TIME_HEADER, `${formattedDuration}ms`);
@@ -64,7 +64,7 @@ export const addResponseTimeHeader = (res, duration) => {
  * @param {number} duration - Request duration in milliseconds
  * @param {number} statusCode - HTTP status code
  */
-export const logSlowRequest = (req, duration, statusCode = 200) => {
+const logSlowRequest = (req, duration, statusCode = 200) => {
   const isVerySlow = duration >= CONFIG.VERY_SLOW_REQUEST_THRESHOLD;
   const level = isVerySlow ? 'error' : 'warn';
   
@@ -104,7 +104,7 @@ export const logSlowRequest = (req, duration, statusCode = 200) => {
  * @param {Object} res - Express response object
  * @param {number} duration - Request duration in milliseconds
  */
-export const trackRequest = (req, res, duration) => {
+const trackRequest = (req, res, duration) => {
   const statusCode = res.statusCode || 200;
   const endpoint = req.route?.path || req.path || req.originalUrl;
   const method = req.method;
@@ -160,7 +160,7 @@ const shouldMonitor = (req) => {
  * Tracks request timing and records metrics
  * @returns {Function} Express middleware
  */
-export const performanceMonitor = () => {
+const performanceMonitor = () => {
   return (req, res, next) => {
     // Skip monitoring if not applicable
     if (!shouldMonitor(req)) {
@@ -244,7 +244,7 @@ export const performanceMonitor = () => {
  * @param {string} collection - Collection/table name
  * @returns {Function} Middleware function
  */
-export const trackDatabaseOperation = (operation, collection) => {
+const trackDatabaseOperation = (operation, collection) => {
   return async (req, res, next) => {
     const startTime = process.hrtime.bigint();
     
@@ -268,7 +268,7 @@ export const trackDatabaseOperation = (operation, collection) => {
  * Adds various performance-related headers to responses
  * @returns {Function} Express middleware
  */
-export const performanceHeaders = () => {
+const performanceHeaders = () => {
   return (req, res, next) => {
     // Add server timing header support
     res.setHeader('Timing-Allow-Origin', '*');
@@ -285,7 +285,7 @@ export const performanceHeaders = () => {
  * Useful for detecting memory leaks
  * @returns {Function} Express middleware
  */
-export const memoryTracker = () => {
+const memoryTracker = () => {
   return (req, res, next) => {
     const startMemory = process.memoryUsage();
     
@@ -313,7 +313,7 @@ export const memoryTracker = () => {
  * @param {string} name - Timer name
  * @returns {Object} Timer object with start/end methods
  */
-export const createTimer = (name) => {
+const createTimer = (name) => {
   return {
     start: () => {
       performanceMonitorService.startTimer(name);
@@ -329,7 +329,7 @@ export const createTimer = (name) => {
  * @param {string} operationName - Name of the operation
  * @returns {Function} Express middleware
  */
-export const trackOperation = (operationName) => {
+const trackOperation = (operationName) => {
   return (req, res, next) => {
     const timer = createTimer(operationName);
     timer.start();
@@ -347,7 +347,7 @@ export const trackOperation = (operationName) => {
 };
 
 // Default export with all middleware functions
-export default {
+module.exports = {
   performanceMonitor,
   trackRequest,
   addResponseTimeHeader,

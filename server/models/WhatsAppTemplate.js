@@ -4,7 +4,7 @@
  * Supports both Burmese (Myanmar) and English languages
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -67,7 +67,7 @@ const TemplateLanguageSchema = new Schema({
 }, { _id: false });
 
 // WhatsApp Template Status
-export const TEMPLATE_STATUS = {
+const TEMPLATE_STATUS = {
   PENDING: 'pending',
   APPROVED: 'approved',
   REJECTED: 'rejected',
@@ -77,14 +77,14 @@ export const TEMPLATE_STATUS = {
 };
 
 // Template category
-export const TEMPLATE_CATEGORY = {
+const TEMPLATE_CATEGORY = {
   MARKETING: 'MARKETING',
   UTILITY: 'UTILITY',
   AUTHENTICATION: 'AUTHENTICATION',
 };
 
 // Template purpose/type
-export const TEMPLATE_TYPE = {
+const TEMPLATE_TYPE = {
   WELCOME: 'welcome',
   REFERRAL_SUBMITTED: 'referral_submitted',
   REFERRAL_STATUS_UPDATE: 'referral_status_update',
@@ -380,5 +380,5 @@ WhatsAppTemplateSchema.statics.upsert = async function(templateData) {
 // Create and export the model
 const WhatsAppTemplate = mongoose.model('WhatsAppTemplate', WhatsAppTemplateSchema);
 
-export default WhatsAppTemplate;
+module.exports = WhatsAppTemplate;
 

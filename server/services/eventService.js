@@ -3,10 +3,10 @@
  * Manages events, registrations, reminders, and calendar integration
  */
 
-import { Event, EVENT_STATUS, EVENT_FORMATS, ATTENDEE_STATUS } from '../models/Event.js';
-import { PublicProfile } from '../models/PublicProfile.js';
-import NotificationService from './notificationService.js';
-import { createCanvas } from 'canvas';
+const { Event, EVENT_STATUS, EVENT_FORMATS, ATTENDEE_STATUS } = require('../models/Event.js');
+const { PublicProfile } = require('../models/PublicProfile.js');
+const NotificationService = require('./notificationService.js');
+const { createCanvas } = require('canvas');
 
 class EventService {
   constructor() {
@@ -650,4 +650,4 @@ class EventService {
   }
 }
 
-export default EventService;
+module.exports = EventService;

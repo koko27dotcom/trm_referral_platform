@@ -4,8 +4,8 @@
  * Features: Gzip/Brotli compression, content type filtering, size threshold, client support detection
  */
 
-import zlib from 'zlib';
-import { promisify } from 'util';
+const zlib = require('zlib');
+const { promisify } = require('util');
 
 // Promisify zlib methods
 const gzip = promisify(zlib.gzip);
@@ -64,7 +64,7 @@ const CONFIG = {
  * @param {string} acceptEncoding - Accept-Encoding header value
  * @returns {string|null} Selected algorithm or null if none supported
  */
-export const getCompressionAlgorithm = (acceptEncoding) => {
+const getCompressionAlgorithm = (acceptEncoding) => {
   if (!acceptEncoding) {
     return null;
   }
@@ -132,7 +132,7 @@ const shouldCompressType = (contentType) => {
  * @param {Object} options - Compression options
  * @returns {boolean} Whether to compress
  */
-export const shouldCompress = (req, res, options = {}) => {
+const shouldCompress = (req, res, options = {}) => {
   // Check if compression is disabled
   if (options.enabled === false) {
     return false;
@@ -231,7 +231,7 @@ const getAlgorithmExtension = (algorithm) => {
  * @param {Object} options - Compression options
  * @returns {Function} Express middleware
  */
-export const compression = (options = {}) => {
+const compression = (options = {}) => {
   return (req, res, next) => {
     // Skip if not compressible
     if (!shouldCompress(req, res, options)) {
@@ -387,7 +387,7 @@ export const compression = (options = {}) => {
  * @param {Object} options - Compression options
  * @returns {Function} Express middleware
  */
-export const streamCompression = (options = {}) => {
+const streamCompression = (options = {}) => {
   return (req, res, next) => {
     // Check basic compression eligibility
     if (!shouldCompress(req, res, options)) {
@@ -464,7 +464,7 @@ export const streamCompression = (options = {}) => {
  * @param {Object} options - Options
  * @returns {Function} Express middleware
  */
-export const servePrecompressed = (options = {}) => {
+const servePrecompressed = (options = {}) => {
   const root = options.root || process.cwd();
   
   return (req, res, next) => {
@@ -492,7 +492,7 @@ export const servePrecompressed = (options = {}) => {
  * Middleware to disable compression for specific routes
  * @returns {Function} Express middleware
  */
-export const noCompression = () => {
+const noCompression = () => {
   return (req, res, next) => {
     res.setHeader('Cache-Control', 'no-transform');
     next();
@@ -500,7 +500,7 @@ export const noCompression = () => {
 };
 
 // Default export
-export default {
+module.exports = {
   compression,
   shouldCompress,
   compressResponse: compression,

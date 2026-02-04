@@ -4,7 +4,7 @@
  * Includes job boards, HRIS, CRM, and ATS integrations
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -611,4 +611,4 @@ IntegrationSchema.statics.getPopular = function(limit = 10) {
 
 const Integration = mongoose.model('Integration', IntegrationSchema);
 
-export default Integration;
+module.exports = Integration;

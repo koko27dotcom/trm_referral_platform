@@ -4,10 +4,10 @@
  * Integrates with existing WhatsApp service and tracks engagement
  */
 
-import OutreachCampaign from '../models/OutreachCampaign.js';
-import TalentPool from '../models/TalentPool.js';
-import { candidateEnrichmentService } from './candidateEnrichmentService.js';
-import { AuditLog } from '../models/index.js';
+const OutreachCampaign = require('../models/OutreachCampaign.js');
+const TalentPool = require('../models/TalentPool.js');
+const { candidateEnrichmentService } = require('./candidateEnrichmentService.js');
+const { AuditLog } = require('../models/index.js');
 
 /**
  * Service class for automated outreach campaigns
@@ -571,5 +571,5 @@ class OutreachAutomationService {
 }
 
 // Export singleton instance
-export const outreachAutomationService = new OutreachAutomationService();
-export default OutreachAutomationService;
+const outreachAutomationService = new OutreachAutomationService();
+module.exports = OutreachAutomationService;

@@ -4,12 +4,12 @@
  * Includes portfolio, reviews, and mentorship availability
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Availability constants
-export const AVAILABILITY_STATUS = {
+const AVAILABILITY_STATUS = {
   AVAILABLE: 'available',
   BUSY: 'busy',
   NOT_AVAILABLE: 'not_available',
@@ -698,4 +698,4 @@ PublicProfileSchema.statics.getByUserId = async function(userId) {
 
 const PublicProfile = mongoose.model('PublicProfile', PublicProfileSchema);
 
-export default PublicProfile;
+module.exports = PublicProfile;

@@ -4,13 +4,13 @@
  * Manages sessions, processes messages, and coordinates responses
  */
 
-import { v4 as uuidv4 } from 'uuid';
-import ChatSession from '../models/ChatSession.js';
-import ChatMessage from '../models/ChatMessage.js';
-import ChatAnalytics from '../models/ChatAnalytics.js';
-import BotConfiguration from '../models/BotConfiguration.js';
-import { getIntentClassifier } from './intentClassifier.js';
-import { getResponseGenerator } from './responseGenerator.js';
+const { v4 as uuidv4 } = require('uuid');
+const ChatSession = require('../models/ChatSession.js');
+const ChatMessage = require('../models/ChatMessage.js');
+const ChatAnalytics = require('../models/ChatAnalytics.js');
+const BotConfiguration = require('../models/BotConfiguration.js');
+const { getIntentClassifier } = require('./intentClassifier.js');
+const { getResponseGenerator } = require('./responseGenerator.js');
 
 class ChatbotService {
   constructor() {
@@ -564,11 +564,11 @@ class ChatbotService {
 // Singleton instance
 let serviceInstance = null;
 
-export function getChatbotService() {
+function getChatbotService() {
   if (!serviceInstance) {
     serviceInstance = new ChatbotService();
   }
   return serviceInstance;
 }
 
-export default ChatbotService;
+module.exports = ChatbotService;

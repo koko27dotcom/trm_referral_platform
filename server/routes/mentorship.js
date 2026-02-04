@@ -3,10 +3,10 @@
  * Handles mentorship matching, sessions, and messaging
  */
 
-import express from 'express';
-import MentorshipService from '../services/mentorshipService.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, ForbiddenError } from '../middleware/errorHandler.js';
+const express = require('express');
+const MentorshipService = require('../services/mentorshipService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, ForbiddenError } = require('../middleware/errorHandler.js');
 
 const router = express.Router();
 const mentorshipService = new MentorshipService();
@@ -422,4 +422,4 @@ router.put('/profile/settings', authenticate, asyncHandler(async (req, res) => {
   res.json({ success: true, message: 'Settings updated' });
 }));
 
-export default router;
+module.exports = router;

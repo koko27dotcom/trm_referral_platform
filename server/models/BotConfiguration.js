@@ -4,7 +4,7 @@
  * Stores personality, messages, working hours, and integration settings
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -737,4 +737,4 @@ BotConfigurationSchema.statics.initializeDefaults = async function() {
 
 const BotConfiguration = mongoose.model('BotConfiguration', BotConfigurationSchema);
 
-export default BotConfiguration;
+module.exports = BotConfiguration;

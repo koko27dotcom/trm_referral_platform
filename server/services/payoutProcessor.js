@@ -5,19 +5,19 @@
  * Features: Automated scheduling, retry logic, reconciliation, real-time tracking
  */
 
-import {
+const {
   PayoutRequest,
   PayoutBatch,
   PayoutProvider,
   PayoutTransaction,
   User,
   AuditLog,
-} from '../models/index.js';
-import { PAYOUT_STATUS } from '../models/PayoutRequest.js';
-import { BATCH_STATUS, BATCH_TYPE } from '../models/PayoutBatch.js';
-import { TRANSACTION_STATUS } from '../models/PayoutTransaction.js';
-import { PROVIDER_STATUS, PROVIDER_TYPES } from '../models/PayoutProvider.js';
-import { sendPayoutNotification } from './notificationService.js';
+} = require('../models/index.js');
+const { PAYOUT_STATUS } = require('../models/PayoutRequest.js');
+const { BATCH_STATUS, BATCH_TYPE } = require('../models/PayoutBatch.js');
+const { TRANSACTION_STATUS } = require('../models/PayoutTransaction.js');
+const { PROVIDER_STATUS, PROVIDER_TYPES } = require('../models/PayoutProvider.js');
+const { sendPayoutNotification } = require('./notificationService.js');
 
 // ==================== MOCK PROVIDER IMPLEMENTATIONS ====================
 
@@ -976,17 +976,17 @@ class PayoutProcessor {
 // Create singleton instance
 const payoutProcessor = new PayoutProcessor();
 
-export default payoutProcessor;
+module.exports = payoutProcessor;
 
 // Export individual functions for convenience
-export const initializePayoutProcessor = () => payoutProcessor.initialize();
-export const processPayout = (payoutRequestId, options) => payoutProcessor.processPayout(payoutRequestId, options);
-export const processBatch = (batchId) => payoutProcessor.processBatch(batchId);
-export const retryTransaction = (transactionId) => payoutProcessor.retryTransaction(transactionId);
-export const createScheduledBatch = (options) => payoutProcessor.createScheduledBatch(options);
-export const processScheduledBatches = () => payoutProcessor.processScheduledBatches();
-export const retryFailedTransactions = () => payoutProcessor.retryFailedTransactions();
-export const getReconciliationReport = (filters) => payoutProcessor.getReconciliationReport(filters);
-export const handleWebhook = (providerCode, payload) => payoutProcessor.handleWebhook(providerCode, payload);
-export const getProviderStatuses = () => payoutProcessor.getProviderStatuses();
-export const verifyAccount = (providerCode, accountDetails) => payoutProcessor.verifyAccount(providerCode, accountDetails);
+const initializePayoutProcessor = () => payoutProcessor.initialize();
+const processPayout = (payoutRequestId, options) => payoutProcessor.processPayout(payoutRequestId, options);
+const processBatch = (batchId) => payoutProcessor.processBatch(batchId);
+const retryTransaction = (transactionId) => payoutProcessor.retryTransaction(transactionId);
+const createScheduledBatch = (options) => payoutProcessor.createScheduledBatch(options);
+const processScheduledBatches = () => payoutProcessor.processScheduledBatches();
+const retryFailedTransactions = () => payoutProcessor.retryFailedTransactions();
+const getReconciliationReport = (filters) => payoutProcessor.getReconciliationReport(filters);
+const handleWebhook = (providerCode, payload) => payoutProcessor.handleWebhook(providerCode, payload);
+const getProviderStatuses = () => payoutProcessor.getProviderStatuses();
+const verifyAccount = (providerCode, accountDetails) => payoutProcessor.verifyAccount(providerCode, accountDetails);

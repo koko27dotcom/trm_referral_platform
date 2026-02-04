@@ -3,11 +3,11 @@
  * API endpoints for job-candidate matching functionality
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { matchingEngine } from '../services/matchingEngine.js';
-import { MatchScore, Job, User } from '../models/index.js';
-import { asyncHandler, AppError } from '../middleware/errorHandler.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { matchingEngine } = require('../services/matchingEngine.js');
+const { MatchScore, Job, User } = require('../models/index.js');
+const { asyncHandler, AppError } = require('../middleware/errorHandler.js');
 
 const router = express.Router();
 
@@ -501,4 +501,4 @@ router.post('/webhooks/candidate-registered', asyncHandler(async (req, res) => {
   });
 }));
 
-export default router;
+module.exports = router;

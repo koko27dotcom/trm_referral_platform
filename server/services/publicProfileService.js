@@ -3,10 +3,10 @@
  * Manages public referrer profiles, reviews, and portfolio
  */
 
-import { PublicProfile, AVAILABILITY_STATUS } from '../models/PublicProfile.js';
-import { Review, REVIEW_CATEGORIES } from '../models/Review.js';
-import { Referral } from '../models/Referral.js';
-import NotificationService from './notificationService.js';
+const { PublicProfile, AVAILABILITY_STATUS } = require('../models/PublicProfile.js');
+const { Review, REVIEW_CATEGORIES } = require('../models/Review.js');
+const { Referral } = require('../models/Referral.js');
+const NotificationService = require('./notificationService.js');
 
 class PublicProfileService {
   constructor() {
@@ -699,4 +699,4 @@ class PublicProfileService {
   }
 }
 
-export default PublicProfileService;
+module.exports = PublicProfileService;

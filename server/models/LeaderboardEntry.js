@@ -3,19 +3,19 @@
  * Stores leaderboard rankings for different periods and categories
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Leaderboard periods
-export const LEADERBOARD_PERIODS = {
+const LEADERBOARD_PERIODS = {
   WEEKLY: 'weekly',
   MONTHLY: 'monthly',
   ALL_TIME: 'all-time',
 };
 
 // Leaderboard categories
-export const LEADERBOARD_CATEGORIES = {
+const LEADERBOARD_CATEGORIES = {
   REFERRER: 'referrer',
   COMPANY: 'company',
   JOBS: 'jobs',
@@ -25,7 +25,7 @@ export const LEADERBOARD_CATEGORIES = {
 };
 
 // Rank change directions
-export const RANK_CHANGE = {
+const RANK_CHANGE = {
   UP: 'up',
   DOWN: 'down',
   SAME: 'same',
@@ -479,4 +479,4 @@ LeaderboardEntrySchema.statics.getPeriodDates = function(period) {
 
 const LeaderboardEntry = mongoose.model('LeaderboardEntry', LeaderboardEntrySchema);
 
-export default LeaderboardEntry;
+module.exports = LeaderboardEntry;

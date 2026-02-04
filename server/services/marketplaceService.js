@@ -4,10 +4,10 @@
  * Handles plugin versioning, installation, and revenue sharing
  */
 
-import crypto from 'crypto';
-import Plugin from '../models/Plugin.js';
-import Integration from '../models/Integration.js';
-import User from '../models/User.js';
+const crypto = require('crypto');
+const Plugin = require('../models/Plugin.js');
+const Integration = require('../models/Integration.js');
+const User = require('../models/User.js');
 
 /**
  * Service class for managing marketplace operations
@@ -701,4 +701,4 @@ class MarketplaceService {
   }
 }
 
-export default new MarketplaceService();
+module.exports = new MarketplaceService();

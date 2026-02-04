@@ -4,7 +4,7 @@
  * Stores entity values, synonyms, and extraction patterns
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -505,4 +505,4 @@ ChatEntitySchema.statics.initializeSystemEntities = async function() {
 
 const ChatEntity = mongoose.model('ChatEntity', ChatEntitySchema);
 
-export default ChatEntity;
+module.exports = ChatEntity;

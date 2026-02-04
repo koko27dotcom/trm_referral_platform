@@ -3,11 +3,11 @@
  * Handles currency conversion, exchange rates, formatting, and rate management
  */
 
-import express from 'express';
-import currencyService from '../services/currencyService.js';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { asyncHandler, ValidationError, NotFoundError } from '../middleware/errorHandler.js';
+const express = require('express');
+const currencyService = require('../services/currencyService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { asyncHandler, ValidationError, NotFoundError } = require('../middleware/errorHandler.js');
 
 const router = express.Router();
 
@@ -211,4 +211,4 @@ router.post('/convert-multiple', asyncHandler(async (req, res) => {
   });
 }));
 
-export default router;
+module.exports = router;

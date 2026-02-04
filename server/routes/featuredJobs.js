@@ -4,12 +4,12 @@
  * Revenue generator for Phase 2 of TRM platform
  */
 
-import express from 'express';
-import { FeaturedJobSlot, Job } from '../models/index.js';
-import { authenticate, optionalAuth } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { asyncHandler, ValidationError, NotFoundError, AuthorizationError } from '../middleware/errorHandler.js';
-import {
+const express = require('express');
+const { FeaturedJobSlot, Job } = require('../models/index.js');
+const { authenticate, optionalAuth } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { asyncHandler, ValidationError, NotFoundError, AuthorizationError } = require('../middleware/errorHandler.js');
+const {
   getFeaturedJobsForCarousel,
   placeFeaturedJob,
   bidOnPremiumSlot,
@@ -22,7 +22,7 @@ import {
   processFeaturedSlotPayment,
   getAuctionLeaderboard,
   getFeaturedSlotPricingInfo,
-} from '../services/featuredJobService.js';
+} = require('../services/featuredJobService.js');
 
 const router = express.Router();
 
@@ -435,4 +435,4 @@ router.post('/:id/track/click', optionalAuth, asyncHandler(async (req, res) => {
   res.json({ success: true });
 }));
 
-export default router;
+module.exports = router;

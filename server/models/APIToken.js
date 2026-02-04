@@ -4,7 +4,7 @@
  * Handles rate limiting, usage tracking, and token lifecycle
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -510,4 +510,4 @@ APITokenSchema.pre('save', function(next) {
 
 const APIToken = mongoose.model('APIToken', APITokenSchema);
 
-export default APIToken;
+module.exports = APIToken;

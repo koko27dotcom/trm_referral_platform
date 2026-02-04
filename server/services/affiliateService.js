@@ -4,9 +4,9 @@
  * Supports multi-level affiliate marketing
  */
 
-import crypto from 'crypto';
-import Partner from '../models/Partner.js';
-import PartnerReferral from '../models/PartnerReferral.js';
+const crypto = require('crypto');
+const Partner = require('../models/Partner.js');
+const PartnerReferral = require('../models/PartnerReferral.js');
 
 /**
  * Service class for managing affiliate operations
@@ -617,4 +617,4 @@ class AffiliateService {
   }
 }
 
-export default new AffiliateService();
+module.exports = new AffiliateService();

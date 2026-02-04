@@ -3,12 +3,12 @@
  * Tracks all user activities for gamification and analytics
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Action types
-export const ACTION_TYPES = {
+const ACTION_TYPES = {
   REFERRAL_SUBMITTED: 'referral_submitted',
   REFERRAL_HIRED: 'referral_hired',
   REFERRAL_REJECTED: 'referral_rejected',
@@ -38,7 +38,7 @@ export const ACTION_TYPES = {
 };
 
 // Action categories
-export const ACTION_CATEGORIES = {
+const ACTION_CATEGORIES = {
   REFERRAL: 'referral',
   HIRING: 'hiring',
   NETWORKING: 'networking',
@@ -49,7 +49,7 @@ export const ACTION_CATEGORIES = {
 };
 
 // Platform types
-export const PLATFORMS = {
+const PLATFORMS = {
   WEB: 'web',
   MOBILE: 'mobile',
   API: 'api',
@@ -524,4 +524,4 @@ UserActivitySchema.statics.getAnalytics = async function(startDate, endDate) {
 
 const UserActivity = mongoose.model('UserActivity', UserActivitySchema);
 
-export default UserActivity;
+module.exports = UserActivity;

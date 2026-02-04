@@ -4,8 +4,8 @@
  * Features: Circuit breaker, graceful degradation, tagged invalidation, statistics tracking
  */
 
-import { EventEmitter } from 'events';
-import Redis from 'ioredis';
+const { EventEmitter } = require('events');
+const Redis = require('ioredis');
 
 // Environment configuration with defaults
 const CONFIG = {
@@ -994,5 +994,4 @@ class CacheService extends EventEmitter {
 
 // Export singleton instance
 const cacheService = new CacheService();
-export default cacheService;
-export { CacheService, L1Cache, L2Cache, CacheCircuitBreaker };
+module.exports = cacheService;

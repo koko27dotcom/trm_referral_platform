@@ -4,11 +4,11 @@
  * Features: Cache statistics, health checks, flush, invalidation, key listing
  */
 
-import express from 'express';
-import cacheService from '../services/cacheService.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import { authenticate } from '../middleware/auth.js';
-import { requireAdmin } from '../middleware/rbac.js';
+const express = require('express');
+const cacheService = require('../services/cacheService.js');
+const { asyncHandler } = require('../middleware/errorHandler.js');
+const { authenticate } = require('../middleware/auth.js');
+const { requireAdmin } = require('../middleware/rbac.js');
 
 const router = express.Router();
 
@@ -224,5 +224,5 @@ router.get('/keys', asyncHandler(async (req, res) => {
   });
 }));
 
-export default router;
+module.exports = router;
 

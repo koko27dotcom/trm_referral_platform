@@ -4,7 +4,7 @@
  * Used for i18n management and admin translation dashboard
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -219,4 +219,4 @@ LocalizationSchema.methods.setTranslation = function(language, value, userId = n
 
 const Localization = mongoose.model('Localization', LocalizationSchema);
 
-export default Localization;
+module.exports = Localization;

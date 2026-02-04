@@ -4,7 +4,7 @@
  * Tracks message delivery, opens, clicks, and conversions
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -596,4 +596,4 @@ OutreachCampaignSchema.methods.calculateOptimalSendTime = function() {
 
 const OutreachCampaign = mongoose.model('OutreachCampaign', OutreachCampaignSchema);
 
-export default OutreachCampaign;
+module.exports = OutreachCampaign;

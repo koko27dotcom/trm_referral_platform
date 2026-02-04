@@ -4,8 +4,8 @@
  * Features: Query analysis, index management, performance tracking, optimization recommendations
  */
 
-import mongoose from 'mongoose';
-import cacheService from './cacheService.js';
+const mongoose = require('mongoose');
+const cacheService = require('./cacheService.js');
 
 // Configuration
 const CONFIG = {
@@ -1080,5 +1080,4 @@ class QueryOptimizer {
 
 // Export singleton instance
 const queryOptimizer = new QueryOptimizer();
-export default queryOptimizer;
-export { QueryOptimizer, QueryTracker, IndexManager };
+module.exports = queryOptimizer;

@@ -4,7 +4,7 @@
  * Supports both HTML and text versions, with multilingual support
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -375,4 +375,4 @@ EmailTemplateSchema.statics.findByCategory = function(category, options = {}) {
 
 const EmailTemplate = mongoose.model('EmailTemplate', EmailTemplateSchema);
 
-export default EmailTemplate;
+module.exports = EmailTemplate;

@@ -4,21 +4,21 @@
  * Provides feed generation, search, and trending algorithms
  */
 
-import {
+const {
   CommunityPost,
   POST_CATEGORIES,
   POST_STATUS,
   AUTHOR_TYPE,
-} from '../models/CommunityPost.js';
-import { Comment, COMMENT_STATUS } from '../models/Comment.js';
-import {
+} = require('../models/CommunityPost.js');
+const { Comment, COMMENT_STATUS } = require('../models/Comment.js');
+const {
   CommunityGroup,
   GROUP_CATEGORIES,
   GROUP_STATUS,
   MEMBER_ROLES,
-} from '../models/CommunityGroup.js';
-import { PublicProfile } from '../models/PublicProfile.js';
-import NotificationService from './notificationService.js';
+} = require('../models/CommunityGroup.js');
+const { PublicProfile } = require('../models/PublicProfile.js');
+const NotificationService = require('./notificationService.js');
 
 // Simple content moderation patterns (can be replaced with ML-based solution)
 const MODERATION_PATTERNS = {
@@ -939,4 +939,4 @@ class CommunityService {
   }
 }
 
-export default CommunityService;
+module.exports = CommunityService;

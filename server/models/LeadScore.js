@@ -4,7 +4,7 @@
  * Tracks score history and conversion predictions
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -455,4 +455,4 @@ LeadScoreSchema.statics.getNeedsRecalculation = async function(limit = 100) {
 // Create and export the model
 const LeadScore = mongoose.model('LeadScore', LeadScoreSchema);
 
-export default LeadScore;
+module.exports = LeadScore;

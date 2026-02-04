@@ -3,17 +3,17 @@
  * Scheduled tasks for recurring billing, invoice generation, and payment processing
  */
 
-import cron from 'node-cron';
-import { subscriptionService } from '../services/subscriptionService.js';
-import { billingEngine } from '../services/billingEngine.js';
-import { payPerHireService } from '../services/payPerHireService.js';
-import { Subscription, BillingRecord, Company, User } from '../models/index.js';
-import { sendNotification } from '../services/notificationService.js';
+const cron = require('node-cron');
+const { subscriptionService } = require('../services/subscriptionService.js');
+const { billingEngine } = require('../services/billingEngine.js');
+const { payPerHireService } = require('../services/payPerHireService.js');
+const { Subscription, BillingRecord, Company, User } = require('../models/index.js');
+const { sendNotification } = require('../services/notificationService.js');
 
 /**
  * Initialize all billing cron jobs
  */
-export function initBillingCron() {
+function initBillingCron() {
   // Daily at 1:00 AM - Process expired subscriptions
   cron.schedule('0 1 * * *', async () => {
     console.log('[Billing Cron] Processing expired subscriptions...');
@@ -363,7 +363,7 @@ async function sendPayPerHireInvoiceNotification(transaction, invoice) {
 /**
  * Manually trigger billing tasks (for admin use)
  */
-export async function triggerBillingTask(task) {
+async function triggerBillingTask(task) {
   switch (task) {
     case 'process-expired':
       return await subscriptionService.processExpiredSubscriptions();
@@ -383,4 +383,5 @@ export async function triggerBillingTask(task) {
   }
 }
 
-export default initBillingCron;
+module.exports = initBillingCron;
+module.exports.triggerBillingTask = triggerBillingTask;

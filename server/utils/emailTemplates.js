@@ -5,7 +5,7 @@
  */
 
 // Welcome Series Templates
-export const WELCOME_REFERRER_TEMPLATES = {
+const WELCOME_REFERRER_TEMPLATES = {
   welcome_email: {
     name: 'Welcome - New Referrer',
     slug: 'welcome-referrer',
@@ -187,7 +187,7 @@ Unsubscribe: {{unsubscribeUrl}}
 };
 
 // Job Alert Templates
-export const JOB_ALERT_TEMPLATES = {
+const JOB_ALERT_TEMPLATES = {
   daily_digest: {
     name: 'Daily Job Digest',
     slug: 'job-daily-digest',
@@ -257,7 +257,7 @@ export const JOB_ALERT_TEMPLATES = {
 };
 
 // Referral Status Templates
-export const REFERRAL_STATUS_TEMPLATES = {
+const REFERRAL_STATUS_TEMPLATES = {
   referral_submitted: {
     name: 'Referral Submitted',
     slug: 'referral-submitted',
@@ -399,7 +399,7 @@ export const REFERRAL_STATUS_TEMPLATES = {
 };
 
 // Payout Templates
-export const PAYOUT_TEMPLATES = {
+const PAYOUT_TEMPLATES = {
   payout_processed: {
     name: 'Payout Processed',
     slug: 'payout-processed',
@@ -472,7 +472,7 @@ export const PAYOUT_TEMPLATES = {
 };
 
 // Re-engagement Templates
-export const REENGAGEMENT_TEMPLATES = {
+const REENGAGEMENT_TEMPLATES = {
   we_miss_you: {
     name: 'We Miss You',
     slug: 'we-miss-you',
@@ -542,7 +542,7 @@ export const REENGAGEMENT_TEMPLATES = {
 };
 
 // Company Activation Templates
-export const COMPANY_ACTIVATION_TEMPLATES = {
+const COMPANY_ACTIVATION_TEMPLATES = {
   get_more_referrals: {
     name: 'Get More Referrals',
     slug: 'get-more-referrals',
@@ -618,7 +618,7 @@ export const COMPANY_ACTIVATION_TEMPLATES = {
 };
 
 // Candidate Follow-up Templates
-export const CANDIDATE_FOLLOWUP_TEMPLATES = {
+const CANDIDATE_FOLLOWUP_TEMPLATES = {
   application_reminder_24h: {
     name: 'Application Reminder - 24hr',
     slug: 'application-reminder-24h',
@@ -689,7 +689,7 @@ export const CANDIDATE_FOLLOWUP_TEMPLATES = {
 };
 
 // System/Transactional Templates
-export const SYSTEM_TEMPLATES = {
+const SYSTEM_TEMPLATES = {
   password_reset: {
     name: 'Password Reset',
     slug: 'password-reset',
@@ -743,7 +743,7 @@ export const SYSTEM_TEMPLATES = {
 };
 
 // Export all template collections
-export const ALL_TEMPLATES = {
+const ALL_TEMPLATES = {
   ...WELCOME_REFERRER_TEMPLATES,
   ...JOB_ALERT_TEMPLATES,
   ...REFERRAL_STATUS_TEMPLATES,
@@ -758,7 +758,7 @@ export const ALL_TEMPLATES = {
  * Initialize default templates in database
  * @param {string} createdBy - User ID creating templates
  */
-export const initializeDefaultTemplates = async (createdBy) => {
+const initializeDefaultTemplates = async (createdBy) => {
   const { default: EmailTemplate } = await import('../models/EmailTemplate.js');
   
   const created = [];
@@ -779,7 +779,7 @@ export const initializeDefaultTemplates = async (createdBy) => {
   return created;
 };
 
-export default {
+module.exports = {
   WELCOME_REFERRER_TEMPLATES,
   JOB_ALERT_TEMPLATES,
   REFERRAL_STATUS_TEMPLATES,

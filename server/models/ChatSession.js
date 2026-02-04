@@ -4,7 +4,7 @@
  * Tracks session lifecycle, context, and metadata
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -280,4 +280,4 @@ ChatSessionSchema.statics.getAnalytics = async function(startDate, endDate, botT
 
 const ChatSession = mongoose.model('ChatSession', ChatSessionSchema);
 
-export default ChatSession;
+module.exports = ChatSession;

@@ -4,7 +4,7 @@
  * Manages rate limiting, proxy settings, and scraping parameters
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -435,4 +435,4 @@ CandidateSourceSchema.methods.calculateNextRun = function() {
 
 const CandidateSource = mongoose.model('CandidateSource', CandidateSourceSchema);
 
-export default CandidateSource;
+module.exports = CandidateSource;

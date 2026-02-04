@@ -4,7 +4,7 @@
  * Supports time-based triggers, conditional logic, and A/B testing
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -625,4 +625,4 @@ EmailSequenceSchema.statics.getSequencesForProcessing = function() {
 
 const EmailSequence = mongoose.model('EmailSequence', EmailSequenceSchema);
 
-export default EmailSequence;
+module.exports = EmailSequence;

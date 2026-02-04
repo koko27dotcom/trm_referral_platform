@@ -4,7 +4,7 @@
  * Identifies top performers and predicts referral success probability
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -616,4 +616,4 @@ ReferrerPredictionSchema.statics.upsertPrediction = async function(referrerId, t
 
 const ReferrerPrediction = mongoose.model('ReferrerPrediction', ReferrerPredictionSchema);
 
-export default ReferrerPrediction;
+module.exports = ReferrerPrediction;

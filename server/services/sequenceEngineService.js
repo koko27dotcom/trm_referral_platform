@@ -4,8 +4,8 @@
  * Runs scheduled jobs to process sequence enrollments
  */
 
-import cron from 'node-cron';
-import { 
+const cron = require('node-cron');
+const { 
   EmailSequence, 
   EmailCampaign, 
   EmailTemplate, 
@@ -16,8 +16,8 @@ import {
   Referral,
   Application,
   Company,
-} from '../models/index.js';
-import { sendEmail, queueEmail } from './emailMarketingService.js';
+} = require('../models/index.js');
+const { sendEmail, queueEmail } = require('./emailMarketingService.js');
 
 // Active cron jobs storage
 const activeJobs = new Map();
@@ -26,7 +26,7 @@ const activeJobs = new Map();
  * Initialize the sequence engine
  * Sets up cron jobs for sequence processing
  */
-export const initializeSequenceEngine = () => {
+const initializeSequenceEngine = () => {
   // Process sequences every 5 minutes
   const sequenceJob = cron.schedule('*/5 * * * *', async () => {
     console.log('[SequenceEngine] Processing sequences...');
@@ -53,7 +53,7 @@ export const initializeSequenceEngine = () => {
 /**
  * Stop the sequence engine
  */
-export const stopSequenceEngine = () => {
+const stopSequenceEngine = () => {
   activeJobs.forEach((job, name) => {
     job.stop();
     console.log(`[SequenceEngine] Stopped ${name} job`);
@@ -65,7 +65,7 @@ export const stopSequenceEngine = () => {
  * Process all active sequences
  * Checks for users ready for their next step
  */
-export const processSequences = async () => {
+const processSequences = async () => {
   try {
     // Find sequences with active enrollments ready for next step
     const sequences = await EmailSequence.find({
@@ -88,7 +88,7 @@ export const processSequences = async () => {
  * Process a single sequence
  * @param {EmailSequence} sequence - Sequence to process
  */
-export const processSequence = async (sequence) => {
+const processSequence = async (sequence) => {
   const readyEnrollments = sequence.enrollments.filter(
     e => e.status === 'active' && e.nextStepAt && e.nextStepAt <= new Date()
   );
@@ -107,7 +107,7 @@ export const processSequence = async (sequence) => {
  * @param {EmailSequence} sequence - Parent sequence
  * @param {Object} enrollment - User enrollment
  */
-export const processSequenceStep = async (sequence, enrollment) => {
+const processSequenceStep = async (sequence, enrollment) => {
   const step = sequence.steps.find(s => s.stepNumber === enrollment.currentStep);
   
   if (!step || !step.isActive) {
@@ -360,7 +360,7 @@ const buildContext = async (user, enrollment) => {
  * @param {string} source - Enrollment source
  * @returns {Promise<Object>} Enrollment result
  */
-export const enrollInSequence = async (sequenceId, userId, context = {}, source = 'manual') => {
+const enrollInSequence = async (sequenceId, userId, context = {}, source = 'manual') => {
   const sequence = await EmailSequence.findById(sequenceId);
   if (!sequence) {
     throw new Error('Sequence not found');
@@ -386,7 +386,7 @@ export const enrollInSequence = async (sequenceId, userId, context = {}, source 
  * @param {string} reason - Unenrollment reason
  * @returns {Promise<Object>} Result
  */
-export const unenrollFromSequence = async (sequenceId, userId, reason = 'manual') => {
+const unenrollFromSequence = async (sequenceId, userId, reason = 'manual') => {
   const sequence = await EmailSequence.findById(sequenceId);
   if (!sequence) {
     throw new Error('Sequence not found');
@@ -603,7 +603,7 @@ const refreshDynamicSegments = async () => {
 /**
  * Create predefined sequences
  */
-export const createPredefinedSequences = async () => {
+const createPredefinedSequences = async () => {
   const predefinedSequences = [
     {
       name: 'Candidate Application Follow-up',
@@ -767,7 +767,7 @@ export const createPredefinedSequences = async () => {
  * @param {string} sequenceId - Sequence ID
  * @returns {Promise<Object>} Statistics
  */
-export const getSequenceStats = async (sequenceId) => {
+const getSequenceStats = async (sequenceId) => {
   const sequence = await EmailSequence.findById(sequenceId);
   if (!sequence) {
     throw new Error('Sequence not found');
@@ -791,7 +791,7 @@ export const getSequenceStats = async (sequenceId) => {
   return stats;
 };
 
-export default {
+module.exports = {
   initializeSequenceEngine,
   stopSequenceEngine,
   processSequences,

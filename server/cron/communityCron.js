@@ -3,11 +3,11 @@
  * Handles trending calculation, digest emails, and scheduled tasks
  */
 
-import { CommunityPost, POST_STATUS } from '../models/CommunityPost.js';
-import { Content, CONTENT_STATUS } from '../models/Content.js';
-import { Event, EVENT_STATUS } from '../models/Event.js';
-import { PublicProfile } from '../models/PublicProfile.js';
-import NotificationService from '../services/notificationService.js';
+const { CommunityPost, POST_STATUS } = require('../models/CommunityPost.js');
+const { Content, CONTENT_STATUS } = require('../models/Content.js');
+const { Event, EVENT_STATUS } = require('../models/Event.js');
+const { PublicProfile } = require('../models/PublicProfile.js');
+const NotificationService = require('../services/notificationService.js');
 
 class CommunityCron {
   constructor() {
@@ -337,4 +337,4 @@ class CommunityCron {
   }
 }
 
-export default CommunityCron;
+module.exports = CommunityCron;

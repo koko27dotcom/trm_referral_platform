@@ -4,7 +4,7 @@
  * Includes user actions, system events, and data changes
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -23,7 +23,7 @@ const ChangeSchema = new Schema({
 }, { _id: false });
 
 // Action constants
-export const AUDIT_ACTIONS = {
+const AUDIT_ACTIONS = {
   // Authentication
   LOGIN: 'login',
   LOGOUT: 'logout',
@@ -99,7 +99,7 @@ export const AUDIT_ACTIONS = {
 };
 
 // Entity type constants
-export const ENTITY_TYPES = {
+const ENTITY_TYPES = {
   USER: 'user',
   COMPANY: 'company',
   COMPANY_USER: 'company_user',
@@ -523,4 +523,4 @@ function getActionCategory(action) {
 // Create and export the model
 const AuditLog = mongoose.model('AuditLog', AuditLogSchema);
 
-export default AuditLog;
+module.exports = AuditLog;

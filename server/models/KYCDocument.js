@@ -4,12 +4,12 @@
  * Supports multiple document types with OCR metadata
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Document types
-export const DOCUMENT_TYPES = {
+const DOCUMENT_TYPES = {
   NRC_FRONT: 'nrc_front',
   NRC_BACK: 'nrc_back',
   SELFIE: 'selfie',
@@ -24,7 +24,7 @@ export const DOCUMENT_TYPES = {
 };
 
 // Document status
-export const DOCUMENT_STATUS = {
+const DOCUMENT_STATUS = {
   UPLOADED: 'uploaded',
   PROCESSING: 'processing',
   OCR_COMPLETED: 'ocr_completed',
@@ -34,7 +34,7 @@ export const DOCUMENT_STATUS = {
 };
 
 // File types
-export const ALLOWED_FILE_TYPES = {
+const ALLOWED_FILE_TYPES = {
   'image/jpeg': '.jpg',
   'image/jpg': '.jpg',
   'image/png': '.png',
@@ -602,4 +602,4 @@ KYCDocumentSchema.pre('save', function(next) {
 
 const KYCDocument = mongoose.model('KYCDocument', KYCDocumentSchema);
 
-export default KYCDocument;
+module.exports = KYCDocument;

@@ -5,15 +5,15 @@
  * Includes Viber and Telegram support for Myanmar market
  */
 
-import axios from 'axios';
-import crypto from 'crypto';
-import WhatsAppTemplate, { TEMPLATE_STATUS, TEMPLATE_TYPE } from '../models/WhatsAppTemplate.js';
-import WhatsAppSession, { SESSION_STATUS, CONTEXT_TYPE, USER_TYPE } from '../models/WhatsAppSession.js';
-import WhatsAppMessage, { MESSAGE_DIRECTION, MESSAGE_TYPE, MESSAGE_STATUS } from '../models/WhatsAppMessage.js';
-import { User, Referral, Job, Company } from '../models/index.js';
+const axios = require('axios');
+const crypto = require('crypto');
+const WhatsAppTemplate = require TEMPLATE_STATUS, TEMPLATE_TYPE } = require('../models/WhatsAppTemplate.js');
+const WhatsAppSession = require SESSION_STATUS, CONTEXT_TYPE, USER_TYPE } = require('../models/WhatsAppSession.js');
+const WhatsAppMessage = require MESSAGE_DIRECTION, MESSAGE_TYPE, MESSAGE_STATUS } = require('../models/WhatsAppMessage.js');
+const { User, Referral, Job, Company } = require('../models/index.js');
 
 // Platform types for multi-platform support
-export const PLATFORM = {
+const PLATFORM = {
   WHATSAPP: 'whatsapp',
   VIBER: 'viber',
   TELEGRAM: 'telegram',
@@ -97,7 +97,7 @@ const makeWABARequest = async (endpoint, method = 'GET', data = null) => {
  * @param {string} phone - Phone number
  * @returns {string}
  */
-export const formatPhoneNumber = (phone) => {
+const formatPhoneNumber = (phone) => {
   // Remove all non-digit characters
   let cleaned = phone.replace(/\D/g, '');
   
@@ -119,7 +119,7 @@ export const formatPhoneNumber = (phone) => {
  * @param {string} phone - Phone number
  * @returns {boolean}
  */
-export const validateMyanmarPhone = (phone) => {
+const validateMyanmarPhone = (phone) => {
   const formatted = formatPhoneNumber(phone);
   // Myanmar numbers: +95 followed by 9 digits (starting with 9)
   return /^\+959\d{8,9}$/.test(formatted);
@@ -132,7 +132,7 @@ export const validateMyanmarPhone = (phone) => {
  * @param {string} phoneNumber - Phone number
  * @returns {Promise<Object>}
  */
-export const getOrCreateSession = async (phoneNumber) => {
+const getOrCreateSession = async (phoneNumber) => {
   const formattedPhone = formatPhoneNumber(phoneNumber);
   
   let session = await WhatsAppSession.findOne({ phoneNumber: formattedPhone });
@@ -168,7 +168,7 @@ export const getOrCreateSession = async (phoneNumber) => {
  * @param {string} contextType - Context type
  * @param {Object} data - Context data
  */
-export const updateSessionContext = async (phoneNumber, contextType, data = {}) => {
+const updateSessionContext = async (phoneNumber, contextType, data = {}) => {
   const formattedPhone = formatPhoneNumber(phoneNumber);
   const session = await getOrCreateSession(formattedPhone);
   await session.setContext(contextType, data);
@@ -184,7 +184,7 @@ export const updateSessionContext = async (phoneNumber, contextType, data = {}) 
  * @param {Object} options - Additional options
  * @returns {Promise<Object>}
  */
-export const sendTextMessage = async (to, text, options = {}) => {
+const sendTextMessage = async (to, text, options = {}) => {
   const formattedPhone = formatPhoneNumber(to);
   const session = await getOrCreateSession(formattedPhone);
   
@@ -266,7 +266,7 @@ export const sendTextMessage = async (to, text, options = {}) => {
  * @param {Object} options - Additional options
  * @returns {Promise<Object>}
  */
-export const sendTemplateMessage = async (to, templateName, params = {}, options = {}) => {
+const sendTemplateMessage = async (to, templateName, params = {}, options = {}) => {
   const formattedPhone = formatPhoneNumber(to);
   const language = options.language || config.defaultLanguage;
   
@@ -356,7 +356,7 @@ export const sendTemplateMessage = async (to, templateName, params = {}, options
  * @param {Object} options - Additional options
  * @returns {Promise<Object>}
  */
-export const sendInteractiveMessage = async (to, interactiveData, options = {}) => {
+const sendInteractiveMessage = async (to, interactiveData, options = {}) => {
   const formattedPhone = formatPhoneNumber(to);
   const session = await getOrCreateSession(formattedPhone);
   
@@ -421,7 +421,7 @@ export const sendInteractiveMessage = async (to, interactiveData, options = {}) 
  * @param {string} name - User name
  * @param {string} language - Language code
  */
-export const sendWelcomeMessage = async (phoneNumber, name, language = 'my') => {
+const sendWelcomeMessage = async (phoneNumber, name, language = 'my') => {
   const text = language === 'my'
     ? `မင်္ဂလာပါ ${name}! TRM Referral Platform သို့ ကြိုဆိုပါသည်။ အကူအညီလိုအပ်ပါက "help" ဟုရိုက်ထည့်ပါ။`
     : `Welcome ${name} to TRM Referral Platform! Type "help" for assistance.`;
@@ -436,7 +436,7 @@ export const sendWelcomeMessage = async (phoneNumber, name, language = 'my') => 
  * @param {string} status - New status
  * @param {string} language - Language code
  */
-export const sendReferralStatusUpdate = async (phoneNumber, referral, status, language = 'my') => {
+const sendReferralStatusUpdate = async (phoneNumber, referral, status, language = 'my') => {
   const statusTranslations = {
     my: {
       submitted: 'တင်သွင်းပြီး',
@@ -475,7 +475,7 @@ export const sendReferralStatusUpdate = async (phoneNumber, referral, status, la
  * @param {Object} referral - Referral data
  * @param {string} language - Language code
  */
-export const sendReferralHiredNotification = async (phoneNumber, referral, language = 'my') => {
+const sendReferralHiredNotification = async (phoneNumber, referral, language = 'my') => {
   const bonusAmount = referral.referrerPayout?.toLocaleString() || '0';
   
   const text = language === 'my'
@@ -518,7 +518,7 @@ export const sendReferralHiredNotification = async (phoneNumber, referral, langu
  * @param {string} status - Payout status
  * @param {string} language - Language code
  */
-export const sendPayoutNotification = async (phoneNumber, payout, status, language = 'my') => {
+const sendPayoutNotification = async (phoneNumber, payout, status, language = 'my') => {
   const amount = payout.amount?.toLocaleString() || '0';
   
   let text;
@@ -547,7 +547,7 @@ export const sendPayoutNotification = async (phoneNumber, payout, status, langua
  * @param {Object} referral - Referral data
  * @param {string} language - Language code
  */
-export const sendCompanyApprovalRequest = async (phoneNumber, referral, language = 'my') => {
+const sendCompanyApprovalRequest = async (phoneNumber, referral, language = 'my') => {
   const text = language === 'my'
     ? `သင့်လုပ်ငန်းသို့ လူနာတစ်ဦး၏ လွှဲပြောင်းခြင်း ရောက်ရှိပါသည်။ အတည်ပြုရန် သို့မဟုတ် ငြင်းပယ်ရန် အောက်ပါခလုတ်များကို နှိပ်ပါ။ Referral Code: ${referral.code}`
     : `A new referral has been submitted to your company. Please approve or reject. Referral Code: ${referral.code}`;
@@ -593,7 +593,7 @@ export const sendCompanyApprovalRequest = async (phoneNumber, referral, language
  * @param {Object} job - Job data
  * @param {string} language - Language code
  */
-export const sendJobAlert = async (phoneNumber, job, language = 'my') => {
+const sendJobAlert = async (phoneNumber, job, language = 'my') => {
   const bonus = job.referralBonus?.toLocaleString() || '0';
   
   const text = language === 'my'
@@ -629,7 +629,7 @@ export const sendJobAlert = async (phoneNumber, job, language = 'my') => {
  * @param {string} body - Raw request body
  * @returns {boolean}
  */
-export const verifyWebhookSignature = (signature, body) => {
+const verifyWebhookSignature = (signature, body) => {
   if (config.mockMode) return true;
   
   const expectedSignature = crypto
@@ -645,7 +645,7 @@ export const verifyWebhookSignature = (signature, body) => {
  * @param {Object} payload - Webhook payload
  * @returns {Promise<Array>}
  */
-export const processWebhook = async (payload) => {
+const processWebhook = async (payload) => {
   const processed = [];
   
   if (!payload.entry) {
@@ -679,7 +679,7 @@ export const processWebhook = async (payload) => {
  * @param {Object} context - Webhook context
  * @returns {Promise<Object>}
  */
-export const processIncomingMessage = async (message, context) => {
+const processIncomingMessage = async (message, context) => {
   const phoneNumber = formatPhoneNumber(message.from);
   const session = await getOrCreateSession(phoneNumber);
   
@@ -745,7 +745,7 @@ export const processIncomingMessage = async (message, context) => {
  * Process message status update
  * @param {Object} status - Status data
  */
-export const processMessageStatus = async (status) => {
+const processMessageStatus = async (status) => {
   const message = await WhatsAppMessage.findOne({ wabaMessageId: status.id });
   
   if (!message) {
@@ -782,7 +782,7 @@ export const processMessageStatus = async (status) => {
  * @param {Object} message - WhatsAppMessage document
  * @param {Object} session - WhatsAppSession document
  */
-export const processMessageIntent = async (message, session) => {
+const processMessageIntent = async (message, session) => {
   const text = message.content.text?.toLowerCase().trim() || '';
   const interactive = message.content.interactive;
   
@@ -1136,7 +1136,7 @@ const handleReferralLookup = async (code, session) => {
 /**
  * Sync templates with WhatsApp Business API
  */
-export const syncTemplates = async () => {
+const syncTemplates = async () => {
   if (config.mockMode) {
     mockLog('Sync Templates', { message: 'Mock mode - no API call' });
     return { mock: true };
@@ -1172,7 +1172,7 @@ export const syncTemplates = async () => {
 /**
  * Create template on WhatsApp Business API
  */
-export const createTemplate = async (templateData) => {
+const createTemplate = async (templateData) => {
   if (config.mockMode) {
     mockLog('Create Template', templateData);
     return { mock: true, id: `mock_${Date.now()}` };
@@ -1200,7 +1200,7 @@ export const createTemplate = async (templateData) => {
 /**
  * Get WhatsApp service statistics
  */
-export const getStatistics = async () => {
+const getStatistics = async () => {
   const [sessionStats, messageStats, templateStats] = await Promise.all([
     WhatsAppSession.getStats(),
     WhatsAppMessage.getStats(),
@@ -1233,7 +1233,7 @@ export const getStatistics = async () => {
 
 // ==================== EXPORTS ====================
 
-export default {
+module.exports = {
   sendTextMessage,
   sendTemplateMessage,
   sendInteractiveMessage,

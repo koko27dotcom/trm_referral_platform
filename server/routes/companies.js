@@ -3,12 +3,12 @@
  * Handles company CRUD, team management, and company-specific operations
  */
 
-import express from 'express';
-import { Company, CompanyUser, User, Job, SubscriptionPlan, AuditLog } from '../models/index.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, AuthorizationError, ConflictError } from '../middleware/errorHandler.js';
-import { requireAdmin, requireCorporateAdmin, requireCompanyAccess, requireCompanyAdmin } from '../middleware/rbac.js';
-import { PERMISSIONS } from '../models/CompanyUser.js';
+const express = require('express');
+const { Company, CompanyUser, User, Job, SubscriptionPlan, AuditLog } = require('../models/index.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, AuthorizationError, ConflictError } = require('../middleware/errorHandler.js');
+const { requireAdmin, requireCorporateAdmin, requireCompanyAccess, requireCompanyAdmin } = require('../middleware/rbac.js');
+const { PERMISSIONS } = require('../models/CompanyUser.js');
 
 const router = express.Router();
 
@@ -523,4 +523,4 @@ router.get('/:id/analytics', authenticate, requireCompanyAccess([PERMISSIONS.REA
   });
 }));
 
-export default router;
+module.exports = router;

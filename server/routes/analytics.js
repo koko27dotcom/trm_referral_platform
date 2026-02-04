@@ -4,11 +4,11 @@
  * Enables data-driven decisions through real-time and historical data
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { RevenueAnalytics } from '../models/index.js';
-import { revenueCalculator } from '../services/revenueCalculator.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { RevenueAnalytics } = require('../models/index.js');
+const { revenueCalculator } = require('../services/revenueCalculator.js');
 
 const router = express.Router();
 
@@ -647,4 +647,4 @@ function convertToCSV(data, reportType) {
   return csv;
 }
 
-export default router;
+module.exports = router;

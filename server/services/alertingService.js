@@ -4,8 +4,8 @@
  * Features: Alert rules, severity levels, channel support, alert history, escalation
  */
 
-import { EventEmitter } from 'events';
-import performanceMonitor from './performanceMonitor.js';
+const { EventEmitter } = require('events');
+const performanceMonitor = require('./performanceMonitor.js');
 
 // Configuration
 const CONFIG = {
@@ -1026,8 +1026,7 @@ class AlertingService extends EventEmitter {
 
 // Export singleton instance and classes
 const alertingService = new AlertingService();
-export default alertingService;
-export { 
+module.exports = alertingService;
   AlertingService, 
   AlertRule, 
   AlertChannel, 

@@ -3,10 +3,10 @@
  * API endpoints for challenge features
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import challengeEngine from '../services/challengeEngine.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const challengeEngine = require('../services/challengeEngine.js');
 
 const router = express.Router();
 
@@ -381,4 +381,4 @@ router.post('/cleanup', requireRole('admin'), async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

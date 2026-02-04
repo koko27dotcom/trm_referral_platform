@@ -1,7 +1,7 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import { authenticate } from '../middleware/auth.js';
-import DataAPIService from '../services/dataAPIService.js';
+const { authenticate } = require('../middleware/auth.js');
+const DataAPIService = require('../services/dataAPIService.js');
 
 // Middleware to get customer tier from API key or subscription
 const getCustomerTier = async (req, res, next) => {
@@ -287,4 +287,4 @@ router.get('/limits', authenticate, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

@@ -4,7 +4,7 @@
  * Allows partners to customize the platform with their branding
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -616,4 +616,4 @@ WhiteLabelConfigSchema.statics.getActiveConfigs = function() {
 
 const WhiteLabelConfig = mongoose.model('WhiteLabelConfig', WhiteLabelConfigSchema);
 
-export default WhiteLabelConfig;
+module.exports = WhiteLabelConfig;

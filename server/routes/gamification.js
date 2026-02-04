@@ -3,12 +3,12 @@
  * API endpoints for gamification features
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import gamificationService from '../services/gamificationService.js';
-import badgeService from '../services/badgeService.js';
-import achievementService from '../services/achievementService.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const gamificationService = require('../services/gamificationService.js');
+const badgeService = require('../services/badgeService.js');
+const achievementService = require('../services/achievementService.js');
 
 const router = express.Router();
 
@@ -474,4 +474,4 @@ router.get('/admin/stats', requireRole('admin'), async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

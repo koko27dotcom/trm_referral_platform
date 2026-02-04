@@ -3,11 +3,11 @@
  * Handles translation management, import/export, and namespace operations
  */
 
-import express from 'express';
-import localizationService from '../services/localizationService.js';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { asyncHandler, ValidationError, NotFoundError } from '../middleware/errorHandler.js';
+const express = require('express');
+const localizationService = require('../services/localizationService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { asyncHandler, ValidationError, NotFoundError } = require('../middleware/errorHandler.js');
 
 const router = express.Router();
 
@@ -238,4 +238,4 @@ router.get('/languages', asyncHandler(async (req, res) => {
   });
 }));
 
-export default router;
+module.exports = router;

@@ -4,7 +4,7 @@
  * Handles intent classification, entity extraction, and response generation
  */
 
-import OpenAI from 'openai';
+const OpenAI = require('openai');
 
 class OpenAI_NLP {
   constructor(apiKey = null) {
@@ -586,5 +586,4 @@ Summary:
   }
 }
 
-export default OpenAI_NLP;
-export { OpenAI_NLP };
+module.exports = OpenAI_NLP;

@@ -4,7 +4,7 @@
  * Enables AI-powered salary recommendations and market analysis
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -616,4 +616,4 @@ SalaryBenchmarkSchema.statics.getMarketOverview = async function(location) {
 
 const SalaryBenchmark = mongoose.model('SalaryBenchmark', SalaryBenchmarkSchema);
 
-export default SalaryBenchmark;
+module.exports = SalaryBenchmark;

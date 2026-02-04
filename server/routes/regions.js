@@ -3,11 +3,11 @@
  * Handles region management, detection, configuration, and user preferences
  */
 
-import express from 'express';
-import regionService from '../services/regionService.js';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { asyncHandler, ValidationError, NotFoundError } from '../middleware/errorHandler.js';
+const express = require('express');
+const regionService = require('../services/regionService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { asyncHandler, ValidationError, NotFoundError } = require('../middleware/errorHandler.js');
 
 const router = express.Router();
 
@@ -229,4 +229,4 @@ router.put('/user/region',
   })
 );
 
-export default router;
+module.exports = router;

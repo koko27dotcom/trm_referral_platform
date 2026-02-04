@@ -3,10 +3,10 @@
  * Handles payment notifications and callbacks from 2C2P payment gateway
  */
 
-import express from 'express';
-import { paymentGatewayService } from '../services/paymentGatewayService.js';
-import { billingEngine } from '../services/billingEngine.js';
-import { BillingRecord, Subscription } from '../models/index.js';
+const express = require('express');
+const { paymentGatewayService } = require('../services/paymentGatewayService.js');
+const { billingEngine } = require('../services/billingEngine.js');
+const { BillingRecord, Subscription } = require('../models/index.js');
 
 const router = express.Router();
 
@@ -117,4 +117,4 @@ router.post('/redirect', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

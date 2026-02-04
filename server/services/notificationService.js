@@ -4,26 +4,26 @@
  * Handles in-app, email, SMS, and push notifications
  */
 
-import Notification, { 
+const Notification = require 
   NOTIFICATION_TYPES, 
   NOTIFICATION_PRIORITY,
   NOTIFICATION_CHANNELS 
-} from '../models/Notification.js';
-import { User } from '../models/index.js';
+} = require('../models/Notification.js');
+const { User } = require('../models/index.js');
 
 // Import notification templates
-import { 
+const { 
   getEmailTemplate, 
   getInAppTemplate,
   getSMSTemplate 
-} from '../utils/notificationTemplates.js';
+} = require('../utils/notificationTemplates.js');
 
 /**
  * Send notification to a user
  * @param {Object} options - Notification options
  * @returns {Promise<Object>}
  */
-export const sendNotification = async (options) => {
+const sendNotification = async (options) => {
   const {
     userId,
     type,
@@ -107,7 +107,7 @@ export const sendNotification = async (options) => {
  * @param {Object} options - Notification options
  * @returns {Promise<Object>}
  */
-export const sendBulkNotification = async (userIds, options) => {
+const sendBulkNotification = async (userIds, options) => {
   const results = {
     successful: [],
     failed: [],
@@ -135,7 +135,7 @@ export const sendBulkNotification = async (userIds, options) => {
  * @param {Object} data - Additional data
  * @returns {Promise<Object>}
  */
-export const sendReferralNotification = async (userId, referralId, status, data = {}) => {
+const sendReferralNotification = async (userId, referralId, status, data = {}) => {
   let type, priority, channels;
 
   switch (status) {
@@ -178,7 +178,7 @@ export const sendReferralNotification = async (userId, referralId, status, data 
  * @param {Object} data - Additional data
  * @returns {Promise<Object>}
  */
-export const sendPayoutNotification = async (userId, payoutId, status, data = {}) => {
+const sendPayoutNotification = async (userId, payoutId, status, data = {}) => {
   let type, priority, channels;
 
   switch (status) {
@@ -234,7 +234,7 @@ export const sendPayoutNotification = async (userId, payoutId, status, data = {}
  * @param {Object} data - Additional data
  * @returns {Promise<Object>}
  */
-export const sendSubscriptionNotification = async (userId, subscriptionId, event, data = {}) => {
+const sendSubscriptionNotification = async (userId, subscriptionId, event, data = {}) => {
   let type, priority, channels;
 
   switch (event) {
@@ -283,7 +283,7 @@ export const sendSubscriptionNotification = async (userId, subscriptionId, event
  * @param {Object} data - Notification data
  * @returns {Promise<Object>}
  */
-export const sendAdminNotification = async (type, data = {}) => {
+const sendAdminNotification = async (type, data = {}) => {
   // Get all admin users
   const admins = await User.find({ role: 'platform_admin', status: 'active' }).select('_id');
   
@@ -311,7 +311,7 @@ export const sendAdminNotification = async (type, data = {}) => {
  * @param {Object} data - User data
  * @returns {Promise<Object>}
  */
-export const sendWelcomeNotification = async (userId, data = {}) => {
+const sendWelcomeNotification = async (userId, data = {}) => {
   return sendNotification({
     userId,
     type: NOTIFICATION_TYPES.WELCOME,
@@ -328,7 +328,7 @@ export const sendWelcomeNotification = async (userId, data = {}) => {
  * @param {string} reason - Rejection reason (if applicable)
  * @returns {Promise<Object>}
  */
-export const sendKYCNotification = async (userId, approved, reason = '') => {
+const sendKYCNotification = async (userId, approved, reason = '') => {
   const type = approved ? NOTIFICATION_TYPES.KYC_VERIFIED : NOTIFICATION_TYPES.KYC_REJECTED;
   
   return sendNotification({
@@ -448,9 +448,8 @@ async function sendPush(user, type, template) {
 
 // Export service functions
 // Re-export constants from Notification model for convenience
-export { NOTIFICATION_TYPES, NOTIFICATION_PRIORITY, NOTIFICATION_CHANNELS } from '../models/Notification.js';
 
-export default {
+module.exports = {
   sendNotification,
   sendBulkNotification,
   sendReferralNotification,

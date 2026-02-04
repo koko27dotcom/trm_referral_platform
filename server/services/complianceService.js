@@ -4,14 +4,14 @@
  * Supports data export, right to be forgotten, consent management, and breach notification
  */
 
-import { User, Company, Referral, Application, AuditLog } from '../models/index.js';
-import { ComplianceReport, REPORT_TYPES, FINDING_SEVERITY } from '../models/ComplianceReport.js';
-import { DataRetentionPolicy, COMPLIANCE_FRAMEWORKS } from '../models/DataRetentionPolicy.js';
-import { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } from '../models/SecurityAudit.js';
-import encryptionService from './encryptionService.js';
+const { User, Company, Referral, Application, AuditLog } = require('../models/index.js');
+const { ComplianceReport, REPORT_TYPES, FINDING_SEVERITY } = require('../models/ComplianceReport.js');
+const { DataRetentionPolicy, COMPLIANCE_FRAMEWORKS } = require('../models/DataRetentionPolicy.js');
+const { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } = require('../models/SecurityAudit.js');
+const encryptionService = require('./encryptionService.js');
 
 // DSR (Data Subject Request) types
-export const DSR_TYPES = {
+const DSR_TYPES = {
   ACCESS: 'access',
   DELETION: 'deletion',
   PORTABILITY: 'portability',
@@ -21,7 +21,7 @@ export const DSR_TYPES = {
 };
 
 // DSR status
-export const DSR_STATUS = {
+const DSR_STATUS = {
   PENDING: 'pending',
   IN_REVIEW: 'in_review',
   PROCESSING: 'processing',
@@ -31,7 +31,7 @@ export const DSR_STATUS = {
 };
 
 // Consent types
-export const CONSENT_TYPES = {
+const CONSENT_TYPES = {
   MARKETING: 'marketing',
   ANALYTICS: 'analytics',
   THIRD_PARTY_SHARING: 'third_party_sharing',
@@ -42,7 +42,7 @@ export const CONSENT_TYPES = {
 };
 
 // Legal basis for processing
-export const LEGAL_BASIS = {
+const LEGAL_BASIS = {
   CONSENT: 'consent',
   CONTRACT: 'contract',
   LEGAL_OBLIGATION: 'legal_obligation',
@@ -56,7 +56,7 @@ export const LEGAL_BASIS = {
  * @param {Object} options - DSR options
  * @returns {Promise<Object>}
  */
-export const submitDSR = async (options) => {
+const submitDSR = async (options) => {
   const {
     userId,
     type,
@@ -140,7 +140,7 @@ export const submitDSR = async (options) => {
  * @param {string} userId - User ID
  * @returns {Promise<Object>}
  */
-export const exportUserData = async (userId) => {
+const exportUserData = async (userId) => {
   const user = await User.findById(userId).lean();
   if (!user) {
     throw new Error('User not found');
@@ -198,7 +198,7 @@ export const exportUserData = async (userId) => {
  * @param {Object} options - Deletion options
  * @returns {Promise<Object>}
  */
-export const deleteUserData = async (userId, options = {}) => {
+const deleteUserData = async (userId, options = {}) => {
   const {
     reason = 'User request',
     anonymizeInstead = false,
@@ -296,7 +296,7 @@ export const deleteUserData = async (userId, options = {}) => {
  * @param {Object} metadata - Additional metadata
  * @returns {Promise<Object>}
  */
-export const recordConsent = async (userId, consentType, granted, metadata = {}) => {
+const recordConsent = async (userId, consentType, granted, metadata = {}) => {
   const user = await User.findById(userId);
   if (!user) {
     throw new Error('User not found');
@@ -344,7 +344,7 @@ export const recordConsent = async (userId, consentType, granted, metadata = {})
  * @param {string} userId - User ID
  * @returns {Promise<Object>}
  */
-export const getUserConsents = async (userId) => {
+const getUserConsents = async (userId) => {
   const user = await User.findById(userId).select('privacyConsent emailPreferences');
   if (!user) {
     throw new Error('User not found');
@@ -363,7 +363,7 @@ export const getUserConsents = async (userId) => {
  * @param {string} consentType - Type of consent
  * @returns {Promise<boolean>}
  */
-export const hasConsent = async (userId, consentType) => {
+const hasConsent = async (userId, consentType) => {
   const user = await User.findById(userId).select('privacyConsent');
   if (!user || !user.privacyConsent) return false;
   
@@ -376,7 +376,7 @@ export const hasConsent = async (userId, consentType) => {
  * @param {Object} options - Report options
  * @returns {Promise<Object>}
  */
-export const generateComplianceReport = async (options) => {
+const generateComplianceReport = async (options) => {
   const {
     type,
     companyId,
@@ -621,7 +621,7 @@ const generateRecommendations = (report) => {
  * @param {Object} breachDetails - Breach details
  * @returns {Promise<Object>}
  */
-export const notifyDataBreach = async (breachDetails) => {
+const notifyDataBreach = async (breachDetails) => {
   const {
     discoveryDate,
     affectedUsers,
@@ -680,7 +680,7 @@ export const notifyDataBreach = async (breachDetails) => {
  * @param {string} companyId - Company ID (optional)
  * @returns {Promise<Object>}
  */
-export const getComplianceDashboard = async (companyId = null) => {
+const getComplianceDashboard = async (companyId = null) => {
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   
@@ -722,7 +722,7 @@ export const getComplianceDashboard = async (companyId = null) => {
   };
 };
 
-export default {
+module.exports = {
   submitDSR,
   exportUserData,
   deleteUserData,

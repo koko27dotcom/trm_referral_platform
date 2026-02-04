@@ -4,7 +4,7 @@
  * Enables efficient querying of entire downline/upline trees
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -325,4 +325,4 @@ function calculateCommissionPercent(depth) {
 // Create and export the model
 const ReferralNetwork = mongoose.model('ReferralNetwork', ReferralNetworkSchema);
 
-export default ReferralNetwork;
+module.exports = ReferralNetwork;

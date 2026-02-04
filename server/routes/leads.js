@@ -3,12 +3,12 @@
  * API endpoints for lead scoring, company prioritization, and CRM operations
  */
 
-import express from 'express';
-import { LeadScore, Company, User } from '../models/index.js';
-import { leadScoreService } from '../services/leadScoreService.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, AuthorizationError } from '../middleware/errorHandler.js';
-import { requireAdmin } from '../middleware/rbac.js';
+const express = require('express');
+const { LeadScore, Company, User } = require('../models/index.js');
+const { leadScoreService } = require('../services/leadScoreService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, AuthorizationError } = require('../middleware/errorHandler.js');
+const { requireAdmin } = require('../middleware/rbac.js');
 
 const router = express.Router();
 
@@ -637,4 +637,4 @@ router.get('/stats/overview', authenticate, requireAdmin, asyncHandler(async (re
   });
 }));
 
-export default router;
+module.exports = router;

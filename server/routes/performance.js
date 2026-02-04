@@ -4,12 +4,12 @@
  * Features: Performance reports, query stats, optimization recommendations
  */
 
-import express from 'express';
-import performanceMonitor from '../services/performanceMonitor.js';
-import queryOptimizer from '../services/queryOptimizer.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import { authenticate } from '../middleware/auth.js';
-import { requireAdmin } from '../middleware/rbac.js';
+const express = require('express');
+const performanceMonitor = require('../services/performanceMonitor.js');
+const queryOptimizer = require('../services/queryOptimizer.js');
+const { asyncHandler } = require('../middleware/errorHandler.js');
+const { authenticate } = require('../middleware/auth.js');
+const { requireAdmin } = require('../middleware/rbac.js');
 
 const router = express.Router();
 
@@ -348,4 +348,4 @@ function parseTimeWindow(timeWindow) {
   return value * multipliers[unit];
 }
 
-export default router;
+module.exports = router;

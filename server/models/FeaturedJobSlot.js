@@ -5,7 +5,7 @@
  * Tracks performance metrics and manages slot availability
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -554,4 +554,4 @@ FeaturedJobSlotSchema.statics.getAuctionLeaderboard = async function(slotPositio
 // Create and export the model
 const FeaturedJobSlot = mongoose.model('FeaturedJobSlot', FeaturedJobSlotSchema);
 
-export default FeaturedJobSlot;
+module.exports = FeaturedJobSlot;

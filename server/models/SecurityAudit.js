@@ -4,12 +4,12 @@
  * Includes authentication events, access violations, suspicious activities, and system security events
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Security event types
-export const SECURITY_EVENT_TYPES = {
+const SECURITY_EVENT_TYPES = {
   // Authentication events
   LOGIN_SUCCESS: 'login_success',
   LOGIN_FAILED: 'login_failed',
@@ -74,7 +74,7 @@ export const SECURITY_EVENT_TYPES = {
 };
 
 // Severity levels
-export const SEVERITY_LEVELS = {
+const SEVERITY_LEVELS = {
   CRITICAL: 'critical',
   HIGH: 'high',
   MEDIUM: 'medium',
@@ -83,7 +83,7 @@ export const SEVERITY_LEVELS = {
 };
 
 // Status values
-export const EVENT_STATUS = {
+const EVENT_STATUS = {
   NEW: 'new',
   INVESTIGATING: 'investigating',
   RESOLVED: 'resolved',
@@ -594,4 +594,4 @@ SecurityAuditSchema.methods.resolve = async function(userId, resolution) {
 // Create and export the model
 const SecurityAudit = mongoose.model('SecurityAudit', SecurityAuditSchema);
 
-export default SecurityAudit;
+module.exports = SecurityAudit;

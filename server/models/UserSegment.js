@@ -4,7 +4,7 @@
  * Supports complex filtering criteria based on user attributes and behavior
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -737,4 +737,4 @@ UserSegmentSchema.statics.findBySystemKey = function(key) {
 
 const UserSegment = mongoose.model('UserSegment', UserSegmentSchema);
 
-export default UserSegment;
+module.exports = UserSegment;

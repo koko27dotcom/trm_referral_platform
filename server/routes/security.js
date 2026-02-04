@@ -3,12 +3,12 @@
  * API routes for security audit logs and security management
  */
 
-import express from 'express';
-import { authenticate, authorize } from '../middleware/auth.js';
-import { validateQuery, validateBody } from '../middleware/requestValidator.js';
-import securityService from '../services/securityService.js';
-import auditService from '../services/auditService.js';
-import SecurityAudit from '../models/SecurityAudit.js';
+const express = require('express');
+const { authenticate, authorize } = require('../middleware/auth.js');
+const { validateQuery, validateBody } = require('../middleware/requestValidator.js');
+const securityService = require('../services/securityService.js');
+const auditService = require('../services/auditService.js');
+const SecurityAudit = require('../models/SecurityAudit.js');
 
 const router = express.Router();
 
@@ -585,4 +585,4 @@ router.post(
   }
 );
 
-export default router;
+module.exports = router;

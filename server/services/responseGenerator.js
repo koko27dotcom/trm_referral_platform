@@ -4,11 +4,11 @@
  * Combines template-based and AI-generated responses
  */
 
-import OpenAI_NLP from '../nlp/openaiNLP.js';
-import Local_NLP from '../nlp/localNLP.js';
-import ChatIntent from '../models/ChatIntent.js';
-import BotConfiguration from '../models/BotConfiguration.js';
-import KnowledgeBase from '../models/KnowledgeBase.js';
+const OpenAI_NLP = require('../nlp/openaiNLP.js');
+const Local_NLP = require('../nlp/localNLP.js');
+const ChatIntent = require('../models/ChatIntent.js');
+const BotConfiguration = require('../models/BotConfiguration.js');
+const KnowledgeBase = require('../models/KnowledgeBase.js');
 
 class ResponseGenerator {
   constructor() {
@@ -472,11 +472,11 @@ class ResponseGenerator {
 // Singleton instance
 let generatorInstance = null;
 
-export function getResponseGenerator() {
+function getResponseGenerator() {
   if (!generatorInstance) {
     generatorInstance = new ResponseGenerator();
   }
   return generatorInstance;
 }
 
-export default ResponseGenerator;
+module.exports = ResponseGenerator;

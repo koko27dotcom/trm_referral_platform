@@ -4,12 +4,12 @@
  * Supports webinars, meetups, workshops, and conferences
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Event type constants
-export const EVENT_TYPES = {
+const EVENT_TYPES = {
   WEBINAR: 'webinar',
   MEETUP: 'meetup',
   WORKSHOP: 'workshop',
@@ -20,14 +20,14 @@ export const EVENT_TYPES = {
 };
 
 // Event format constants
-export const EVENT_FORMATS = {
+const EVENT_FORMATS = {
   VIRTUAL: 'virtual',
   PHYSICAL: 'physical',
   HYBRID: 'hybrid',
 };
 
 // Event status constants
-export const EVENT_STATUS = {
+const EVENT_STATUS = {
   DRAFT: 'draft',
   PUBLISHED: 'published',
   ONGOING: 'ongoing',
@@ -37,7 +37,7 @@ export const EVENT_STATUS = {
 };
 
 // Attendee status constants
-export const ATTENDEE_STATUS = {
+const ATTENDEE_STATUS = {
   REGISTERED: 'registered',
   CONFIRMED: 'confirmed',
   ATTENDED: 'attended',
@@ -695,4 +695,4 @@ EventSchema.statics.search = async function(query, options = {}) {
 
 const Event = mongoose.model('Event', EventSchema);
 
-export default Event;
+module.exports = Event;

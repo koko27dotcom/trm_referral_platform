@@ -4,10 +4,10 @@
  * Provides robust intent detection with confidence scoring
  */
 
-import OpenAI_NLP from '../nlp/openaiNLP.js';
-import Local_NLP from '../nlp/localNLP.js';
-import ChatIntent from '../models/ChatIntent.js';
-import ChatEntity from '../models/ChatEntity.js';
+const OpenAI_NLP = require('../nlp/openaiNLP.js');
+const Local_NLP = require('../nlp/localNLP.js');
+const ChatIntent = require('../models/ChatIntent.js');
+const ChatEntity = require('../models/ChatEntity.js');
 
 class IntentClassifier {
   constructor() {
@@ -444,11 +444,11 @@ class IntentClassifier {
 // Singleton instance
 let classifierInstance = null;
 
-export function getIntentClassifier() {
+function getIntentClassifier() {
   if (!classifierInstance) {
     classifierInstance = new IntentClassifier();
   }
   return classifierInstance;
 }
 
-export default IntentClassifier;
+module.exports = IntentClassifier;

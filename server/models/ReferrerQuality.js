@@ -4,7 +4,7 @@
  * Used for lead scoring and network optimization
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -523,4 +523,4 @@ ReferrerQualitySchema.statics.getCompanyMetrics = async function(companyId) {
 // Create and export the model
 const ReferrerQuality = mongoose.model('ReferrerQuality', ReferrerQualitySchema);
 
-export default ReferrerQuality;
+module.exports = ReferrerQuality;

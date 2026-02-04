@@ -9,8 +9,8 @@
  * - job_seeker: Candidate who applies to jobs
  */
 
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const { Schema } = mongoose;
 
@@ -562,4 +562,4 @@ function generateInviteCode() {
 // Create and export the model
 const User = mongoose.model('User', UserSchema);
 
-export default User;
+module.exports = User;

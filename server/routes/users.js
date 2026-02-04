@@ -3,11 +3,11 @@
  * Handles user management, profile updates, and user-specific operations
  */
 
-import express from 'express';
-import { User, Referral, Application, AuditLog } from '../models/index.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, AuthorizationError } from '../middleware/errorHandler.js';
-import { requireAdmin, requireOwnerOrAdmin, isReferralOwner, isApplicationOwner } from '../middleware/rbac.js';
+const express = require('express');
+const { User, Referral, Application, AuditLog } = require('../models/index.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, AuthorizationError } = require('../middleware/errorHandler.js');
+const { requireAdmin, requireOwnerOrAdmin, isReferralOwner, isApplicationOwner } = require('../middleware/rbac.js');
 
 const router = express.Router();
 
@@ -529,4 +529,4 @@ router.get('/:id/activity', authenticate, asyncHandler(async (req, res) => {
   });
 }));
 
-export default router;
+module.exports = router;

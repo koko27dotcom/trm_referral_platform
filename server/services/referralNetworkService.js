@@ -4,7 +4,7 @@
  * Handles network building, tier management, and commission calculations
  */
 
-import { User, ReferralNetwork, TierBenefits, AuditLog } from '../models/index.js';
+const { User, ReferralNetwork, TierBenefits, AuditLog } = require('../models/index.js');
 
 /**
  * Service class for managing referral network operations
@@ -429,4 +429,4 @@ class ReferralNetworkService {
 }
 
 // Export singleton instance
-export default new ReferralNetworkService();
+module.exports = new ReferralNetworkService();

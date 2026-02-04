@@ -4,12 +4,12 @@
  * Used for reconciliation, audit trails, and retry logic
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Transaction status constants
-export const TRANSACTION_STATUS = {
+const TRANSACTION_STATUS = {
   PENDING: 'pending',
   INITIATED: 'initiated',
   PROCESSING: 'processing',
@@ -21,7 +21,7 @@ export const TRANSACTION_STATUS = {
 };
 
 // Transaction type constants
-export const TRANSACTION_TYPE = {
+const TRANSACTION_TYPE = {
   PAYOUT: 'payout',
   REFUND: 'refund',
   ADJUSTMENT: 'adjustment',
@@ -703,4 +703,4 @@ PayoutTransactionSchema.statics.getProviderStats = async function(filters = {}) 
 // Create and export the model
 const PayoutTransaction = mongoose.model('PayoutTransaction', PayoutTransactionSchema);
 
-export default PayoutTransaction;
+module.exports = PayoutTransaction;

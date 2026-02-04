@@ -4,20 +4,20 @@
  * Part of the Auto-Followup Workflow Engine for TRM platform
  */
 
-import mongoose from 'mongoose';
-import axios from 'axios';
-import Workflow, { 
+const mongoose = require('mongoose');
+const axios = require('axios');
+const Workflow = require 
   TRIGGER_TYPES, 
   WORKFLOW_STATUS, 
   ACTION_TYPES,
   CONDITION_OPERATORS 
-} from '../models/Workflow.js';
-import WorkflowExecution, { 
+} = require('../models/Workflow.js');
+const WorkflowExecution = require 
   EXECUTION_STATUS, 
   ACTION_STATUS,
   ENTITY_TYPES 
-} from '../models/WorkflowExecution.js';
-import { 
+} = require('../models/WorkflowExecution.js');
+const { 
   User, 
   Job, 
   Company, 
@@ -28,10 +28,10 @@ import {
   EmailLog,
   WhatsAppMessage,
   Notification
-} from '../models/index.js';
-import { sendEmail } from './emailMarketingService.js';
-import { sendTemplateMessage, formatPhoneNumber } from './whatsappService.js';
-import { sendNotification as sendAppNotification } from './notificationService.js';
+} = require('../models/index.js');
+const { sendEmail } = require('./emailMarketingService.js');
+const { sendTemplateMessage, formatPhoneNumber } = require('./whatsappService.js');
+const { sendNotification as sendAppNotification } = require('./notificationService.js');
 
 // ==================== PREDEFINED WORKFLOWS ====================
 
@@ -39,7 +39,7 @@ import { sendNotification as sendAppNotification } from './notificationService.j
  * Predefined workflow configurations
  * These are the standard auto-followup workflows for TRM platform
  */
-export const PREDEFINED_WORKFLOWS = {
+const PREDEFINED_WORKFLOWS = {
   // 1. Candidate Applied but Not Completed
   CANDIDATE_INCOMPLETE_APPLICATION: {
     name: 'Candidate Incomplete Application Follow-up',
@@ -482,7 +482,7 @@ export const PREDEFINED_WORKFLOWS = {
  * Initialize predefined workflows
  * Creates default workflows if they don't exist
  */
-export const initializePredefinedWorkflows = async () => {
+const initializePredefinedWorkflows = async () => {
   try {
     console.log('[WorkflowEngine] Initializing predefined workflows...');
     
@@ -513,7 +513,7 @@ export const initializePredefinedWorkflows = async () => {
  * @param {Object} options - Execution options
  * @returns {Promise<Object>} Execution result
  */
-export const triggerWorkflow = async (workflowId, options = {}) => {
+const triggerWorkflow = async (workflowId, options = {}) => {
   const {
     entityType,
     entityId,
@@ -634,7 +634,7 @@ export const triggerWorkflow = async (workflowId, options = {}) => {
  * Execute a workflow
  * @param {string} executionId - Workflow execution ID
  */
-export const executeWorkflow = async (executionId) => {
+const executeWorkflow = async (executionId) => {
   const execution = await WorkflowExecution.findById(executionId);
   if (!execution) {
     throw new Error(`Execution not found: ${executionId}`);
@@ -1188,7 +1188,6 @@ const getValueFromPath = (obj, path) => {
 
 // ==================== EXPORT ADDITIONAL FUNCTIONS ====================
 
-export {
   buildExecutionContext,
   evaluateConditions,
   processTemplate,

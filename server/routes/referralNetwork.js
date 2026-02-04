@@ -4,12 +4,12 @@
  * Handles network management, invites, tiers, and leaderboard
  */
 
-import express from 'express';
-import { User, ReferralNetwork, TierBenefits } from '../models/index.js';
-import { authenticate, optionalAuth } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, AuthorizationError } from '../middleware/errorHandler.js';
-import { requireReferrer, requireAdmin } from '../middleware/rbac.js';
-import referralNetworkService from '../services/referralNetworkService.js';
+const express = require('express');
+const { User, ReferralNetwork, TierBenefits } = require('../models/index.js');
+const { authenticate, optionalAuth } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, AuthorizationError } = require('../middleware/errorHandler.js');
+const { requireReferrer, requireAdmin } = require('../middleware/rbac.js');
+const referralNetworkService = require('../services/referralNetworkService.js');
 
 const router = express.Router();
 
@@ -364,4 +364,4 @@ router.post('/admin/recalculate-tiers', authenticate, requireAdmin, asyncHandler
   });
 }));
 
-export default router;
+module.exports = router;

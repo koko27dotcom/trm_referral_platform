@@ -4,7 +4,7 @@
  * Tracks application status and related information
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -45,7 +45,7 @@ const StatusHistorySchema = new Schema({
 }, { _id: true });
 
 // Application status constants
-export const APPLICATION_STATUS = {
+const APPLICATION_STATUS = {
   SUBMITTED: 'submitted',
   UNDER_REVIEW: 'under_review',
   SHORTLISTED: 'shortlisted',
@@ -546,4 +546,4 @@ ApplicationSchema.statics.getApplicantStats = async function(applicantId) {
 // Create and export the model
 const Application = mongoose.model('Application', ApplicationSchema);
 
-export default Application;
+module.exports = Application;

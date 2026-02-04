@@ -4,10 +4,10 @@
  * Integrates with SendGrid (or mock mode for development)
  */
 
-import sgMail from '@sendgrid/mail';
-import Queue from 'bull';
-import crypto from 'crypto';
-import { User, EmailCampaign, EmailTemplate, EmailSequence, UserSegment, EmailLog } from '../models/index.js';
+const sgMail = require('@sendgrid/mail');
+const Queue = require('bull');
+const crypto = require('crypto');
+const { User, EmailCampaign, EmailTemplate, EmailSequence, UserSegment, EmailLog } = require('../models/index.js');
 
 // Configure SendGrid API Key
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
@@ -135,7 +135,7 @@ const generateUnsubscribeToken = (userId, email) => {
  * @param {string} token - Token to verify
  * @returns {boolean} Whether token is valid
  */
-export const verifyUnsubscribeToken = (userId, email, token) => {
+const verifyUnsubscribeToken = (userId, email, token) => {
   const expectedToken = generateUnsubscribeToken(userId, email);
   return crypto.timingSafeEqual(
     Buffer.from(token),
@@ -202,7 +202,7 @@ const processTemplate = (html, variables = {}, tracking = {}) => {
  * @param {Object} options - Email options
  * @returns {Promise<Object>} Send result
  */
-export const sendEmail = async (options) => {
+const sendEmail = async (options) => {
   const {
     to,
     toName = '',
@@ -392,7 +392,7 @@ export const sendEmail = async (options) => {
  * @param {Object} options - Email options
  * @returns {Promise<Object>} Job reference
  */
-export const queueEmail = async (options) => {
+const queueEmail = async (options) => {
   const job = await emailQueue.add('send-email', options, {
     delay: options.delay || 0,
     priority: options.priority || 5,
@@ -409,7 +409,7 @@ export const queueEmail = async (options) => {
  * @param {Object} options - Broadcast options
  * @returns {Promise<Object>} Broadcast result
  */
-export const sendBroadcast = async (options) => {
+const sendBroadcast = async (options) => {
   const {
     campaignId,
     segmentId,
@@ -568,7 +568,7 @@ emailQueue.process('send-campaign-email', async (job) => {
  * Handle SendGrid webhook events
  * @param {Array} events - Webhook events
  */
-export const handleWebhookEvents = async (events) => {
+const handleWebhookEvents = async (events) => {
   for (const event of events) {
     try {
       const messageId = event.messageId || event.trm_message_id;
@@ -630,7 +630,7 @@ export const handleWebhookEvents = async (events) => {
  * @param {Object} options - Query options
  * @returns {Promise<Object>} Statistics
  */
-export const getEmailStats = async (options = {}) => {
+const getEmailStats = async (options = {}) => {
   const { startDate, endDate, campaignId, organizationId } = options;
   
   const matchStage = {};
@@ -694,7 +694,7 @@ export const getEmailStats = async (options = {}) => {
  * Get suppression list (bounced, unsubscribed, complained)
  * @returns {Promise<Array>} Suppression list
  */
-export const getSuppressionList = async () => {
+const getSuppressionList = async () => {
   const suppressed = await EmailLog.aggregate([
     {
       $match: {
@@ -747,7 +747,7 @@ export const getSuppressionList = async () => {
  * @param {string} email - Email to check
  * @returns {Promise<boolean>} Whether email is suppressed
  */
-export const isEmailSuppressed = async (email) => {
+const isEmailSuppressed = async (email) => {
   const suppressed = await EmailLog.findOne({
     'recipient.email': email.toLowerCase(),
     $or: [
@@ -766,7 +766,7 @@ export const isEmailSuppressed = async (email) => {
  * @param {string} reason - Reason for suppression
  * @returns {Promise<Object>} Result
  */
-export const addToSuppressionList = async (email, reason = 'manual') => {
+const addToSuppressionList = async (email, reason = 'manual') => {
   // Create a log entry for the suppression
   await EmailLog.create({
     messageId: `suppress-${Date.now()}`,
@@ -795,7 +795,7 @@ export const addToSuppressionList = async (email, reason = 'manual') => {
  * @param {string} email - Email to remove
  * @returns {Promise<Object>} Result
  */
-export const removeFromSuppressionList = async (email) => {
+const removeFromSuppressionList = async (email) => {
   // Note: In a real system, you might want to keep a record
   // but mark as removed. For now, we'll just update the logs.
   await EmailLog.updateMany(
@@ -815,7 +815,7 @@ export const removeFromSuppressionList = async (email) => {
  * Get service status
  * @returns {Object} Service status
  */
-export const getServiceStatus = () => {
+const getServiceStatus = () => {
   return {
     mockMode: IS_MOCK_MODE,
     sendgridConfigured: !!SENDGRID_API_KEY,
@@ -835,7 +835,7 @@ export const getServiceStatus = () => {
   };
 };
 
-export default {
+module.exports = {
   sendEmail,
   queueEmail,
   sendBroadcast,

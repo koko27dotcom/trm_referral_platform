@@ -4,10 +4,10 @@
  * Supports SEO optimization, media management, and analytics
  */
 
-import { Content, CONTENT_TYPES, CONTENT_STATUS, CONTENT_CATEGORIES } from '../models/Content.js';
-import { Comment } from '../models/Comment.js';
-import { PublicProfile } from '../models/PublicProfile.js';
-import NotificationService from './notificationService.js';
+const { Content, CONTENT_TYPES, CONTENT_STATUS, CONTENT_CATEGORIES } = require('../models/Content.js');
+const { Comment } = require('../models/Comment.js');
+const { PublicProfile } = require('../models/PublicProfile.js');
+const NotificationService = require('./notificationService.js');
 
 class ContentService {
   constructor() {
@@ -731,4 +731,4 @@ class ContentService {
   }
 }
 
-export default ContentService;
+module.exports = ContentService;

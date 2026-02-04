@@ -4,12 +4,12 @@
  * Tracks conversation state for two-way communication
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Session status
-export const SESSION_STATUS = {
+const SESSION_STATUS = {
   ACTIVE: 'active',
   PAUSED: 'paused',
   EXPIRED: 'expired',
@@ -18,7 +18,7 @@ export const SESSION_STATUS = {
 };
 
 // Conversation context types
-export const CONTEXT_TYPE = {
+const CONTEXT_TYPE = {
   GENERAL: 'general',
   REFERRAL_INQUIRY: 'referral_inquiry',
   REFERRAL_STATUS: 'referral_status',
@@ -33,7 +33,7 @@ export const CONTEXT_TYPE = {
 };
 
 // User type in conversation
-export const USER_TYPE = {
+const USER_TYPE = {
   REFERRER: 'referrer',
   COMPANY_ADMIN: 'company_admin',
   COMPANY_RECRUITER: 'company_recruiter',
@@ -528,5 +528,5 @@ WhatsAppSessionSchema.statics.cleanupExpired = async function() {
 // Create and export the model
 const WhatsAppSession = mongoose.model('WhatsAppSession', WhatsAppSessionSchema);
 
-export default WhatsAppSession;
+module.exports = WhatsAppSession;
 

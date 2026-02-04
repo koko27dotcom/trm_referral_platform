@@ -4,7 +4,7 @@
  * Stores training phrases, responses, and action configurations
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -445,4 +445,4 @@ ChatIntentSchema.statics.getGreetingIntent = function(botType) {
 
 const ChatIntent = mongoose.model('ChatIntent', ChatIntentSchema);
 
-export default ChatIntent;
+module.exports = ChatIntent;

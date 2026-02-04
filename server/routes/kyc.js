@@ -3,13 +3,13 @@
  * API endpoints for Know Your Customer verification system
  */
 
-import express from 'express';
-import multer from 'multer';
-import kycService from '../services/kycService.js';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { asyncHandler, ValidationError, NotFoundError, ForbiddenError } from '../middleware/errorHandler.js';
-import { DOCUMENT_TYPES } from '../models/KYCDocument.js';
+const express = require('express');
+const multer = require('multer');
+const kycService = require('../services/kycService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { asyncHandler, ValidationError, NotFoundError, ForbiddenError } = require('../middleware/errorHandler.js');
+const { DOCUMENT_TYPES } = require('../models/KYCDocument.js');
 
 const router = express.Router();
 
@@ -683,4 +683,4 @@ router.post('/admin/verify-document/:documentId',
   })
 );
 
-export default router;
+module.exports = router;

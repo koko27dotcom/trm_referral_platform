@@ -3,10 +3,10 @@
  * Manages badge definitions, eligibility checking, and awarding
  */
 
-import Badge, { PREDEFINED_BADGES, BADGE_RARITY, BADGE_CATEGORIES } from '../models/Badge.js';
-import GamificationProfile from '../models/GamificationProfile.js';
-import UserActivity from '../models/UserActivity.js';
-import Notification from '../models/Notification.js';
+const Badge = require PREDEFINED_BADGES, BADGE_RARITY, BADGE_CATEGORIES } = require('../models/Badge.js');
+const GamificationProfile = require('../models/GamificationProfile.js');
+const UserActivity = require('../models/UserActivity.js');
+const Notification = require('../models/Notification.js');
 
 class BadgeService {
   constructor() {
@@ -563,5 +563,5 @@ class BadgeService {
 }
 
 // Export singleton instance
-export const badgeService = new BadgeService();
-export default badgeService;
+const badgeService = new BadgeService();
+module.exports = badgeService;

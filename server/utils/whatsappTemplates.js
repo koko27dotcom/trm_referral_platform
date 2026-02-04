@@ -4,11 +4,11 @@
  * Supports both Burmese (Myanmar) and English languages
  */
 
-import { TEMPLATE_TYPE, TEMPLATE_CATEGORY } from '../models/WhatsAppTemplate.js';
+const { TEMPLATE_TYPE, TEMPLATE_CATEGORY } = require('../models/WhatsAppTemplate.js');
 
 // ==================== WELCOME TEMPLATES ====================
 
-export const welcomeTemplate = {
+const welcomeTemplate = {
   name: 'welcome_message',
   type: TEMPLATE_TYPE.WELCOME,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -84,7 +84,7 @@ export const welcomeTemplate = {
 
 // ==================== REFERRAL STATUS TEMPLATES ====================
 
-export const referralSubmittedTemplate = {
+const referralSubmittedTemplate = {
   name: 'referral_submitted',
   type: TEMPLATE_TYPE.REFERRAL_SUBMITTED,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -126,7 +126,7 @@ export const referralSubmittedTemplate = {
   ],
 };
 
-export const referralStatusUpdateTemplate = {
+const referralStatusUpdateTemplate = {
   name: 'referral_status_update',
   type: TEMPLATE_TYPE.REFERRAL_STATUS_UPDATE,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -168,7 +168,7 @@ export const referralStatusUpdateTemplate = {
   ],
 };
 
-export const referralHiredTemplate = {
+const referralHiredTemplate = {
   name: 'referral_hired',
   type: TEMPLATE_TYPE.REFERRAL_HIRED,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -245,7 +245,7 @@ export const referralHiredTemplate = {
   ],
 };
 
-export const referralPaidTemplate = {
+const referralPaidTemplate = {
   name: 'referral_paid',
   type: TEMPLATE_TYPE.REFERRAL_PAID,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -299,7 +299,7 @@ export const referralPaidTemplate = {
 
 // ==================== PAYOUT TEMPLATES ====================
 
-export const payoutNotificationTemplate = {
+const payoutNotificationTemplate = {
   name: 'payout_notification',
   type: TEMPLATE_TYPE.PAYOUT_NOTIFICATION,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -342,7 +342,7 @@ export const payoutNotificationTemplate = {
 
 // ==================== COMPANY APPROVAL TEMPLATES ====================
 
-export const companyApprovalRequestTemplate = {
+const companyApprovalRequestTemplate = {
   name: 'company_approval_request',
   type: TEMPLATE_TYPE.COMPANY_APPROVAL_REQUEST,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -429,7 +429,7 @@ export const companyApprovalRequestTemplate = {
 
 // ==================== JOB ALERT TEMPLATES ====================
 
-export const jobAlertTemplate = {
+const jobAlertTemplate = {
   name: 'job_alert',
   type: TEMPLATE_TYPE.JOB_ALERT,
   category: TEMPLATE_CATEGORY.MARKETING,
@@ -509,7 +509,7 @@ export const jobAlertTemplate = {
 
 // ==================== APPLICATION REMINDER TEMPLATES ====================
 
-export const applicationReminderTemplate = {
+const applicationReminderTemplate = {
   name: 'application_reminder',
   type: TEMPLATE_TYPE.APPLICATION_REMINDER,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -550,7 +550,7 @@ export const applicationReminderTemplate = {
 
 // ==================== OPT-IN/OPT-OUT TEMPLATES ====================
 
-export const optInConfirmationTemplate = {
+const optInConfirmationTemplate = {
   name: 'opt_in_confirmation',
   type: TEMPLATE_TYPE.OPT_IN_CONFIRMATION,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -586,7 +586,7 @@ export const optInConfirmationTemplate = {
   variables: [],
 };
 
-export const optOutConfirmationTemplate = {
+const optOutConfirmationTemplate = {
   name: 'opt_out_confirmation',
   type: TEMPLATE_TYPE.OPT_OUT_CONFIRMATION,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -624,7 +624,7 @@ export const optOutConfirmationTemplate = {
 
 // ==================== NETWORK/TIER TEMPLATES ====================
 
-export const networkInviteTemplate = {
+const networkInviteTemplate = {
   name: 'network_invite',
   type: TEMPLATE_TYPE.NETWORK_INVITE,
   category: TEMPLATE_CATEGORY.MARKETING,
@@ -699,7 +699,7 @@ export const networkInviteTemplate = {
   ],
 };
 
-export const tierUpgradeTemplate = {
+const tierUpgradeTemplate = {
   name: 'tier_upgrade',
   type: TEMPLATE_TYPE.TIER_UPGRADE,
   category: TEMPLATE_CATEGORY.UTILITY,
@@ -751,7 +751,7 @@ export const tierUpgradeTemplate = {
 
 // ==================== ALL TEMPLATES ARRAY ====================
 
-export const allTemplates = [
+const allTemplates = [
   welcomeTemplate,
   referralSubmittedTemplate,
   referralStatusUpdateTemplate,
@@ -774,7 +774,7 @@ export const allTemplates = [
  * @param {string} type - Template type
  * @returns {Object|null}
  */
-export const getTemplateByType = (type) => {
+const getTemplateByType = (type) => {
   return allTemplates.find(t => t.type === type) || null;
 };
 
@@ -783,7 +783,7 @@ export const getTemplateByType = (type) => {
  * @param {string} name - Template name
  * @returns {Object|null}
  */
-export const getTemplateByName = (name) => {
+const getTemplateByName = (name) => {
   return allTemplates.find(t => t.name === name) || null;
 };
 
@@ -791,7 +791,7 @@ export const getTemplateByName = (name) => {
  * Initialize all templates in database
  * @param {Function} createFn - Function to create template
  */
-export const initializeTemplates = async (createFn) => {
+const initializeTemplates = async (createFn) => {
   const results = {
     created: [],
     existing: [],
@@ -814,7 +814,7 @@ export const initializeTemplates = async (createFn) => {
   return results;
 };
 
-export default {
+module.exports = {
   allTemplates,
   getTemplateByType,
   getTemplateByName,

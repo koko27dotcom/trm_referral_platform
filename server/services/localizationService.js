@@ -4,7 +4,7 @@
  * Handles translation CRUD operations, caching, import/export, and utilities
  */
 
-import Localization from '../models/Localization.js';
+const Localization = require('../models/Localization.js');
 
 /**
  * Cache entry with TTL support
@@ -818,4 +818,4 @@ class LocalizationService {
 }
 
 // Export singleton instance
-export default new LocalizationService();
+module.exports = new LocalizationService();

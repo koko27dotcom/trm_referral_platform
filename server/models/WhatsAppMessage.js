@@ -4,18 +4,18 @@
  * Tracks delivery status and message interactions
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Message direction
-export const MESSAGE_DIRECTION = {
+const MESSAGE_DIRECTION = {
   INBOUND: 'inbound',
   OUTBOUND: 'outbound',
 };
 
 // Message type
-export const MESSAGE_TYPE = {
+const MESSAGE_TYPE = {
   TEXT: 'text',
   TEMPLATE: 'template',
   IMAGE: 'image',
@@ -33,7 +33,7 @@ export const MESSAGE_TYPE = {
 };
 
 // Message status
-export const MESSAGE_STATUS = {
+const MESSAGE_STATUS = {
   PENDING: 'pending',
   SENT: 'sent',
   DELIVERED: 'delivered',
@@ -43,7 +43,7 @@ export const MESSAGE_STATUS = {
 };
 
 // Interactive message types
-export const INTERACTIVE_TYPE = {
+const INTERACTIVE_TYPE = {
   BUTTON_REPLY: 'button_reply',
   LIST_REPLY: 'list_reply',
 };
@@ -635,5 +635,5 @@ WhatsAppMessageSchema.statics.getDeliveryRate = async function() {
 // Create and export the model
 const WhatsAppMessage = mongoose.model('WhatsAppMessage', WhatsAppMessageSchema);
 
-export default WhatsAppMessage;
+module.exports = WhatsAppMessage;
 

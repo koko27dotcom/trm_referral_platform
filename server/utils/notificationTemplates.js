@@ -4,7 +4,7 @@
  * Supports in-app, email, and SMS formats
  */
 
-import { NOTIFICATION_TYPES } from '../models/Notification.js';
+const { NOTIFICATION_TYPES } = require('../models/Notification.js');
 
 // Format currency helper
 const formatCurrency = (amount, currency = 'MMK') => {
@@ -408,7 +408,7 @@ const smsTemplates = {
  * @param {Object} data - Template data
  * @returns {Object}
  */
-export const getInAppTemplate = (type, data = {}) => {
+const getInAppTemplate = (type, data = {}) => {
   const templateFn = inAppTemplates[type];
   if (templateFn) {
     return templateFn(data);
@@ -429,7 +429,7 @@ export const getInAppTemplate = (type, data = {}) => {
  * @param {Object} data - Template data
  * @returns {Object}
  */
-export const getEmailTemplate = (type, data = {}) => {
+const getEmailTemplate = (type, data = {}) => {
   const templateFn = emailTemplates[type];
   if (templateFn) {
     return templateFn(data);
@@ -449,7 +449,7 @@ export const getEmailTemplate = (type, data = {}) => {
  * @param {Object} data - Template data
  * @returns {Object}
  */
-export const getSMSTemplate = (type, data = {}) => {
+const getSMSTemplate = (type, data = {}) => {
   const templateFn = smsTemplates[type];
   if (templateFn) {
     return templateFn(data);
@@ -462,7 +462,7 @@ export const getSMSTemplate = (type, data = {}) => {
 };
 
 // Export all template getters
-export default {
+module.exports = {
   getInAppTemplate,
   getEmailTemplate,
   getSMSTemplate,

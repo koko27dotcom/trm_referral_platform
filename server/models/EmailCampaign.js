@@ -4,7 +4,7 @@
  * Tracks campaign metadata, targeting, scheduling, and performance metrics
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -344,4 +344,4 @@ EmailCampaignSchema.methods.getWinningVariant = function() {
 
 const EmailCampaign = mongoose.model('EmailCampaign', EmailCampaignSchema);
 
-export default EmailCampaign;
+module.exports = EmailCampaign;

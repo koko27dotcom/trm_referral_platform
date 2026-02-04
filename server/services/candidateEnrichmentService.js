@@ -4,10 +4,10 @@
  * Extracts skills, estimates salary, calculates hire probability
  */
 
-import OpenAI from 'openai';
-import TalentPool from '../models/TalentPool.js';
-import Job from '../models/Job.js';
-import { AuditLog } from '../models/index.js';
+const OpenAI = require('openai');
+const TalentPool = require('../models/TalentPool.js');
+const Job = require('../models/Job.js');
+const { AuditLog } = require('../models/index.js');
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -549,5 +549,5 @@ class CandidateEnrichmentService {
 }
 
 // Export singleton instance
-export const candidateEnrichmentService = new CandidateEnrichmentService();
-export default CandidateEnrichmentService;
+const candidateEnrichmentService = new CandidateEnrichmentService();
+module.exports = CandidateEnrichmentService;

@@ -4,12 +4,12 @@
  * Supports SEO, media management, and content scheduling
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Content type constants
-export const CONTENT_TYPES = {
+const CONTENT_TYPES = {
   BLOG: 'blog',
   PODCAST: 'podcast',
   VIDEO: 'video',
@@ -19,7 +19,7 @@ export const CONTENT_TYPES = {
 };
 
 // Content status constants
-export const CONTENT_STATUS = {
+const CONTENT_STATUS = {
   DRAFT: 'draft',
   SCHEDULED: 'scheduled',
   PUBLISHED: 'published',
@@ -28,7 +28,7 @@ export const CONTENT_STATUS = {
 };
 
 // Content category constants
-export const CONTENT_CATEGORIES = {
+const CONTENT_CATEGORIES = {
   CAREER_ADVICE: 'career_advice',
   INTERVIEW_TIPS: 'interview_tips',
   RESUME_GUIDE: 'resume_guide',
@@ -626,4 +626,4 @@ ContentSchema.statics.getScheduledForPublishing = async function() {
 
 const Content = mongoose.model('Content', ContentSchema);
 
-export default Content;
+module.exports = Content;

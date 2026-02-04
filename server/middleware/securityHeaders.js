@@ -38,7 +38,7 @@ const buildCSP = (policy) => {
  * @param {Object} options - Configuration options
  * @returns {Function} Express middleware
  */
-export const securityHeaders = (options = {}) => {
+const securityHeaders = (options = {}) => {
   const {
     // HSTS options
     hsts = {
@@ -131,7 +131,7 @@ export const securityHeaders = (options = {}) => {
 /**
  * API-specific security headers (more permissive for API endpoints)
  */
-export const apiSecurityHeaders = securityHeaders({
+const apiSecurityHeaders = securityHeaders({
   csp: null, // Disable CSP for API
   frameOptions: null, // Disable frame options for API
 });
@@ -139,7 +139,7 @@ export const apiSecurityHeaders = securityHeaders({
 /**
  * Static file security headers
  */
-export const staticSecurityHeaders = securityHeaders({
+const staticSecurityHeaders = securityHeaders({
   csp: {
     ...defaultCSP,
     'script-src': ["'self'"],
@@ -152,7 +152,7 @@ export const staticSecurityHeaders = securityHeaders({
  * @param {Object} options - Configuration options
  * @returns {Function} Express middleware
  */
-export const cspReportOnly = (options = {}) => {
+const cspReportOnly = (options = {}) => {
   const { csp = defaultCSP, reportUri = '/api/security/csp-report' } = options;
 
   return (req, res, next) => {
@@ -167,7 +167,7 @@ export const cspReportOnly = (options = {}) => {
  * CORS preflight security headers
  * @returns {Function} Express middleware
  */
-export const corsSecurityHeaders = () => {
+const corsSecurityHeaders = () => {
   return (req, res, next) => {
     // Additional CORS-related security headers
     res.setHeader('Timing-Allow-Origin', '*');
@@ -183,7 +183,7 @@ export const corsSecurityHeaders = () => {
   };
 };
 
-export default {
+module.exports = {
   securityHeaders,
   apiSecurityHeaders,
   staticSecurityHeaders,

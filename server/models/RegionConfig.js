@@ -4,7 +4,7 @@
  * Includes timezone, currency, compliance, and payment provider configurations
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -408,4 +408,4 @@ RegionConfigSchema.methods.getActiveLanguages = function() {
 
 const RegionConfig = mongoose.model('RegionConfig', RegionConfigSchema);
 
-export default RegionConfig;
+module.exports = RegionConfig;

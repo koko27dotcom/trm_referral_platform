@@ -3,11 +3,11 @@
  * Handles notification management and delivery
  */
 
-import express from 'express';
-import { Notification } from '../models/index.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError } from '../middleware/errorHandler.js';
-import { requireAdmin } from '../middleware/rbac.js';
+const express = require('express');
+const { Notification } = require('../models/index.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError } = require('../middleware/errorHandler.js');
+const { requireAdmin } = require('../middleware/rbac.js');
 
 const router = express.Router();
 
@@ -429,4 +429,4 @@ router.delete('/admin/cleanup', authenticate, requireAdmin, asyncHandler(async (
   });
 }));
 
-export default router;
+module.exports = router;

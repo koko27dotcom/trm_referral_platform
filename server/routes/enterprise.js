@@ -4,11 +4,11 @@
  * Handles enterprise dashboard, team management, API keys, webhooks, and more
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { Company, EnterprisePlan, CompanyUser } from '../models/index.js';
-import {
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { Company, EnterprisePlan, CompanyUser } = require('../models/index.js');
+const {
   getEnterpriseDashboard,
   bulkPostJobs,
   generateApiKey,
@@ -28,7 +28,7 @@ import {
   subscribeToPlan,
   getAdvancedReport,
   getSupportContact,
-} from '../services/enterpriseService.js';
+} = require('../services/enterpriseService.js');
 
 const router = express.Router();
 
@@ -638,4 +638,4 @@ router.get('/status', authenticate, async (req, res, next) => {
   }
 });
 
-export default router;
+module.exports = router;

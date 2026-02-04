@@ -3,11 +3,11 @@
  * API routes for managing invoices
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { billingEngine } from '../services/billingEngine.js';
-import { BillingRecord } from '../models/index.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { billingEngine } = require('../services/billingEngine.js');
+const { BillingRecord } = require('../models/index.js');
 
 const router = express.Router();
 
@@ -245,4 +245,4 @@ router.post('/:id/void', authenticate, requireRole('admin'), async (req, res) =>
   }
 });
 
-export default router;
+module.exports = router;

@@ -3,10 +3,10 @@
  * Handles community posts, comments, groups, and feed
  */
 
-import express from 'express';
-import CommunityService from '../services/communityService.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, ForbiddenError } from '../middleware/errorHandler.js';
+const express = require('express');
+const CommunityService = require('../services/communityService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, ForbiddenError } = require('../middleware/errorHandler.js');
 
 const router = express.Router();
 const communityService = new CommunityService();
@@ -471,4 +471,4 @@ router.post('/moderate/remove', authenticate, asyncHandler(async (req, res) => {
   res.json({ success: true, message: 'Content removed' });
 }));
 
-export default router;
+module.exports = router;

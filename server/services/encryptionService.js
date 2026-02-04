@@ -4,8 +4,8 @@
  * Supports field-level encryption for PII and key rotation
  */
 
-import crypto from 'crypto';
-import { EncryptionKey, KEY_TYPES, KEY_STATUS } from '../models/EncryptionKey.js';
+const crypto = require('crypto');
+const { EncryptionKey, KEY_TYPES, KEY_STATUS } = require('../models/EncryptionKey.js');
 
 // Encryption configuration
 const ENCRYPTION_CONFIG = {
@@ -41,7 +41,7 @@ const generateIV = () => {
  * @param {string} keyId - Encryption key ID (optional)
  * @returns {Object} Encrypted data with metadata
  */
-export const encrypt = async (data, keyId = null) => {
+const encrypt = async (data, keyId = null) => {
   try {
     if (!data) return null;
     
@@ -115,7 +115,7 @@ export const encrypt = async (data, keyId = null) => {
  * @param {Object} encryptedData - Encrypted data object
  * @returns {string} Decrypted data
  */
-export const decrypt = async (encryptedData) => {
+const decrypt = async (encryptedData) => {
   try {
     if (!encryptedData || !encryptedData.encrypted) return null;
     
@@ -167,7 +167,7 @@ export const decrypt = async (encryptedData) => {
  * @param {string} keyId - Encryption key ID
  * @returns {Object} Object with encrypted field
  */
-export const encryptField = async (obj, fieldPath, keyId = null) => {
+const encryptField = async (obj, fieldPath, keyId = null) => {
   const keys = fieldPath.split('.');
   let current = obj;
   
@@ -196,7 +196,7 @@ export const encryptField = async (obj, fieldPath, keyId = null) => {
  * @param {string} fieldPath - Path to field
  * @returns {Object} Object with decrypted field
  */
-export const decryptField = async (obj, fieldPath) => {
+const decryptField = async (obj, fieldPath) => {
   const keys = fieldPath.split('.');
   let current = obj;
   
@@ -223,7 +223,7 @@ export const decryptField = async (obj, fieldPath) => {
  * @param {string} keyId - Encryption key ID
  * @returns {Object} Object with encrypted fields
  */
-export const encryptFields = async (obj, fields, keyId = null) => {
+const encryptFields = async (obj, fields, keyId = null) => {
   let result = { ...obj };
   
   for (const field of fields) {
@@ -239,7 +239,7 @@ export const encryptFields = async (obj, fields, keyId = null) => {
  * @param {Array<string>} fields - Array of field paths
  * @returns {Object} Object with decrypted fields
  */
-export const decryptFields = async (obj, fields) => {
+const decryptFields = async (obj, fields) => {
   let result = { ...obj };
   
   for (const field of fields) {
@@ -254,7 +254,7 @@ export const decryptFields = async (obj, fields) => {
  * @param {string} data - Data to hash
  * @returns {string} Hashed value
  */
-export const hash = (data) => {
+const hash = (data) => {
   return crypto.createHash('sha256').update(String(data)).digest('hex');
 };
 
@@ -264,7 +264,7 @@ export const hash = (data) => {
  * @param {string} salt - Salt value
  * @returns {string} Hashed value
  */
-export const hashWithSalt = (data, salt) => {
+const hashWithSalt = (data, salt) => {
   return crypto.pbkdf2Sync(String(data), salt, 100000, 64, 'sha512').toString('hex');
 };
 
@@ -273,7 +273,7 @@ export const hashWithSalt = (data, salt) => {
  * @param {number} length - Length of string
  * @returns {string}
  */
-export const generateRandomString = (length = 32) => {
+const generateRandomString = (length = 32) => {
   return crypto.randomBytes(Math.ceil(length / 2))
     .toString('hex')
     .slice(0, length);
@@ -283,7 +283,7 @@ export const generateRandomString = (length = 32) => {
  * Generate UUID v4
  * @returns {string}
  */
-export const generateUUID = () => {
+const generateUUID = () => {
   return crypto.randomUUID();
 };
 
@@ -294,7 +294,7 @@ export const generateUUID = () => {
  * @param {string} salt - Salt used for hashing
  * @returns {boolean}
  */
-export const compareHash = (data, hash, salt) => {
+const compareHash = (data, hash, salt) => {
   const computedHash = hashWithSalt(data, salt);
   return crypto.timingSafeEqual(
     Buffer.from(computedHash),
@@ -308,7 +308,7 @@ export const compareHash = (data, hash, salt) => {
  * @param {string} keyId - Encryption key ID
  * @returns {Object} Encrypted file data
  */
-export const encryptFile = async (fileBuffer, keyId = null) => {
+const encryptFile = async (fileBuffer, keyId = null) => {
   try {
     const key = keyId 
       ? await EncryptionKey.findOne({ keyId })
@@ -358,7 +358,7 @@ export const encryptFile = async (fileBuffer, keyId = null) => {
  * @param {Object} encryptedFile - Encrypted file object
  * @returns {Buffer} Decrypted file buffer
  */
-export const decryptFile = async (encryptedFile) => {
+const decryptFile = async (encryptedFile) => {
   try {
     const { data, iv, authTag, salt, keyId } = encryptedFile;
     
@@ -398,7 +398,7 @@ export const decryptFile = async (encryptedFile) => {
  * @param {string} userId - User performing rotation
  * @returns {Promise<Object>} New key
  */
-export const rotateKey = async (oldKeyId, userId) => {
+const rotateKey = async (oldKeyId, userId) => {
   try {
     const newKey = await EncryptionKey.rotateKey(oldKeyId, userId, 'Scheduled key rotation');
     return newKey;
@@ -412,7 +412,7 @@ export const rotateKey = async (oldKeyId, userId) => {
  * Get encryption statistics
  * @returns {Promise<Object>}
  */
-export const getEncryptionStats = async () => {
+const getEncryptionStats = async () => {
   const keys = await EncryptionKey.find();
   
   return {
@@ -431,7 +431,7 @@ export const getEncryptionStats = async () => {
 /**
  * PII fields configuration for automatic encryption
  */
-export const PII_FIELDS = {
+const PII_FIELDS = {
   User: [
     'email',
     'phone',
@@ -468,7 +468,7 @@ export const PII_FIELDS = {
  * @param {string} modelName - Model name
  * @returns {Promise<Object>} Document with encrypted PII
  */
-export const encryptPII = async (doc, modelName) => {
+const encryptPII = async (doc, modelName) => {
   const fields = PII_FIELDS[modelName];
   if (!fields) return doc;
   
@@ -481,14 +481,14 @@ export const encryptPII = async (doc, modelName) => {
  * @param {string} modelName - Model name
  * @returns {Promise<Object>} Document with decrypted PII
  */
-export const decryptPII = async (doc, modelName) => {
+const decryptPII = async (doc, modelName) => {
   const fields = PII_FIELDS[modelName];
   if (!fields) return doc;
   
   return decryptFields(doc, fields);
 };
 
-export default {
+module.exports = {
   encrypt,
   decrypt,
   encryptField,

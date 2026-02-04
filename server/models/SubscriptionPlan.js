@@ -4,7 +4,7 @@
  * Includes pricing, features, and limits for each plan
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -477,4 +477,4 @@ SubscriptionPlanSchema.statics.seedDefaultPlans = async function() {
 // Create and export the model
 const SubscriptionPlan = mongoose.model('SubscriptionPlan', SubscriptionPlanSchema);
 
-export default SubscriptionPlan;
+module.exports = SubscriptionPlan;

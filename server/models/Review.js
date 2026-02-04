@@ -4,12 +4,12 @@
  * Supports helpful votes and moderation
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Review category constants
-export const REVIEW_CATEGORIES = {
+const REVIEW_CATEGORIES = {
   REFERRER: 'referrer',
   COMPANY: 'company',
   JOB: 'job',
@@ -18,7 +18,7 @@ export const REVIEW_CATEGORIES = {
 };
 
 // Review status constants
-export const REVIEW_STATUS = {
+const REVIEW_STATUS = {
   PENDING: 'pending',
   PUBLISHED: 'published',
   FLAGGED: 'flagged',
@@ -27,7 +27,7 @@ export const REVIEW_STATUS = {
 };
 
 // Reviewee type constants
-export const REVIEWEE_TYPE = {
+const REVIEWEE_TYPE = {
   USER: 'user',
   COMPANY: 'company',
   JOB: 'job',
@@ -563,4 +563,4 @@ ReviewSchema.statics.getFlagged = async function(limit = 20, skip = 0) {
 
 const Review = mongoose.model('Review', ReviewSchema);
 
-export default Review;
+module.exports = Review;

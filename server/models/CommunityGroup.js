@@ -4,12 +4,12 @@
  * Supports different categories, privacy settings, and moderation
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Group category constants
-export const GROUP_CATEGORIES = {
+const GROUP_CATEGORIES = {
   INDUSTRY: 'industry',
   ROLE: 'role',
   LOCATION: 'location',
@@ -19,7 +19,7 @@ export const GROUP_CATEGORIES = {
 };
 
 // Group status constants
-export const GROUP_STATUS = {
+const GROUP_STATUS = {
   ACTIVE: 'active',
   INACTIVE: 'inactive',
   SUSPENDED: 'suspended',
@@ -27,14 +27,14 @@ export const GROUP_STATUS = {
 };
 
 // Member role constants
-export const MEMBER_ROLES = {
+const MEMBER_ROLES = {
   MEMBER: 'member',
   MODERATOR: 'moderator',
   ADMIN: 'admin',
 };
 
 // Membership request status
-export const MEMBERSHIP_STATUS = {
+const MEMBERSHIP_STATUS = {
   PENDING: 'pending',
   APPROVED: 'approved',
   REJECTED: 'rejected',
@@ -526,4 +526,4 @@ CommunityGroupSchema.statics.search = async function(query, options = {}) {
 
 const CommunityGroup = mongoose.model('CommunityGroup', CommunityGroupSchema);
 
-export default CommunityGroup;
+module.exports = CommunityGroup;

@@ -3,12 +3,12 @@
  * API routes for managing pay-per-hire transactions and billing
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { payPerHireService } from '../services/payPerHireService.js';
-import { billingEngine } from '../services/billingEngine.js';
-import { PayPerHireTransaction } from '../models/index.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { payPerHireService } = require('../services/payPerHireService.js');
+const { billingEngine } = require('../services/billingEngine.js');
+const { PayPerHireTransaction } = require('../models/index.js');
 
 const router = express.Router();
 
@@ -473,4 +473,4 @@ router.post('/admin/generate-invoices', authenticate, requireRole('admin'), asyn
   }
 });
 
-export default router;
+module.exports = router;

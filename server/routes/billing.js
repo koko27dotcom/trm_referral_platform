@@ -3,12 +3,12 @@
  * API routes for managing billing, payments, and payment methods
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { billingEngine } from '../services/billingEngine.js';
-import { paymentGatewayService } from '../services/paymentGatewayService.js';
-import { BillingRecord, Company, User } from '../models/index.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { billingEngine } = require('../services/billingEngine.js');
+const { paymentGatewayService } = require('../services/paymentGatewayService.js');
+const { BillingRecord, Company, User } = require('../models/index.js');
 
 const router = express.Router();
 
@@ -546,4 +546,4 @@ router.post('/admin/refund', authenticate, requireRole('admin'), async (req, res
   }
 });
 
-export default router;
+module.exports = router;

@@ -3,13 +3,13 @@
  * Validates partner access and attaches partner to request
  */
 
-import Partner from '../models/Partner.js';
+const Partner = require('../models/Partner.js');
 
 /**
  * Middleware to validate partner authentication
  * Requires user to be authenticated first (use after requireAuth)
  */
-export const partnerAuth = async (req, res, next) => {
+const partnerAuth = async (req, res, next) => {
   try {
     // Check if user is authenticated
     if (!req.user) {
@@ -58,7 +58,7 @@ export const partnerAuth = async (req, res, next) => {
  * Middleware to require active partner status
  * Use for routes that require fully approved partner access
  */
-export const requireActivePartner = async (req, res, next) => {
+const requireActivePartner = async (req, res, next) => {
   try {
     if (!req.partner) {
       return res.status(403).json({
@@ -88,7 +88,7 @@ export const requireActivePartner = async (req, res, next) => {
  * Middleware to check partner tier
  * @param {string[]} allowedTiers - Array of allowed tier names
  */
-export const requireTier = (allowedTiers) => {
+const requireTier = (allowedTiers) => {
   return async (req, res, next) => {
     try {
       if (!req.partner) {
@@ -120,7 +120,7 @@ export const requireTier = (allowedTiers) => {
  * Middleware to check white-label access
  * Requires Silver tier or higher
  */
-export const requireWhiteLabelAccess = async (req, res, next) => {
+const requireWhiteLabelAccess = async (req, res, next) => {
   try {
     if (!req.partner) {
       return res.status(403).json({
@@ -151,7 +151,7 @@ export const requireWhiteLabelAccess = async (req, res, next) => {
 /**
  * Middleware to check API access tier
  */
-export const requireApiAccess = async (req, res, next) => {
+const requireApiAccess = async (req, res, next) => {
   try {
     if (!req.partner) {
       return res.status(403).json({
@@ -176,7 +176,7 @@ export const requireApiAccess = async (req, res, next) => {
  * Middleware to validate affiliate code
  * Used for public affiliate link tracking
  */
-export const validateAffiliateCode = async (req, res, next) => {
+const validateAffiliateCode = async (req, res, next) => {
   try {
     const { code } = req.params;
 
@@ -210,4 +210,4 @@ export const validateAffiliateCode = async (req, res, next) => {
   }
 };
 
-export default partnerAuth;
+module.exports = partnerAuth;

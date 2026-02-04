@@ -4,7 +4,7 @@
  * Supports agencies, consultants, technology partners, and influencers
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -456,4 +456,4 @@ PartnerSchema.pre('save', function(next) {
 
 const Partner = mongoose.model('Partner', PartnerSchema);
 
-export default Partner;
+module.exports = Partner;

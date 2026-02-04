@@ -3,14 +3,14 @@
  * Manages leaderboard rankings, calculations, and rewards
  */
 
-import LeaderboardEntry, { 
+const LeaderboardEntry = require 
   LEADERBOARD_PERIODS, 
   LEADERBOARD_CATEGORIES,
   RANK_CHANGE 
-} from '../models/LeaderboardEntry.js';
-import GamificationProfile from '../models/GamificationProfile.js';
-import User from '../models/User.js';
-import Notification from '../models/Notification.js';
+} = require('../models/LeaderboardEntry.js');
+const GamificationProfile = require('../models/GamificationProfile.js');
+const User = require('../models/User.js');
+const Notification = require('../models/Notification.js');
 
 class LeaderboardService {
   constructor() {
@@ -537,5 +537,5 @@ class LeaderboardService {
   }
 }
 
-export const leaderboardService = new LeaderboardService();
-export default leaderboardService;
+const leaderboardService = new LeaderboardService();
+module.exports = leaderboardService;

@@ -4,8 +4,8 @@
  * Prevents injection attacks and ensures data integrity
  */
 
-import { ValidationError } from './errorHandler.js';
-import securityService from '../services/securityService.js';
+const { ValidationError } = require('./errorHandler.js');
+const securityService = require('../services/securityService.js');
 
 // Validation patterns
 const PATTERNS = {
@@ -36,7 +36,7 @@ const MAX_LENGTHS = {
  * @param {Object} options - Sanitization options
  * @returns {string}
  */
-export const sanitizeString = (value, options = {}) => {
+const sanitizeString = (value, options = {}) => {
   if (value === null || value === undefined) {
     return value;
   }
@@ -74,7 +74,7 @@ export const sanitizeString = (value, options = {}) => {
  * @param {string} email - Email to validate
  * @returns {Object}
  */
-export const validateEmail = (email) => {
+const validateEmail = (email) => {
   const sanitized = sanitizeString(email, { lowercase: true, trim: true });
   
   if (!sanitized) {
@@ -97,7 +97,7 @@ export const validateEmail = (email) => {
  * @param {string} password - Password to validate
  * @returns {Object}
  */
-export const validatePassword = (password) => {
+const validatePassword = (password) => {
   if (!password) {
     return { valid: false, error: 'Password is required' };
   }
@@ -131,7 +131,7 @@ export const validatePassword = (password) => {
  * @param {string} phone - Phone to validate
  * @returns {Object}
  */
-export const validatePhone = (phone) => {
+const validatePhone = (phone) => {
   const sanitized = sanitizeString(phone, { trim: true });
   
   if (!sanitized) {
@@ -154,7 +154,7 @@ export const validatePhone = (phone) => {
  * @param {string} id - ID to validate
  * @returns {Object}
  */
-export const validateObjectId = (id) => {
+const validateObjectId = (id) => {
   if (!id) {
     return { valid: false, error: 'ID is required' };
   }
@@ -171,7 +171,7 @@ export const validateObjectId = (id) => {
  * @param {string} url - URL to validate
  * @returns {Object}
  */
-export const validateURL = (url) => {
+const validateURL = (url) => {
   const sanitized = sanitizeString(url, { trim: true });
   
   if (!sanitized) {
@@ -196,7 +196,7 @@ export const validateURL = (url) => {
  * @param {Object} options - Validation options
  * @returns {Object}
  */
-export const validateLength = (value, options = {}) => {
+const validateLength = (value, options = {}) => {
   const { min = 0, max = Infinity, field = 'Field' } = options;
   
   if (!value && min > 0) {
@@ -221,7 +221,7 @@ export const validateLength = (value, options = {}) => {
  * @param {Object} data - Data to check
  * @returns {Object}
  */
-export const checkInjection = (data) => {
+const checkInjection = (data) => {
   const issues = [];
   
   const checkValue = (value, path) => {
@@ -260,7 +260,7 @@ export const checkInjection = (data) => {
  * @param {Object} schema - Validation schema
  * @returns {Function} Express middleware
  */
-export const validateBody = (schema) => {
+const validateBody = (schema) => {
   return (req, res, next) => {
     try {
       const errors = [];
@@ -396,7 +396,7 @@ export const validateBody = (schema) => {
  * @param {Object} schema - Validation schema
  * @returns {Function} Express middleware
  */
-export const validateParams = (schema) => {
+const validateParams = (schema) => {
   return (req, res, next) => {
     try {
       const errors = [];
@@ -439,7 +439,7 @@ export const validateParams = (schema) => {
  * @param {Object} schema - Validation schema
  * @returns {Function} Express middleware
  */
-export const validateQuery = (schema) => {
+const validateQuery = (schema) => {
   return (req, res, next) => {
     try {
       const errors = [];
@@ -511,7 +511,7 @@ export const validateQuery = (schema) => {
  * Sanitize all string inputs in request
  * @returns {Function} Express middleware
  */
-export const sanitizeRequest = () => {
+const sanitizeRequest = () => {
   return (req, res, next) => {
     // Sanitize body
     if (req.body && typeof req.body === 'object') {
@@ -570,7 +570,7 @@ const sanitizeValue = (value) => {
   return value;
 };
 
-export default {
+module.exports = {
   sanitizeString,
   validateEmail,
   validatePassword,

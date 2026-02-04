@@ -4,7 +4,7 @@
  * Supports 100,000+ candidates with efficient indexing
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -380,4 +380,4 @@ TalentPoolSchema.methods.enrich = function(enrichmentData) {
 
 const TalentPool = mongoose.model('TalentPool', TalentPoolSchema);
 
-export default TalentPool;
+module.exports = TalentPool;

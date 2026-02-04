@@ -4,8 +4,8 @@
  * Handles surge pricing, volume discounts, category-based pricing, and promotional codes
  */
 
-import { PricingRule, PromotionalCode, Job, Company, Subscription } from '../models/index.js';
-import mongoose from 'mongoose';
+const { PricingRule, PromotionalCode, Job, Company, Subscription } = require('../models/index.js');
+const mongoose = require('mongoose');
 
 // Myanmar timezone configuration
 const MYANMAR_TIMEZONE = 'Asia/Yangon';
@@ -761,7 +761,6 @@ async function initializeDefaultPricingRules() {
 }
 
 // Export all functions
-export {
   calculateJobPostingPrice,
   calculateBasePrice,
   calculateSurgePricing,
@@ -784,7 +783,7 @@ export {
 };
 
 // Default export
-export default {
+module.exports = {
   calculateJobPostingPrice,
   calculateBasePrice,
   calculateSurgePricing,

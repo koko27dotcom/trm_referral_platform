@@ -4,13 +4,13 @@
  * Implements stealth mode, proxy rotation, and rate limiting
  */
 
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
-import { executablePath } from 'puppeteer';
-import TalentPool from '../models/TalentPool.js';
-import CandidateSource from '../models/CandidateSource.js';
-import { AuditLog } from '../models/index.js';
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
+const { executablePath } = require('puppeteer');
+const TalentPool = require('../models/TalentPool.js');
+const CandidateSource = require('../models/CandidateSource.js');
+const { AuditLog } = require('../models/index.js');
 
 // Add stealth plugin to puppeteer
 puppeteer.use(StealthPlugin());
@@ -551,5 +551,5 @@ class TalentScraperService {
 }
 
 // Export singleton instance
-export const talentScraperService = new TalentScraperService();
-export default TalentScraperService;
+const talentScraperService = new TalentScraperService();
+module.exports = TalentScraperService;

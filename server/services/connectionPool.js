@@ -4,8 +4,8 @@
  * Features: Connection pooling, health monitoring, auto-scaling, failover, metrics tracking
  */
 
-import { EventEmitter } from 'events';
-import mongoose from 'mongoose';
+const { EventEmitter } = require('events');
+const mongoose = require('mongoose');
 
 // Configuration with environment variable defaults
 const CONFIG = {
@@ -878,5 +878,4 @@ class ConnectionPoolService extends EventEmitter {
 // Export singleton instance
 const connectionPoolService = new ConnectionPoolService();
 
-export default connectionPoolService;
-export { ConnectionPoolService, PooledConnection };
+module.exports = connectionPoolService;

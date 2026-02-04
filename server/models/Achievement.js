@@ -3,12 +3,12 @@
  * Defines trackable achievements with progress tracking and rewards
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Achievement categories
-export const ACHIEVEMENT_CATEGORIES = {
+const ACHIEVEMENT_CATEGORIES = {
   REFERRAL: 'referral',
   HIRING: 'hiring',
   NETWORKING: 'networking',
@@ -21,7 +21,7 @@ export const ACHIEVEMENT_CATEGORIES = {
 };
 
 // Criteria operators
-export const CRITERIA_OPERATORS = {
+const CRITERIA_OPERATORS = {
   EQUALS: 'eq',
   GREATER_THAN: 'gt',
   GREATER_THAN_EQUAL: 'gte',
@@ -32,7 +32,7 @@ export const CRITERIA_OPERATORS = {
 };
 
 // Predefined achievements
-export const PREDEFINED_ACHIEVEMENTS = [
+const PREDEFINED_ACHIEVEMENTS = [
   // Profile Achievements
   {
     achievementId: 'complete_profile',
@@ -650,4 +650,4 @@ AchievementSchema.statics.getCheckableAchievements = async function(userProfile)
 
 const Achievement = mongoose.model('Achievement', AchievementSchema);
 
-export default Achievement;
+module.exports = Achievement;

@@ -4,7 +4,7 @@
  * Tracks billing period, status, and renewal information
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -529,4 +529,4 @@ SubscriptionSchema.statics.createSubscription = async function(data) {
 // Create and export the model
 const Subscription = mongoose.model('Subscription', SubscriptionSchema);
 
-export default Subscription;
+module.exports = Subscription;

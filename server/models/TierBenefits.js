@@ -4,7 +4,7 @@
  * Supports dynamic tier configuration and benefit management
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -576,4 +576,4 @@ TierBenefitsSchema.statics.initializeDefaultTiers = async function() {
 // Create and export the model
 const TierBenefits = mongoose.model('TierBenefits', TierBenefitsSchema);
 
-export default TierBenefits;
+module.exports = TierBenefits;

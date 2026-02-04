@@ -4,12 +4,12 @@
  * Supports multiple notification types and delivery channels
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Notification type constants
-export const NOTIFICATION_TYPES = {
+const NOTIFICATION_TYPES = {
   // Referral-related
   REFERRAL_SUBMITTED: 'referral_submitted',
   REFERRAL_STATUS_CHANGED: 'referral_status_changed',
@@ -56,7 +56,7 @@ export const NOTIFICATION_TYPES = {
 };
 
 // Notification priority levels
-export const NOTIFICATION_PRIORITY = {
+const NOTIFICATION_PRIORITY = {
   LOW: 'low',
   NORMAL: 'normal',
   HIGH: 'high',
@@ -64,7 +64,7 @@ export const NOTIFICATION_PRIORITY = {
 };
 
 // Notification channels
-export const NOTIFICATION_CHANNELS = {
+const NOTIFICATION_CHANNELS = {
   IN_APP: 'in_app',
   EMAIL: 'email',
   SMS: 'sms',
@@ -427,4 +427,4 @@ NotificationSchema.statics.getByType = function(type, options = {}) {
 // Create and export the model
 const Notification = mongoose.model('Notification', NotificationSchema);
 
-export default Notification;
+module.exports = Notification;

@@ -4,7 +4,7 @@
  * Supports percentage and fixed amount discounts with usage limits
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -557,4 +557,4 @@ PromotionalCodeSchema.pre('save', function(next) {
 
 const PromotionalCode = mongoose.model('PromotionalCode', PromotionalCodeSchema);
 
-export default PromotionalCode;
+module.exports = PromotionalCode;

@@ -4,7 +4,7 @@
  * Manages commission calculations and payouts for partner-generated referrals
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -517,4 +517,4 @@ PartnerReferralSchema.statics.findByTrackingCode = function(code) {
 
 const PartnerReferral = mongoose.model('PartnerReferral', PartnerReferralSchema);
 
-export default PartnerReferral;
+module.exports = PartnerReferral;

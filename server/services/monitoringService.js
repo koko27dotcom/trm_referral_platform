@@ -4,12 +4,12 @@
  * Features: Health checks, dependency monitoring, service status, log aggregation
  */
 
-import { EventEmitter } from 'events';
-import mongoose from 'mongoose';
-import os from 'os';
-import performanceMonitor from './performanceMonitor.js';
-import cacheService from './cacheService.js';
-import connectionPoolService from './connectionPool.js';
+const { EventEmitter } = require('events');
+const mongoose = require('mongoose');
+const os = require('os');
+const performanceMonitor = require('./performanceMonitor.js');
+const cacheService = require('./cacheService.js');
+const connectionPoolService = require('./connectionPool.js');
 
 // Configuration
 const CONFIG = {
@@ -836,8 +836,7 @@ class MonitoringService extends EventEmitter {
 
 // Export singleton instance
 const monitoringService = new MonitoringService();
-export default monitoringService;
-export { 
+module.exports = monitoringService;
   MonitoringService, 
   LogBuffer, 
   ExternalServiceChecker, 

@@ -4,7 +4,7 @@
  * Includes plugin management, versioning, and developer revenue sharing
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -684,4 +684,4 @@ PluginSchema.statics.getDeveloperStats = async function(userId) {
 
 const Plugin = mongoose.model('Plugin', PluginSchema);
 
-export default Plugin;
+module.exports = Plugin;

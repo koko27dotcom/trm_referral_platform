@@ -4,12 +4,12 @@
  * Features: Health monitoring, metrics export, service status, log aggregation
  */
 
-import express from 'express';
-import monitoringService from '../services/monitoringService.js';
-import performanceMonitor from '../services/performanceMonitor.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import { authenticate } from '../middleware/auth.js';
-import { requireAdmin } from '../middleware/rbac.js';
+const express = require('express');
+const monitoringService = require('../services/monitoringService.js');
+const performanceMonitor = require('../services/performanceMonitor.js');
+const { asyncHandler } = require('../middleware/errorHandler.js');
+const { authenticate } = require('../middleware/auth.js');
+const { requireAdmin } = require('../middleware/rbac.js');
 
 const router = express.Router();
 
@@ -358,4 +358,4 @@ function formatDuration(ms) {
   return `${(ms / 60 / 60 / 1000).toFixed(1)}h`;
 }
 
-export default router;
+module.exports = router;

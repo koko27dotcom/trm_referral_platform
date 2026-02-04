@@ -4,7 +4,7 @@
  * Used for AI-powered job-candidate matching algorithm
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -49,7 +49,7 @@ const FactorScoreSchema = new Schema({
 }, { _id: false });
 
 // Match score status constants
-export const MATCH_SCORE_STATUS = {
+const MATCH_SCORE_STATUS = {
   CALCULATED: 'calculated',
   VIEWED: 'viewed',
   REFERRED: 'referred',
@@ -554,4 +554,4 @@ MatchScoreSchema.statics.cleanupExpired = async function() {
 // Create and export the model
 const MatchScore = mongoose.model('MatchScore', MatchScoreSchema);
 
-export default MatchScore;
+module.exports = MatchScore;

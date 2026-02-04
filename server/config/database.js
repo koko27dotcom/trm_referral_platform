@@ -4,7 +4,7 @@
  * Includes connection pooling, error handling, and reconnection logic
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 // Connection options for production-ready MongoDB connection
 const connectionOptions = {
@@ -18,7 +18,7 @@ const connectionOptions = {
  * Connect to MongoDB database
  * @returns {Promise<typeof mongoose>} Mongoose connection instance
  */
-export const connectDatabase = async () => {
+const connectDatabase = async () => {
   try {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/saramart-referral';
     
@@ -42,7 +42,7 @@ export const connectDatabase = async () => {
  * Disconnect from MongoDB database
  * Used for graceful shutdown
  */
-export const disconnectDatabase = async () => {
+const disconnectDatabase = async () => {
   try {
     await mongoose.connection.close();
     console.log('MongoDB Disconnected');
@@ -56,7 +56,7 @@ export const disconnectDatabase = async () => {
  * Check if database connection is healthy
  * @returns {boolean} Connection status
  */
-export const isDatabaseConnected = () => {
+const isDatabaseConnected = () => {
   return mongoose.connection.readyState === 1; // 1 = connected
 };
 
@@ -64,7 +64,7 @@ export const isDatabaseConnected = () => {
  * Get database connection stats
  * @returns {Object} Connection statistics
  */
-export const getConnectionStats = () => {
+const getConnectionStats = () => {
   return {
     readyState: mongoose.connection.readyState,
     host: mongoose.connection.host,
@@ -98,4 +98,4 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
-export default mongoose;
+module.exports = mongoose;

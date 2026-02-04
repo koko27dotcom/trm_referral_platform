@@ -9,7 +9,7 @@
  * @param {string} chars - Characters to use
  * @returns {string}
  */
-export const generateRandomString = (length = 10, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => {
+const generateRandomString = (length = 10, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => {
   let result = '';
   for (let i = 0; i < length; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -23,7 +23,7 @@ export const generateRandomString = (length = 10, chars = 'ABCDEFGHIJKLMNOPQRSTU
  * @param {number} length - Length of random part
  * @returns {string}
  */
-export const generateCode = (prefix, length = 8) => {
+const generateCode = (prefix, length = 8) => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return `${prefix}-${generateRandomString(length, chars)}`;
 };
@@ -34,7 +34,7 @@ export const generateCode = (prefix, length = 8) => {
  * @param {string} currency - Currency code
  * @returns {string}
  */
-export const formatCurrency = (amount, currency = 'MMK') => {
+const formatCurrency = (amount, currency = 'MMK') => {
   return `${amount.toLocaleString()} ${currency}`;
 };
 
@@ -44,7 +44,7 @@ export const formatCurrency = (amount, currency = 'MMK') => {
  * @param {Object} options - Intl.DateTimeFormat options
  * @returns {string}
  */
-export const formatDate = (date, options = {}) => {
+const formatDate = (date, options = {}) => {
   const d = new Date(date);
   const defaultOptions = {
     year: 'numeric',
@@ -60,7 +60,7 @@ export const formatDate = (date, options = {}) => {
  * @param {Date|string} date - Date to format
  * @returns {string}
  */
-export const formatDateTime = (date) => {
+const formatDateTime = (date) => {
   const d = new Date(date);
   return d.toLocaleString('en-US', {
     year: 'numeric',
@@ -76,7 +76,7 @@ export const formatDateTime = (date) => {
  * @param {Date|string} date - Date to compare
  * @returns {string}
  */
-export const timeAgo = (date) => {
+const timeAgo = (date) => {
   const seconds = Math.floor((new Date() - new Date(date)) / 1000);
   
   let interval = seconds / 31536000;
@@ -102,7 +102,7 @@ export const timeAgo = (date) => {
  * @param {string} str - String to sanitize
  * @returns {string}
  */
-export const sanitizeString = (str) => {
+const sanitizeString = (str) => {
   if (!str) return '';
   return str
     .trim()
@@ -118,7 +118,7 @@ export const sanitizeString = (str) => {
  * @param {string} text - Text to slugify
  * @returns {string}
  */
-export const slugify = (text) => {
+const slugify = (text) => {
   return text
     .toString()
     .toLowerCase()
@@ -134,7 +134,7 @@ export const slugify = (text) => {
  * @param {string} email - Email to validate
  * @returns {boolean}
  */
-export const isValidEmail = (email) => {
+const isValidEmail = (email) => {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
 };
@@ -144,7 +144,7 @@ export const isValidEmail = (email) => {
  * @param {string} phone - Phone number to validate
  * @returns {boolean}
  */
-export const isValidMyanmarPhone = (phone) => {
+const isValidMyanmarPhone = (phone) => {
   // Myanmar phone numbers: +95 9xxx xxx xxx or 09xxx xxx xxx
   const re = /^(\+95|09)\d{8,10}$/;
   return re.test(phone.replace(/\s/g, ''));
@@ -157,7 +157,7 @@ export const isValidMyanmarPhone = (phone) => {
  * @param {number} visibleEnd - Characters to show at end
  * @returns {string}
  */
-export const maskSensitiveData = (data, visibleStart = 3, visibleEnd = 3) => {
+const maskSensitiveData = (data, visibleStart = 3, visibleEnd = 3) => {
   if (!data || data.length <= visibleStart + visibleEnd) return data;
   
   const start = data.substring(0, visibleStart);
@@ -172,7 +172,7 @@ export const maskSensitiveData = (data, visibleStart = 3, visibleEnd = 3) => {
  * @param {Object} obj - Object to clone
  * @returns {Object}
  */
-export const deepClone = (obj) => {
+const deepClone = (obj) => {
   return JSON.parse(JSON.stringify(obj));
 };
 
@@ -182,7 +182,7 @@ export const deepClone = (obj) => {
  * @param {Array} keys - Keys to pick
  * @returns {Object}
  */
-export const pick = (obj, keys) => {
+const pick = (obj, keys) => {
   return keys.reduce((acc, key) => {
     if (obj.hasOwnProperty(key)) {
       acc[key] = obj[key];
@@ -197,7 +197,7 @@ export const pick = (obj, keys) => {
  * @param {Array} keys - Keys to omit
  * @returns {Object}
  */
-export const omit = (obj, keys) => {
+const omit = (obj, keys) => {
   const result = { ...obj };
   keys.forEach(key => delete result[key]);
   return result;
@@ -210,7 +210,7 @@ export const omit = (obj, keys) => {
  * @param {number} limit - Items per page
  * @returns {Object}
  */
-export const paginateArray = (array, page = 1, limit = 10) => {
+const paginateArray = (array, page = 1, limit = 10) => {
   const start = (page - 1) * limit;
   const end = start + limit;
   
@@ -232,7 +232,7 @@ export const paginateArray = (array, page = 1, limit = 10) => {
  * @param {number} decimals - Decimal places
  * @returns {number}
  */
-export const calculatePercentage = (value, total, decimals = 2) => {
+const calculatePercentage = (value, total, decimals = 2) => {
   if (total === 0) return 0;
   return parseFloat(((value / total) * 100).toFixed(decimals));
 };
@@ -243,7 +243,7 @@ export const calculatePercentage = (value, total, decimals = 2) => {
  * @param {number} decimals - Decimal places
  * @returns {number}
  */
-export const round = (num, decimals = 0) => {
+const round = (num, decimals = 0) => {
   const factor = Math.pow(10, decimals);
   return Math.round(num * factor) / factor;
 };
@@ -254,7 +254,7 @@ export const round = (num, decimals = 0) => {
  * @param {number} max - Maximum value
  * @returns {number}
  */
-export const randomNumber = (min, max) => {
+const randomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
@@ -263,7 +263,7 @@ export const randomNumber = (min, max) => {
  * @param {number} ms - Milliseconds to delay
  * @returns {Promise}
  */
-export const delay = (ms) => {
+const delay = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
@@ -274,7 +274,7 @@ export const delay = (ms) => {
  * @param {number} delayMs - Delay between retries
  * @returns {Promise}
  */
-export const retry = async (fn, retries = 3, delayMs = 1000) => {
+const retry = async (fn, retries = 3, delayMs = 1000) => {
   try {
     return await fn();
   } catch (error) {
@@ -290,7 +290,7 @@ export const retry = async (fn, retries = 3, delayMs = 1000) => {
  * @param {number} wait - Wait time in milliseconds
  * @returns {Function}
  */
-export const debounce = (func, wait = 300) => {
+const debounce = (func, wait = 300) => {
   let timeout;
   return function executedFunction(...args) {
     const later = () => {
@@ -308,7 +308,7 @@ export const debounce = (func, wait = 300) => {
  * @param {number} limit - Limit in milliseconds
  * @returns {Function}
  */
-export const throttle = (func, limit = 300) => {
+const throttle = (func, limit = 300) => {
   let inThrottle;
   return function executedFunction(...args) {
     if (!inThrottle) {
@@ -325,7 +325,7 @@ export const throttle = (func, limit = 300) => {
  * @param {string} key - Key to group by
  * @returns {Object}
  */
-export const groupBy = (array, key) => {
+const groupBy = (array, key) => {
   return array.reduce((acc, item) => {
     const group = item[key];
     if (!acc[group]) acc[group] = [];
@@ -341,7 +341,7 @@ export const groupBy = (array, key) => {
  * @param {string} order - 'asc' or 'desc'
  * @returns {Array}
  */
-export const sortBy = (array, key, order = 'asc') => {
+const sortBy = (array, key, order = 'asc') => {
   return [...array].sort((a, b) => {
     if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
     if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
@@ -355,7 +355,7 @@ export const sortBy = (array, key, order = 'asc') => {
  * @param {string} key - Optional key for object arrays
  * @returns {Array}
  */
-export const unique = (array, key = null) => {
+const unique = (array, key = null) => {
   if (key) {
     const seen = new Set();
     return array.filter(item => {
@@ -374,7 +374,7 @@ export const unique = (array, key = null) => {
  * @param {number} size - Chunk size
  * @returns {Array}
  */
-export const chunk = (array, size) => {
+const chunk = (array, size) => {
   const chunks = [];
   for (let i = 0; i < array.length; i += size) {
     chunks.push(array.slice(i, i + size));
@@ -388,7 +388,7 @@ export const chunk = (array, size) => {
  * @param {*} defaultValue - Default value if parsing fails
  * @returns {*}
  */
-export const safeJsonParse = (json, defaultValue = null) => {
+const safeJsonParse = (json, defaultValue = null) => {
   try {
     return JSON.parse(json);
   } catch (e) {
@@ -402,7 +402,7 @@ export const safeJsonParse = (json, defaultValue = null) => {
  * @param {string} defaultValue - Default value if stringification fails
  * @returns {string}
  */
-export const safeJsonStringify = (value, defaultValue = '{}') => {
+const safeJsonStringify = (value, defaultValue = '{}') => {
   try {
     return JSON.stringify(value);
   } catch (e) {
@@ -415,7 +415,7 @@ export const safeJsonStringify = (value, defaultValue = '{}') => {
  * @param {Object} params - Object to convert
  * @returns {string}
  */
-export const toQueryString = (params) => {
+const toQueryString = (params) => {
   return Object.keys(params)
     .filter(key => params[key] !== undefined && params[key] !== null)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -427,7 +427,7 @@ export const toQueryString = (params) => {
  * @param {string} queryString - Query string to parse
  * @returns {Object}
  */
-export const parseQueryString = (queryString) => {
+const parseQueryString = (queryString) => {
   const params = new URLSearchParams(queryString);
   const result = {};
   for (const [key, value] of params) {
@@ -441,7 +441,7 @@ export const parseQueryString = (queryString) => {
  * @param {string} filename - Filename
  * @returns {string}
  */
-export const getFileExtension = (filename) => {
+const getFileExtension = (filename) => {
   return filename.slice((filename.lastIndexOf('.') - 1 >>> 0) + 2);
 };
 
@@ -450,7 +450,7 @@ export const getFileExtension = (filename) => {
  * @param {string} originalName - Original filename
  * @returns {string}
  */
-export const generateSecureFilename = (originalName) => {
+const generateSecureFilename = (originalName) => {
   const ext = getFileExtension(originalName);
   const timestamp = Date.now();
   const random = generateRandomString(8);
@@ -463,7 +463,7 @@ export const generateSecureFilename = (originalName) => {
  * @param {number} decimals - Decimal places
  * @returns {string}
  */
-export const formatBytes = (bytes, decimals = 2) => {
+const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return '0 Bytes';
   
   const k = 1024;
@@ -473,7 +473,7 @@ export const formatBytes = (bytes, decimals = 2) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
 };
 
-export default {
+module.exports = {
   generateRandomString,
   generateCode,
   formatCurrency,

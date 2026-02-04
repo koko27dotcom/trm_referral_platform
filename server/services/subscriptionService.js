@@ -4,15 +4,15 @@
  * Supports both referrer and company subscription tiers
  */
 
-import {
+const {
   Subscription,
   SubscriptionPlan,
   BillingRecord,
   Company,
   User,
   TierBenefits,
-} from '../models/index.js';
-import mongoose from 'mongoose';
+} = require('../models/index.js');
+const mongoose = require('mongoose');
 
 class SubscriptionService {
   constructor() {
@@ -758,5 +758,5 @@ class SubscriptionService {
 }
 
 // Export singleton instance
-export const subscriptionService = new SubscriptionService();
-export default SubscriptionService;
+const subscriptionService = new SubscriptionService();
+module.exports = SubscriptionService;

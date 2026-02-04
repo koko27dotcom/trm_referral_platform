@@ -3,12 +3,12 @@
  * Handles referral submission, tracking, and management
  */
 
-import express from 'express';
-import { Referral, Job, Company, User, AuditLog } from '../models/index.js';
-import { authenticate, optionalAuth } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, AuthorizationError, ConflictError } from '../middleware/errorHandler.js';
-import { requireReferrer, requireReferralManager, requireAdmin } from '../middleware/rbac.js';
-import { PERMISSIONS } from '../models/CompanyUser.js';
+const express = require('express');
+const { Referral, Job, Company, User, AuditLog } = require('../models/index.js');
+const { authenticate, optionalAuth } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, AuthorizationError, ConflictError } = require('../middleware/errorHandler.js');
+const { requireReferrer, requireReferralManager, requireAdmin } = require('../middleware/rbac.js');
+const { PERMISSIONS } = require('../models/CompanyUser.js');
 
 const router = express.Router();
 
@@ -464,4 +464,4 @@ async function checkReferralPermission(user, referral, permission) {
   return companyUser.hasPermission(permission);
 }
 
-export default router;
+module.exports = router;

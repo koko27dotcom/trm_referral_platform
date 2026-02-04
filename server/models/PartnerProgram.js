@@ -4,7 +4,7 @@
  * Manages tier progression and associated benefits
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -426,4 +426,4 @@ PartnerProgramSchema.methods.calculateCommission = function(amount, partnerMetri
 
 const PartnerProgram = mongoose.model('PartnerProgram', PartnerProgramSchema);
 
-export default PartnerProgram;
+module.exports = PartnerProgram;

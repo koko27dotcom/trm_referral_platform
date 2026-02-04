@@ -3,12 +3,12 @@
  * Defines all achievement badges that users can earn
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Badge rarity levels
-export const BADGE_RARITY = {
+const BADGE_RARITY = {
   COMMON: 'common',
   RARE: 'rare',
   EPIC: 'epic',
@@ -16,7 +16,7 @@ export const BADGE_RARITY = {
 };
 
 // Badge categories
-export const BADGE_CATEGORIES = {
+const BADGE_CATEGORIES = {
   REFERRAL: 'referral',
   HIRING: 'hiring',
   NETWORKING: 'networking',
@@ -28,7 +28,7 @@ export const BADGE_CATEGORIES = {
 };
 
 // Requirement types
-export const REQUIREMENT_TYPES = {
+const REQUIREMENT_TYPES = {
   COUNT: 'count',
   STREAK: 'streak',
   ACHIEVEMENT: 'achievement',
@@ -37,7 +37,7 @@ export const REQUIREMENT_TYPES = {
 };
 
 // Predefined badges
-export const PREDEFINED_BADGES = [
+const PREDEFINED_BADGES = [
   // Profile Badges
   {
     badgeId: 'first_steps',
@@ -542,4 +542,4 @@ BadgeSchema.statics.getStatistics = async function() {
 
 const Badge = mongoose.model('Badge', BadgeSchema);
 
-export default Badge;
+module.exports = Badge;

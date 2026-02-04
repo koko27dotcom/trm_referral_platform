@@ -4,14 +4,14 @@
  * Tracks successful hires and calculates fees based on candidate salary
  */
 
-import {
+const {
   PayPerHireTransaction,
   BillingRecord,
   Company,
   Subscription,
   SubscriptionPlan,
-} from '../models/index.js';
-import mongoose from 'mongoose';
+} = require('../models/index.js');
+const mongoose = require('mongoose');
 
 class PayPerHireService {
   constructor() {
@@ -513,5 +513,5 @@ class PayPerHireService {
 }
 
 // Export singleton instance
-export const payPerHireService = new PayPerHireService();
-export default PayPerHireService;
+const payPerHireService = new PayPerHireService();
+module.exports = PayPerHireService;

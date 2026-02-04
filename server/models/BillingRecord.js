@@ -4,7 +4,7 @@
  * Tracks subscription charges, per-hire fees, and other charges
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -554,4 +554,4 @@ BillingRecordSchema.statics.createSubscriptionInvoice = async function(data) {
 // Create and export the model
 const BillingRecord = mongoose.model('BillingRecord', BillingRecordSchema);
 
-export default BillingRecord;
+module.exports = BillingRecord;

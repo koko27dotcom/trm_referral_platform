@@ -3,15 +3,15 @@
  * Core service for managing user gamification including points, levels, streaks, and rewards
  */
 
-import GamificationProfile from '../models/GamificationProfile.js';
-import UserActivity from '../models/UserActivity.js';
-import Badge from '../models/Badge.js';
-import Achievement from '../models/Achievement.js';
-import Challenge from '../models/Challenge.js';
-import Notification from '../models/Notification.js';
+const GamificationProfile = require('../models/GamificationProfile.js');
+const UserActivity = require('../models/UserActivity.js');
+const Badge = require('../models/Badge.js');
+const Achievement = require('../models/Achievement.js');
+const Challenge = require('../models/Challenge.js');
+const Notification = require('../models/Notification.js');
 
 // Points configuration
-export const POINTS_CONFIG = {
+const POINTS_CONFIG = {
   // Action points
   REFERRAL_SUBMITTED: 100,
   REFERRAL_HIRED: 500,
@@ -37,7 +37,7 @@ export const POINTS_CONFIG = {
 };
 
 // Level configuration
-export const LEVEL_CONFIG = {
+const LEVEL_CONFIG = {
   TIERS: {
     BRONZE: { min: 1, max: 5, name: 'Bronze', color: '#CD7F32' },
     SILVER: { min: 6, max: 10, name: 'Silver', color: '#C0C0C0' },
@@ -769,5 +769,5 @@ class GamificationService {
 }
 
 // Export singleton instance
-export const gamificationService = new GamificationService();
-export default gamificationService;
+const gamificationService = new GamificationService();
+module.exports = gamificationService;

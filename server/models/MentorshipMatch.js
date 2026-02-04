@@ -4,12 +4,12 @@
  * Supports goal tracking, session scheduling, and progress monitoring
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Match status constants
-export const MATCH_STATUS = {
+const MATCH_STATUS = {
   PENDING: 'pending',
   ACTIVE: 'active',
   COMPLETED: 'completed',
@@ -18,7 +18,7 @@ export const MATCH_STATUS = {
 };
 
 // Session status constants
-export const SESSION_STATUS = {
+const SESSION_STATUS = {
   SCHEDULED: 'scheduled',
   CONFIRMED: 'confirmed',
   COMPLETED: 'completed',
@@ -27,7 +27,7 @@ export const SESSION_STATUS = {
 };
 
 // Goal status constants
-export const GOAL_STATUS = {
+const GOAL_STATUS = {
   ACTIVE: 'active',
   COMPLETED: 'completed',
   ABANDONED: 'abandoned',
@@ -654,4 +654,4 @@ MentorshipMatchSchema.statics.getHistory = async function(userId) {
 
 const MentorshipMatch = mongoose.model('MentorshipMatch', MentorshipMatchSchema);
 
-export default MentorshipMatch;
+module.exports = MentorshipMatch;

@@ -4,8 +4,8 @@
  * Features: Route-based caching, cache invalidation, conditional caching, cache headers
  */
 
-import cacheService from '../services/cacheService.js';
-import crypto from 'crypto';
+const cacheService = require('../services/cacheService.js');
+const crypto = require('crypto');
 
 // Configuration
 const CONFIG = {
@@ -41,7 +41,7 @@ const CONFIG = {
  * @param {Object} req - Express request object
  * @returns {string} Cache key
  */
-export const generateCacheKey = (req) => {
+const generateCacheKey = (req) => {
   const parts = [
     CONFIG.CACHE_KEY_PREFIX,
     req.method,
@@ -78,7 +78,7 @@ export const generateCacheKey = (req) => {
  * @param {Object} options - Cache options
  * @returns {boolean} Whether to cache
  */
-export const shouldCache = (req, options = {}) => {
+const shouldCache = (req, options = {}) => {
   // Skip if caching disabled
   if (options.enabled === false) {
     return false;
@@ -145,7 +145,7 @@ const isPrivateRoute = (req) => {
  * @param {string} pattern - Pattern to match (supports * wildcard)
  * @returns {Promise<Object>} Number of entries invalidated
  */
-export const invalidateCache = async (pattern) => {
+const invalidateCache = async (pattern) => {
   const fullPattern = `${CONFIG.CACHE_KEY_PREFIX}${pattern}`;
   return await cacheService.invalidateByPattern(fullPattern);
 };
@@ -202,7 +202,7 @@ const setCacheHeaders = (res, duration, options = {}) => {
  * @param {Object} options - Cache options
  * @returns {Function} Express middleware
  */
-export const cache = (duration = CONFIG.MEDIUM_CACHE, options = {}) => {
+const cache = (duration = CONFIG.MEDIUM_CACHE, options = {}) => {
   return async (req, res, next) => {
     // Check if request should be cached
     if (!shouldCache(req, options)) {
@@ -372,7 +372,7 @@ const shouldCacheResponse = (statusCode, body, options) => {
  * @param {Object} options - Invalidation options
  * @returns {Function} Express middleware
  */
-export const cacheInvalidator = (options = {}) => {
+const cacheInvalidator = (options = {}) => {
   const patterns = options.patterns || [];
   const tags = options.tags || [];
   
@@ -421,7 +421,7 @@ export const cacheInvalidator = (options = {}) => {
 };
 
 // Predefined cache middleware instances
-export const cacheMiddleware = {
+const cacheMiddleware = {
   /**
    * Short cache (1 minute) - for frequently changing data
    */
@@ -452,7 +452,7 @@ export const cacheMiddleware = {
 };
 
 // Default export
-export default {
+module.exports = {
   cache,
   generateCacheKey,
   shouldCache,

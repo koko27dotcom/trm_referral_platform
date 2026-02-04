@@ -3,10 +3,10 @@
  * Handles public referrer profiles, reviews, and portfolio
  */
 
-import express from 'express';
-import PublicProfileService from '../services/publicProfileService.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, ForbiddenError } from '../middleware/errorHandler.js';
+const express = require('express');
+const PublicProfileService = require('../services/publicProfileService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, ForbiddenError } = require('../middleware/errorHandler.js');
 
 const router = express.Router();
 const profileService = new PublicProfileService();
@@ -475,4 +475,4 @@ router.post('/:id/verify', authenticate, asyncHandler(async (req, res) => {
   res.json({ success: true, message: 'Profile verified' });
 }));
 
-export default router;
+module.exports = router;

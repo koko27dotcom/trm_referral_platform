@@ -4,7 +4,8 @@
  * Supports role hierarchy and custom permissions
  */
 
-import CompanyUser, { PERMISSIONS } from '../models/CompanyUser.js';
+const CompanyUser = require('../models/CompanyUser.js');
+const { PERMISSIONS } = require('../models/CompanyUser.js');
 
 // Role hierarchy - higher roles inherit lower role permissions
 const ROLE_HIERARCHY = {
@@ -133,7 +134,7 @@ const hasPermission = (userRole, requiredPermissions, customPermissions = []) =>
  * @param {string|Array} roles - Required role(s)
  * @returns {Function} Express middleware
  */
-export const requireRole = (roles) => {
+const requireRole = (roles) => {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
@@ -162,7 +163,7 @@ export const requireRole = (roles) => {
  * @param {string|Array} permissions - Required permission(s)
  * @returns {Function} Express middleware
  */
-export const requirePermission = (permissions) => {
+const requirePermission = (permissions) => {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
@@ -190,34 +191,34 @@ export const requirePermission = (permissions) => {
 /**
  * Middleware to check if user is a platform admin
  */
-export const requireAdmin = requireRole('platform_admin');
+const requireAdmin = requireRole('platform_admin');
 
 /**
  * Middleware to check if user is a corporate user (admin, recruiter, or viewer)
  */
-export const requireCorporate = requireRole(['corporate_admin', 'corporate_recruiter', 'corporate_viewer']);
+const requireCorporate = requireRole(['corporate_admin', 'corporate_recruiter', 'corporate_viewer']);
 
 /**
  * Middleware to check if user is a corporate admin
  */
-export const requireCorporateAdmin = requireRole('corporate_admin');
+const requireCorporateAdmin = requireRole('corporate_admin');
 
 /**
  * Middleware to check if user is a referrer
  */
-export const requireReferrer = requireRole('referrer');
+const requireReferrer = requireRole('referrer');
 
 /**
  * Middleware to check if user is a job seeker
  */
-export const requireJobSeeker = requireRole('job_seeker');
+const requireJobSeeker = requireRole('job_seeker');
 
 /**
  * Middleware to check if user owns the resource or is an admin
  * @param {Function} getResourceOwnerId - Function to extract owner ID from request
  * @returns {Function} Express middleware
  */
-export const requireOwnerOrAdmin = (getResourceOwnerId) => {
+const requireOwnerOrAdmin = (getResourceOwnerId) => {
   return async (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
@@ -260,7 +261,7 @@ export const requireOwnerOrAdmin = (getResourceOwnerId) => {
  * @param {string|Array} requiredPermissions - Required permission(s) within company
  * @returns {Function} Express middleware
  */
-export const requireCompanyAccess = (requiredPermissions = []) => {
+const requireCompanyAccess = (requiredPermissions = []) => {
   return async (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
@@ -344,44 +345,44 @@ export const requireCompanyAccess = (requiredPermissions = []) => {
 /**
  * Middleware to check if user can manage company (admin only)
  */
-export const requireCompanyAdmin = requireCompanyAccess([PERMISSIONS.MANAGE_TEAM, PERMISSIONS.WRITE_COMPANY]);
+const requireCompanyAdmin = requireCompanyAccess([PERMISSIONS.MANAGE_TEAM, PERMISSIONS.WRITE_COMPANY]);
 
 /**
  * Middleware to check if user can post/edit jobs
  */
-export const requireJobManager = requireCompanyAccess([PERMISSIONS.WRITE_JOBS]);
+const requireJobManager = requireCompanyAccess([PERMISSIONS.WRITE_JOBS]);
 
 /**
  * Middleware to check if user can view jobs
  */
-export const requireJobViewer = requireCompanyAccess([PERMISSIONS.READ_JOBS]);
+const requireJobViewer = requireCompanyAccess([PERMISSIONS.READ_JOBS]);
 
 /**
  * Middleware to check if user can manage referrals
  */
-export const requireReferralManager = requireCompanyAccess([PERMISSIONS.WRITE_REFERRALS]);
+const requireReferralManager = requireCompanyAccess([PERMISSIONS.WRITE_REFERRALS]);
 
 /**
  * Middleware to check if user can view referrals
  */
-export const requireReferralViewer = requireCompanyAccess([PERMISSIONS.READ_REFERRALS]);
+const requireReferralViewer = requireCompanyAccess([PERMISSIONS.READ_REFERRALS]);
 
 /**
  * Middleware to check if user can view billing
  */
-export const requireBillingViewer = requireCompanyAccess([PERMISSIONS.READ_BILLING]);
+const requireBillingViewer = requireCompanyAccess([PERMISSIONS.READ_BILLING]);
 
 /**
  * Middleware to check if user can manage billing
  */
-export const requireBillingManager = requireCompanyAccess([PERMISSIONS.WRITE_BILLING]);
+const requireBillingManager = requireCompanyAccess([PERMISSIONS.WRITE_BILLING]);
 
 /**
  * Middleware factory to check resource ownership within company context
  * @param {Function} getResourceCompanyId - Function to extract company ID from request
  * @returns {Function} Express middleware
  */
-export const requireCompanyResourceAccess = (getResourceCompanyId) => {
+const requireCompanyResourceAccess = (getResourceCompanyId) => {
   return async (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
@@ -440,7 +441,7 @@ export const requireCompanyResourceAccess = (getResourceCompanyId) => {
  * @param {Object} req - Express request
  * @returns {boolean}
  */
-export const isReferralOwner = async (req) => {
+const isReferralOwner = async (req) => {
   const { Referral } = await import('../models/index.js');
   const referral = await Referral.findById(req.params.id);
   
@@ -454,7 +455,7 @@ export const isReferralOwner = async (req) => {
  * @param {Object} req - Express request
  * @returns {boolean}
  */
-export const isApplicationOwner = async (req) => {
+const isApplicationOwner = async (req) => {
   const { Application } = await import('../models/index.js');
   const application = await Application.findById(req.params.id);
   
@@ -463,7 +464,7 @@ export const isApplicationOwner = async (req) => {
   return application.applicantId.toString() === req.user._id.toString();
 };
 
-export default {
+module.exports = {
   requireRole,
   requirePermission,
   requireAdmin,

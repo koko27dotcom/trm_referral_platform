@@ -6,12 +6,12 @@
  * Cache bust: 2026-02-03T16:46:00Z - Force Railway rebuild
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // KYC Level requirements
-export const KYC_LEVELS = {
+const KYC_LEVELS = {
   LEVEL_0: 0, // No verification
   LEVEL_1: 1, // Phone + Email verification
   LEVEL_2: 2, // NRC + Selfie verification
@@ -20,7 +20,7 @@ export const KYC_LEVELS = {
 };
 
 // KYC Status states
-export const KYC_STATUS = {
+const KYC_STATUS = {
   NOT_STARTED: 'not_started',
   IN_PROGRESS: 'in_progress',
   PENDING_REVIEW: 'pending_review',
@@ -580,5 +580,4 @@ KYCStatusSchema.pre('save', function(next) {
 
 const KYCStatus = mongoose.model('KYCStatus', KYCStatusSchema);
 
-export { KYCStatus };
-export default KYCStatus;
+module.exports = KYCStatus;

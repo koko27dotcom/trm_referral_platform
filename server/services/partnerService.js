@@ -4,11 +4,11 @@
  * Handles partner onboarding, revenue sharing, tier management, and payouts
  */
 
-import crypto from 'crypto';
-import Partner from '../models/Partner.js';
-import PartnerProgram from '../models/PartnerProgram.js';
-import PartnerReferral from '../models/PartnerReferral.js';
-import User from '../models/User.js';
+const crypto = require('crypto');
+const Partner = require('../models/Partner.js');
+const PartnerProgram = require('../models/PartnerProgram.js');
+const PartnerReferral = require('../models/PartnerReferral.js');
+const User = require('../models/User.js');
 
 /**
  * Service class for managing partner operations
@@ -737,4 +737,4 @@ class PartnerService {
   }
 }
 
-export default new PartnerService();
+module.exports = new PartnerService();

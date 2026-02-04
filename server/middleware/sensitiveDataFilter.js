@@ -4,7 +4,7 @@
  * Prevents accidental exposure of PII, credentials, and other sensitive information
  */
 
-import securityService from '../services/securityService.js';
+const securityService = require('../services/securityService.js');
 
 // Default sensitive fields to filter
 const DEFAULT_SENSITIVE_FIELDS = [
@@ -94,7 +94,7 @@ const maskValue = (value, options = {}) => {
  * @param {Object} options - Filter options
  * @returns {Object}
  */
-export const filterSensitiveData = (obj, sensitiveFields = DEFAULT_SENSITIVE_FIELDS, options = {}) => {
+const filterSensitiveData = (obj, sensitiveFields = DEFAULT_SENSITIVE_FIELDS, options = {}) => {
   if (!obj || typeof obj !== 'object') {
     return obj;
   }
@@ -146,7 +146,7 @@ export const filterSensitiveData = (obj, sensitiveFields = DEFAULT_SENSITIVE_FIE
  * @param {Object} options - Filter options
  * @returns {Function}
  */
-export const filterRequestBody = (options = {}) => {
+const filterRequestBody = (options = {}) => {
   const { fields = DEFAULT_SENSITIVE_FIELDS, logOnly = false } = options;
   
   return (req, res, next) => {
@@ -177,7 +177,7 @@ export const filterRequestBody = (options = {}) => {
  * @param {Object} options - Filter options
  * @returns {Function}
  */
-export const filterResponse = (options = {}) => {
+const filterResponse = (options = {}) => {
   const { fields = DEFAULT_SENSITIVE_FIELDS } = options;
   
   return (req, res, next) => {
@@ -204,7 +204,7 @@ export const filterResponse = (options = {}) => {
  * @param {Object} options - Filter options
  * @returns {Function}
  */
-export const filterQueryParams = (options = {}) => {
+const filterQueryParams = (options = {}) => {
   const { fields = DEFAULT_SENSITIVE_FIELDS } = options;
   
   return (req, res, next) => {
@@ -221,7 +221,7 @@ export const filterQueryParams = (options = {}) => {
  * @param {Object} options - Filter options
  * @returns {Function}
  */
-export const filterHeaders = (options = {}) => {
+const filterHeaders = (options = {}) => {
   const { fields = ['authorization', 'cookie', 'x-api-key'] } = options;
   
   return (req, res, next) => {
@@ -238,7 +238,7 @@ export const filterHeaders = (options = {}) => {
  * @param {Object} req - Express request object
  * @returns {Object}
  */
-export const createSanitizedLog = (req) => {
+const createSanitizedLog = (req) => {
   return {
     method: req.method,
     path: req.originalUrl || req.url,
@@ -257,7 +257,7 @@ export const createSanitizedLog = (req) => {
  * @param {Error} error - Error object
  * @returns {Error}
  */
-export const filterError = (error) => {
+const filterError = (error) => {
   if (!error || !error.message) {
     return error;
   }
@@ -291,7 +291,7 @@ export const filterError = (error) => {
  * @param {Object} options - Filter options
  * @returns {Function}
  */
-export const sensitiveDataFilter = (options = {}) => {
+const sensitiveDataFilter = (options = {}) => {
   const {
     filterBody = true,
     filterQuery = true,
@@ -337,7 +337,7 @@ export const sensitiveDataFilter = (options = {}) => {
   };
 };
 
-export default {
+module.exports = {
   filterSensitiveData,
   filterRequestBody,
   filterResponse,

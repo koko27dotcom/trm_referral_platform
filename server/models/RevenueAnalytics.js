@@ -4,7 +4,7 @@
  * Enables data-driven decisions for the TRM platform
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -447,4 +447,4 @@ RevenueAnalyticsSchema.methods.getTopRevenueSource = function() {
 
 const RevenueAnalytics = mongoose.model('RevenueAnalytics', RevenueAnalyticsSchema);
 
-export default RevenueAnalytics;
+module.exports = RevenueAnalytics;

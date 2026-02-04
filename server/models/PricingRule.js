@@ -4,7 +4,7 @@
  * Supports surge pricing, volume discounts, category-based pricing, and time-based rules
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -512,4 +512,4 @@ PricingRuleSchema.pre('save', function(next) {
 
 const PricingRule = mongoose.model('PricingRule', PricingRuleSchema);
 
-export default PricingRule;
+module.exports = PricingRule;

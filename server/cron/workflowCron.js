@@ -5,21 +5,21 @@
  * Part of the Auto-Followup Workflow Engine for TRM platform
  */
 
-import cron from 'node-cron';
-import WorkflowExecution, { EXECUTION_STATUS } from '../models/WorkflowExecution.js';
-import Workflow, { WORKFLOW_STATUS, TRIGGER_TYPES } from '../models/Workflow.js';
-import { 
+const cron = require('node-cron');
+const WorkflowExecution = require EXECUTION_STATUS } = require('../models/WorkflowExecution.js');
+const Workflow = require WORKFLOW_STATUS, TRIGGER_TYPES } = require('../models/Workflow.js');
+const { 
   User, 
   Job, 
   Company, 
   Referral, 
   Application 
-} from '../models/index.js';
-import { 
+} = require('../models/index.js');
+const { 
   triggerWorkflow, 
   executeWorkflow,
   initializePredefinedWorkflows 
-} from '../services/workflowEngine.js';
+} = require('../services/workflowEngine.js');
 
 // Active cron job storage
 let workflowCronJob = null;
@@ -28,7 +28,7 @@ let triggerCheckJob = null;
 /**
  * Initialize workflow cron jobs
  */
-export const initializeWorkflowCron = () => {
+const initializeWorkflowCron = () => {
   // Main job: Process pending executions every hour
   workflowCronJob = cron.schedule('0 * * * *', async () => {
     console.log('[WorkflowCron] Processing scheduled workflow executions...');
@@ -47,7 +47,7 @@ export const initializeWorkflowCron = () => {
 /**
  * Stop workflow cron jobs
  */
-export const stopWorkflowCron = () => {
+const stopWorkflowCron = () => {
   if (workflowCronJob) {
     workflowCronJob.stop();
     console.log('[WorkflowCron] Main cron job stopped');
@@ -62,7 +62,7 @@ export const stopWorkflowCron = () => {
  * Process scheduled pending executions
  * Finds and executes workflows that are due
  */
-export const processScheduledExecutions = async () => {
+const processScheduledExecutions = async () => {
   try {
     // Find pending executions that are scheduled to run now or in the past
     const now = new Date();
@@ -116,7 +116,7 @@ export const processScheduledExecutions = async () => {
  * Check for workflow triggers
  * Automatically triggers workflows based on various conditions
  */
-export const checkWorkflowTriggers = async () => {
+const checkWorkflowTriggers = async () => {
   try {
     const results = {
       candidateIncomplete: 0,
@@ -392,7 +392,7 @@ const checkInactiveReferrers = async () => {
 /**
  * Manual trigger function for testing/admin use
  */
-export const manualTriggerCheck = async () => {
+const manualTriggerCheck = async () => {
   console.log('[WorkflowCron] Manual trigger check initiated');
   return await checkWorkflowTriggers();
 };
@@ -400,7 +400,7 @@ export const manualTriggerCheck = async () => {
 /**
  * Get cron job status
  */
-export const getCronStatus = () => {
+const getCronStatus = () => {
   return {
     mainJobRunning: workflowCronJob !== null,
     triggerCheckRunning: triggerCheckJob !== null,
@@ -408,7 +408,7 @@ export const getCronStatus = () => {
   };
 };
 
-export default {
+module.exports = {
   initializeWorkflowCron,
   stopWorkflowCron,
   processScheduledExecutions,

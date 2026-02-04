@@ -4,7 +4,7 @@
  * Tracks industry trends, skill demands, and market indicators
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -619,4 +619,4 @@ MarketTrendSchema.statics.generateSnapshot = async function(period, date) {
 
 const MarketTrend = mongoose.model('MarketTrend', MarketTrendSchema);
 
-export default MarketTrend;
+module.exports = MarketTrend;

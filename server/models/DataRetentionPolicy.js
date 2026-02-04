@@ -4,12 +4,12 @@
  * Supports automated data purging based on configurable policies
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Retention action types
-export const RETENTION_ACTIONS = {
+const RETENTION_ACTIONS = {
   DELETE: 'delete',
   ANONYMIZE: 'anonymize',
   ARCHIVE: 'archive',
@@ -18,7 +18,7 @@ export const RETENTION_ACTIONS = {
 };
 
 // Data categories
-export const DATA_CATEGORIES = {
+const DATA_CATEGORIES = {
   PERSONAL_DATA: 'personal_data',
   FINANCIAL_DATA: 'financial_data',
   COMMUNICATION_DATA: 'communication_data',
@@ -32,7 +32,7 @@ export const DATA_CATEGORIES = {
 };
 
 // Legal basis for retention
-export const LEGAL_BASIS = {
+const LEGAL_BASIS = {
   CONSENT: 'consent',
   CONTRACT: 'contract',
   LEGAL_OBLIGATION: 'legal_obligation',
@@ -42,7 +42,7 @@ export const LEGAL_BASIS = {
 };
 
 // Compliance frameworks
-export const COMPLIANCE_FRAMEWORKS = {
+const COMPLIANCE_FRAMEWORKS = {
   GDPR: 'gdpr',
   PDPA_THAILAND: 'pdpa_thailand',
   PDPA_SINGAPORE: 'pdpa_singapore',
@@ -574,4 +574,4 @@ DataRetentionPolicySchema.methods.archive = async function() {
 // Create and export the model
 const DataRetentionPolicy = mongoose.model('DataRetentionPolicy', DataRetentionPolicySchema);
 
-export default DataRetentionPolicy;
+module.exports = DataRetentionPolicy;

@@ -4,9 +4,9 @@
  * Includes threat detection, IP blocking, security monitoring, and incident response
  */
 
-import crypto from 'crypto';
-import { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } from '../models/SecurityAudit.js';
-import { User } from '../models/index.js';
+const crypto = require('crypto');
+const { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } = require('../models/SecurityAudit.js');
+const { User } = require('../models/index.js');
 
 // In-memory cache for blocked IPs (use Redis in production)
 const blockedIPs = new Map();
@@ -40,7 +40,7 @@ const SECURITY_CONFIG = {
  * @param {number} length - Token length
  * @returns {string}
  */
-export const generateSecureToken = (length = 32) => {
+const generateSecureToken = (length = 32) => {
   return crypto.randomBytes(length).toString('hex');
 };
 
@@ -49,7 +49,7 @@ export const generateSecureToken = (length = 32) => {
  * @param {string} data - Data to hash
  * @returns {string}
  */
-export const hashData = (data) => {
+const hashData = (data) => {
   return crypto.createHash('sha256').update(data).digest('hex');
 };
 
@@ -59,7 +59,7 @@ export const hashData = (data) => {
  * @param {string} secret - Secret key
  * @returns {string}
  */
-export const generateHMAC = (data, secret) => {
+const generateHMAC = (data, secret) => {
   return crypto.createHmac('sha256', secret).update(data).digest('hex');
 };
 
@@ -70,7 +70,7 @@ export const generateHMAC = (data, secret) => {
  * @param {string} secret - Secret key
  * @returns {boolean}
  */
-export const verifyHMAC = (data, signature, secret) => {
+const verifyHMAC = (data, signature, secret) => {
   const expectedSignature = generateHMAC(data, secret);
   return crypto.timingSafeEqual(
     Buffer.from(signature),
@@ -83,7 +83,7 @@ export const verifyHMAC = (data, signature, secret) => {
  * @param {string} input - Input to sanitize
  * @returns {string}
  */
-export const sanitizeInput = (input) => {
+const sanitizeInput = (input) => {
   if (typeof input !== 'string') return input;
   
   return input
@@ -98,7 +98,7 @@ export const sanitizeInput = (input) => {
  * @param {string} input - Input to check
  * @returns {boolean}
  */
-export const detectSQLInjection = (input) => {
+const detectSQLInjection = (input) => {
   if (typeof input !== 'string') return false;
   
   const sqlPatterns = [
@@ -121,7 +121,7 @@ export const detectSQLInjection = (input) => {
  * @param {string} input - Input to check
  * @returns {boolean}
  */
-export const detectXSS = (input) => {
+const detectXSS = (input) => {
   if (typeof input !== 'string') return false;
   
   const xssPatterns = [
@@ -143,7 +143,7 @@ export const detectXSS = (input) => {
  * @param {Object} req - Express request object
  * @returns {string}
  */
-export const getClientIP = (req) => {
+const getClientIP = (req) => {
   const forwarded = req.headers['x-forwarded-for'];
   const ip = forwarded 
     ? forwarded.split(',')[0].trim() 
@@ -156,7 +156,7 @@ export const getClientIP = (req) => {
  * @param {string} ipAddress - IP address to check
  * @returns {boolean}
  */
-export const isIPBlocked = (ipAddress) => {
+const isIPBlocked = (ipAddress) => {
   const blocked = blockedIPs.get(ipAddress);
   if (!blocked) return false;
   
@@ -174,7 +174,7 @@ export const isIPBlocked = (ipAddress) => {
  * @param {string} reason - Block reason
  * @param {number} durationMinutes - Block duration in minutes
  */
-export const blockIP = (ipAddress, reason, durationMinutes = 60) => {
+const blockIP = (ipAddress, reason, durationMinutes = 60) => {
   blockedIPs.set(ipAddress, {
     reason,
     blockedAt: Date.now(),
@@ -196,7 +196,7 @@ export const blockIP = (ipAddress, reason, durationMinutes = 60) => {
  * Unblock an IP address
  * @param {string} ipAddress - IP address to unblock
  */
-export const unblockIP = (ipAddress) => {
+const unblockIP = (ipAddress) => {
   blockedIPs.delete(ipAddress);
   
   // Log the unblock
@@ -215,7 +215,7 @@ export const unblockIP = (ipAddress) => {
  * @param {string} endpoint - API endpoint
  * @returns {Object} Rate limit status
  */
-export const checkRateLimit = (ipAddress, endpoint = 'default') => {
+const checkRateLimit = (ipAddress, endpoint = 'default') => {
   const key = `${ipAddress}:${endpoint}`;
   const now = Date.now();
   const windowStart = now - SECURITY_CONFIG.rateLimit.windowMs;
@@ -292,7 +292,7 @@ export const checkRateLimit = (ipAddress, endpoint = 'default') => {
  * @param {string} username - Username
  * @returns {Promise<boolean>}
  */
-export const detectBruteForce = async (ipAddress, username = null) => {
+const detectBruteForce = async (ipAddress, username = null) => {
   const windowStart = new Date(
     Date.now() - SECURITY_CONFIG.bruteForce.windowMinutes * 60 * 1000
   );
@@ -356,7 +356,7 @@ export const detectBruteForce = async (ipAddress, username = null) => {
  * @param {Object} user - User object
  * @returns {Promise<Object>} Anomaly analysis
  */
-export const analyzeRequest = async (req, user = null) => {
+const analyzeRequest = async (req, user = null) => {
   const ipAddress = getClientIP(req);
   const userAgent = req.headers['user-agent'];
   const analysis = {
@@ -443,7 +443,7 @@ export const analyzeRequest = async (req, user = null) => {
  * @param {string} password - Password to validate
  * @returns {Object} Validation result
  */
-export const validatePasswordStrength = (password) => {
+const validatePasswordStrength = (password) => {
   const result = {
     valid: false,
     score: 0,
@@ -501,7 +501,7 @@ export const validatePasswordStrength = (password) => {
  * Create security headers object
  * @returns {Object} Security headers
  */
-export const getSecurityHeaders = () => {
+const getSecurityHeaders = () => {
   return {
     'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
     'X-Content-Type-Options': 'nosniff',
@@ -528,7 +528,7 @@ export const getSecurityHeaders = () => {
  * @param {Object} filters - Date filters
  * @returns {Promise<Object>}
  */
-export const getSecurityStats = async (filters = {}) => {
+const getSecurityStats = async (filters = {}) => {
   const now = new Date();
   const defaultStart = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours
   
@@ -576,7 +576,7 @@ export const getSecurityStats = async (filters = {}) => {
 /**
  * Clean up expired blocks and caches
  */
-export const cleanupSecurityCache = () => {
+const cleanupSecurityCache = () => {
   const now = Date.now();
   
   // Clean blocked IPs
@@ -600,7 +600,7 @@ export const cleanupSecurityCache = () => {
 // Run cleanup every 5 minutes
 setInterval(cleanupSecurityCache, 5 * 60 * 1000);
 
-export default {
+module.exports = {
   generateSecureToken,
   hashData,
   generateHMAC,

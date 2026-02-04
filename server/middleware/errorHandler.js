@@ -4,10 +4,10 @@
  * Formats errors for API responses and logs them appropriately
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 // Custom error classes
-export class AppError extends Error {
+class AppError extends Error {
   constructor(message, statusCode, code = null) {
     super(message);
     this.statusCode = statusCode;
@@ -19,44 +19,44 @@ export class AppError extends Error {
   }
 }
 
-export class ValidationError extends AppError {
+class ValidationError extends AppError {
   constructor(message, errors = []) {
     super(message, 400, 'VALIDATION_ERROR');
     this.errors = errors;
   }
 }
 
-export class AuthenticationError extends AppError {
+class AuthenticationError extends AppError {
   constructor(message = 'Authentication required') {
     super(message, 401, 'AUTHENTICATION_ERROR');
   }
 }
 
-export class AuthorizationError extends AppError {
+class AuthorizationError extends AppError {
   constructor(message = 'Insufficient permissions') {
     super(message, 403, 'AUTHORIZATION_ERROR');
   }
 }
 
-export class NotFoundError extends AppError {
+class NotFoundError extends AppError {
   constructor(resource = 'Resource') {
     super(`${resource} not found`, 404, 'NOT_FOUND');
   }
 }
 
-export class ConflictError extends AppError {
+class ConflictError extends AppError {
   constructor(message = 'Resource already exists') {
     super(message, 409, 'CONFLICT');
   }
 }
 
-export class ForbiddenError extends AppError {
+class ForbiddenError extends AppError {
   constructor(message = 'Access forbidden') {
     super(message, 403, 'FORBIDDEN');
   }
 }
 
-export class RateLimitError extends AppError {
+class RateLimitError extends AppError {
   constructor(message = 'Too many requests') {
     super(message, 429, 'RATE_LIMIT_EXCEEDED');
   }
@@ -189,7 +189,7 @@ const formatProdError = (err) => {
 /**
  * Main error handling middleware
  */
-export const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
   
@@ -235,7 +235,7 @@ export const errorHandler = (err, req, res, next) => {
  * 404 Not Found handler
  * Catches requests to undefined routes
  */
-export const notFoundHandler = (req, res, next) => {
+const notFoundHandler = (req, res, next) => {
   const error = new NotFoundError(`Route ${req.originalUrl}`);
   next(error);
 };
@@ -246,7 +246,7 @@ export const notFoundHandler = (req, res, next) => {
  * @param {Function} fn - Async function
  * @returns {Function}
  */
-export const asyncHandler = (fn) => {
+const asyncHandler = (fn) => {
   return (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
@@ -257,7 +257,7 @@ export const asyncHandler = (fn) => {
  * @param {Function} validator - Validation function
  * @returns {Function}
  */
-export const validateRequest = (validator) => {
+const validateRequest = (validator) => {
   return async (req, res, next) => {
     try {
       const validated = await validator(req.body);
@@ -280,7 +280,7 @@ export const validateRequest = (validator) => {
 /**
  * Global unhandled rejection handler
  */
-export const setupUnhandledRejectionHandler = () => {
+const setupUnhandledRejectionHandler = () => {
   process.on('unhandledRejection', (err) => {
     console.error('UNHANDLED REJECTION! Shutting down...');
     console.error(err.name, err.message);
@@ -293,7 +293,7 @@ export const setupUnhandledRejectionHandler = () => {
 /**
  * Global uncaught exception handler
  */
-export const setupUncaughtExceptionHandler = () => {
+const setupUncaughtExceptionHandler = () => {
   process.on('uncaughtException', (err) => {
     console.error('UNCAUGHT EXCEPTION! Shutting down...');
     console.error(err.name, err.message);
@@ -304,7 +304,7 @@ export const setupUncaughtExceptionHandler = () => {
   });
 };
 
-export default {
+module.exports = {
   errorHandler,
   notFoundHandler,
   asyncHandler,

@@ -4,7 +4,7 @@
  * Tracks request status, payment processing, and related referrals
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -89,7 +89,7 @@ const ProcessingHistorySchema = new Schema({
 }, { _id: true });
 
 // Payout status constants
-export const PAYOUT_STATUS = {
+const PAYOUT_STATUS = {
   PENDING: 'pending',
   APPROVED: 'approved',
   PROCESSING: 'processing',
@@ -584,4 +584,4 @@ PayoutRequestSchema.statics.createRequest = async function(data) {
 // Create and export the model
 const PayoutRequest = mongoose.model('PayoutRequest', PayoutRequestSchema);
 
-export default PayoutRequest;
+module.exports = PayoutRequest;

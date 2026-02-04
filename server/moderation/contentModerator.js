@@ -4,10 +4,10 @@
  * Can be extended with ML-based moderation
  */
 
-import { CommunityPost, POST_STATUS } from '../models/CommunityPost.js';
-import { Comment, COMMENT_STATUS } from '../models/Comment.js';
-import { Review, REVIEW_STATUS } from '../models/Review.js';
-import NotificationService from '../services/notificationService.js';
+const { CommunityPost, POST_STATUS } = require('../models/CommunityPost.js');
+const { Comment, COMMENT_STATUS } = require('../models/Comment.js');
+const { Review, REVIEW_STATUS } = require('../models/Review.js');
+const NotificationService = require('../services/notificationService.js');
 
 // Moderation patterns for different types of violations
 const MODERATION_PATTERNS = {
@@ -523,4 +523,4 @@ class ContentModerator {
   }
 }
 
-export default ContentModerator;
+module.exports = ContentModerator;

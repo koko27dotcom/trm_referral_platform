@@ -4,12 +4,12 @@
  * Supports likes, accepted answers, and moderation
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Comment status constants
-export const COMMENT_STATUS = {
+const COMMENT_STATUS = {
   ACTIVE: 'active',
   FLAGGED: 'flagged',
   REMOVED: 'removed',
@@ -17,7 +17,7 @@ export const COMMENT_STATUS = {
 };
 
 // Author type constants
-export const AUTHOR_TYPE = {
+const AUTHOR_TYPE = {
   USER: 'user',
   COMPANY: 'company',
 };
@@ -270,4 +270,4 @@ CommentSchema.statics.getUserComments = async function(userId, options = {}) {
 
 const Comment = mongoose.model('Comment', CommentSchema);
 
-export default Comment;
+module.exports = Comment;

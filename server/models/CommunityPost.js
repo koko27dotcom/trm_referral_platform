@@ -4,12 +4,12 @@
  * Supports multiple categories, attachments, and engagement metrics
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Post category constants
-export const POST_CATEGORIES = {
+const POST_CATEGORIES = {
   DISCUSSION: 'discussion',
   QUESTION: 'question',
   SUCCESS_STORY: 'success-story',
@@ -19,7 +19,7 @@ export const POST_CATEGORIES = {
 };
 
 // Post status constants
-export const POST_STATUS = {
+const POST_STATUS = {
   ACTIVE: 'active',
   FLAGGED: 'flagged',
   REMOVED: 'removed',
@@ -27,7 +27,7 @@ export const POST_STATUS = {
 };
 
 // Author type constants
-export const AUTHOR_TYPE = {
+const AUTHOR_TYPE = {
   USER: 'user',
   COMPANY: 'company',
 };
@@ -334,4 +334,4 @@ CommunityPostSchema.statics.getPersonalizedFeed = async function(userId, interes
 
 const CommunityPost = mongoose.model('CommunityPost', CommunityPostSchema);
 
-export default CommunityPost;
+module.exports = CommunityPost;

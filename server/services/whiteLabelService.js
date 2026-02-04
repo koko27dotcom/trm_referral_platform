@@ -4,9 +4,9 @@
  * Handles custom domains, branding, and deployment
  */
 
-import crypto from 'crypto';
-import WhiteLabelConfig from '../models/WhiteLabelConfig.js';
-import Partner from '../models/Partner.js';
+const crypto = require('crypto');
+const WhiteLabelConfig = require('../models/WhiteLabelConfig.js');
+const Partner = require('../models/Partner.js');
 
 /**
  * Service class for managing white-label operations
@@ -656,4 +656,4 @@ class WhiteLabelService {
   }
 }
 
-export default new WhiteLabelService();
+module.exports = new WhiteLabelService();

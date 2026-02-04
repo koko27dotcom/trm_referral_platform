@@ -4,14 +4,14 @@
  * and Myanmar-specific validations (NRC, phone numbers)
  */
 
-import path from 'path';
-import crypto from 'crypto';
-import fs from 'fs/promises';
-import { KYCStatus, KYC_LEVELS, KYC_STATUS } from '../models/KYCStatus.js';
-import KYCDocument, { DOCUMENT_TYPES, DOCUMENT_STATUS, ALLOWED_FILE_TYPES } from '../models/KYCDocument.js';
-import { User } from '../models/index.js';
-import { sendNotification } from './notificationService.js';
-import { NOTIFICATION_TYPES, NOTIFICATION_PRIORITY } from '../models/Notification.js';
+const path = require('path');
+const crypto = require('crypto');
+const fs = require('fs/promises');
+const { KYCStatus, KYC_LEVELS, KYC_STATUS } = require('../models/KYCStatus.js');
+const KYCDocument = require DOCUMENT_TYPES, DOCUMENT_STATUS, ALLOWED_FILE_TYPES } = require('../models/KYCDocument.js');
+const { User } = require('../models/index.js');
+const { sendNotification } = require('./notificationService.js');
+const { NOTIFICATION_TYPES, NOTIFICATION_PRIORITY } = require('../models/Notification.js');
 
 // File upload configuration
 const UPLOAD_CONFIG = {
@@ -1223,5 +1223,4 @@ class MockOCREngine {
 // Create singleton instance
 const kycService = new KYCService();
 
-export default kycService;
-export { KYCService, KYC_LEVELS, KYC_STATUS };
+module.exports = kycService;

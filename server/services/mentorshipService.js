@@ -3,14 +3,14 @@
  * Manages mentor/mentee matching, session scheduling, and progress tracking
  */
 
-import {
+const {
   MentorshipMatch,
   MATCH_STATUS,
   SESSION_STATUS,
   GOAL_STATUS,
-} from '../models/MentorshipMatch.js';
-import { PublicProfile } from '../models/PublicProfile.js';
-import NotificationService from './notificationService.js';
+} = require('../models/MentorshipMatch.js');
+const { PublicProfile } = require('../models/PublicProfile.js');
+const NotificationService = require('./notificationService.js');
 
 class MentorshipService {
   constructor() {
@@ -781,4 +781,4 @@ class MentorshipService {
   }
 }
 
-export default MentorshipService;
+module.exports = MentorshipService;

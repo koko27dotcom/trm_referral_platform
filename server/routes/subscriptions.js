@@ -3,13 +3,13 @@
  * API routes for managing subscriptions, tiers, and features
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import { subscriptionService } from '../services/subscriptionService.js';
-import { featureGateService } from '../services/featureGateService.js';
-import { paymentGatewayService } from '../services/paymentGatewayService.js';
-import { Subscription, SubscriptionPlan, TierBenefits } from '../models/index.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const { subscriptionService } = require('../services/subscriptionService.js');
+const { featureGateService } = require('../services/featureGateService.js');
+const { paymentGatewayService } = require('../services/paymentGatewayService.js');
+const { Subscription, SubscriptionPlan, TierBenefits } = require('../models/index.js');
 
 const router = express.Router();
 
@@ -680,4 +680,4 @@ router.put('/admin/tiers/:tierId', authenticate, requireRole('admin'), async (re
   }
 });
 
-export default router;
+module.exports = router;

@@ -4,17 +4,17 @@
  * Handles commission calculations, tier upgrades, and reports
  */
 
-import Partner from '../models/Partner.js';
-import PartnerReferral from '../models/PartnerReferral.js';
-import PartnerProgram from '../models/PartnerProgram.js';
-import APIToken from '../models/APIToken.js';
-import WhiteLabelConfig from '../models/WhiteLabelConfig.js';
+const Partner = require('../models/Partner.js');
+const PartnerReferral = require('../models/PartnerReferral.js');
+const PartnerProgram = require('../models/PartnerProgram.js');
+const APIToken = require('../models/APIToken.js');
+const WhiteLabelConfig = require('../models/WhiteLabelConfig.js');
 
 /**
  * Process tier upgrades for eligible partners
  * Runs daily
  */
-export const processTierUpgrades = async () => {
+const processTierUpgrades = async () => {
   console.log('[PartnerCron] Processing tier upgrades...');
   
   try {
@@ -65,7 +65,7 @@ export const processTierUpgrades = async () => {
  * Calculate pending commissions
  * Runs hourly
  */
-export const calculateCommissions = async () => {
+const calculateCommissions = async () => {
   console.log('[PartnerCron] Calculating commissions...');
   
   try {
@@ -103,7 +103,7 @@ export const calculateCommissions = async () => {
  * Process expired referrals
  * Runs daily
  */
-export const processExpiredReferrals = async () => {
+const processExpiredReferrals = async () => {
   console.log('[PartnerCron] Processing expired referrals...');
   
   try {
@@ -142,7 +142,7 @@ export const processExpiredReferrals = async () => {
  * Update partner metrics
  * Runs daily
  */
-export const updatePartnerMetrics = async () => {
+const updatePartnerMetrics = async () => {
   console.log('[PartnerCron] Updating partner metrics...');
   
   try {
@@ -200,7 +200,7 @@ export const updatePartnerMetrics = async () => {
  * Clean up expired API tokens
  * Runs daily
  */
-export const cleanupExpiredTokens = async () => {
+const cleanupExpiredTokens = async () => {
   console.log('[PartnerCron] Cleaning up expired API tokens...');
   
   try {
@@ -228,7 +228,7 @@ export const cleanupExpiredTokens = async () => {
  * Reset API rate limit windows
  * Runs every minute
  */
-export const resetRateLimitWindows = async () => {
+const resetRateLimitWindows = async () => {
   try {
     const now = new Date();
     
@@ -277,7 +277,7 @@ export const resetRateLimitWindows = async () => {
  * Generate partner reports
  * Runs weekly (Mondays)
  */
-export const generatePartnerReports = async () => {
+const generatePartnerReports = async () => {
   console.log('[PartnerCron] Generating partner reports...');
   
   try {
@@ -328,7 +328,7 @@ export const generatePartnerReports = async () => {
  * Check SSL certificate expiry
  * Runs daily
  */
-export const checkSSLCertificates = async () => {
+const checkSSLCertificates = async () => {
   console.log('[PartnerCron] Checking SSL certificates...');
   
   try {
@@ -369,7 +369,7 @@ export const checkSSLCertificates = async () => {
  * Cleanup old usage history
  * Runs monthly
  */
-export const cleanupUsageHistory = async () => {
+const cleanupUsageHistory = async () => {
   console.log('[PartnerCron] Cleaning up old usage history...');
   
   try {
@@ -405,7 +405,7 @@ export const cleanupUsageHistory = async () => {
  * Initialize all cron jobs
  * @param {Object} scheduler - Cron scheduler instance
  */
-export const initializePartnerCronJobs = (scheduler) => {
+const initializePartnerCronJobs = (scheduler) => {
   console.log('[PartnerCron] Initializing partner cron jobs...');
 
   // Daily jobs
@@ -430,7 +430,7 @@ export const initializePartnerCronJobs = (scheduler) => {
   console.log('[PartnerCron] Partner cron jobs initialized successfully');
 };
 
-export default {
+module.exports = {
   processTierUpgrades,
   calculateCommissions,
   processExpiredReferrals,

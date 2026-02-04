@@ -3,9 +3,9 @@
  * API endpoints for plugin and integration marketplace
  */
 
-import express from 'express';
-import marketplaceService from '../services/marketplaceService.js';
-import { requireAuth } from '../middleware/auth.js';
+const express = require('express');
+const marketplaceService = require('../services/marketplaceService.js');
+const { requireAuth } = require('../middleware/auth.js');
 
 const router = express.Router();
 
@@ -384,4 +384,4 @@ router.get('/search', async (req, res, next) => {
   }
 });
 
-export default router;
+module.exports = router;

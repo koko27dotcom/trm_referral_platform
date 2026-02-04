@@ -4,12 +4,12 @@
  * Supports automated compliance monitoring and reporting
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Report types
-export const REPORT_TYPES = {
+const REPORT_TYPES = {
   GDPR_AUDIT: 'gdpr_audit',
   PDPA_THAILAND_AUDIT: 'pdpa_thailand_audit',
   PDPA_SINGAPORE_AUDIT: 'pdpa_singapore_audit',
@@ -26,7 +26,7 @@ export const REPORT_TYPES = {
 };
 
 // Report status
-export const REPORT_STATUS = {
+const REPORT_STATUS = {
   PENDING: 'pending',
   GENERATING: 'generating',
   COMPLETED: 'completed',
@@ -35,7 +35,7 @@ export const REPORT_STATUS = {
 };
 
 // Finding severity
-export const FINDING_SEVERITY = {
+const FINDING_SEVERITY = {
   CRITICAL: 'critical',
   HIGH: 'high',
   MEDIUM: 'medium',
@@ -44,7 +44,7 @@ export const FINDING_SEVERITY = {
 };
 
 // Finding status
-export const FINDING_STATUS = {
+const FINDING_STATUS = {
   OPEN: 'open',
   IN_PROGRESS: 'in_progress',
   RESOLVED: 'resolved',
@@ -53,7 +53,7 @@ export const FINDING_STATUS = {
 };
 
 // Control categories
-export const CONTROL_CATEGORIES = {
+const CONTROL_CATEGORIES = {
   ACCESS_CONTROL: 'access_control',
   DATA_PROTECTION: 'data_protection',
   INCIDENT_RESPONSE: 'incident_response',
@@ -721,4 +721,4 @@ ComplianceReportSchema.methods.recordDownload = async function(userId) {
 // Create and export the model
 const ComplianceReport = mongoose.model('ComplianceReport', ComplianceReportSchema);
 
-export default ComplianceReport;
+module.exports = ComplianceReport;

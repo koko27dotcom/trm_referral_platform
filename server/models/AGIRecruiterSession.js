@@ -4,7 +4,7 @@
  * Part of Phase 5 Feature 1 - World's first fully autonomous AI recruiter
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 

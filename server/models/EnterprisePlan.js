@@ -4,7 +4,7 @@
  * Supports tiered pricing (Starter, Growth, Enterprise) with feature differentiation
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -707,4 +707,4 @@ EnterprisePlanSchema.methods.getUserLimit = function(role) {
 
 const EnterprisePlan = mongoose.model('EnterprisePlan', EnterprisePlanSchema);
 
-export default EnterprisePlan;
+module.exports = EnterprisePlan;

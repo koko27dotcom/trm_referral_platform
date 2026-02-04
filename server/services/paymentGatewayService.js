@@ -4,9 +4,9 @@
  * Supports 2C2P (Myanmar), Stripe (International), KBZPay, and WavePay
  */
 
-import Stripe from 'stripe';
-import crypto from 'crypto';
-import axios from 'axios';
+const Stripe = require('stripe');
+const crypto = require('crypto');
+const axios = require('axios');
 
 class PaymentGatewayService {
   constructor() {
@@ -588,5 +588,5 @@ class PaymentGatewayService {
 }
 
 // Export singleton instance
-export const paymentGatewayService = new PaymentGatewayService();
-export default PaymentGatewayService;
+const paymentGatewayService = new PaymentGatewayService();
+module.exports = PaymentGatewayService;

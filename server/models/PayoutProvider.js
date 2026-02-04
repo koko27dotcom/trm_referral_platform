@@ -4,12 +4,12 @@
  * Supports KBZPay, WavePay, CB Pay, and major Myanmar banks
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Provider type constants
-export const PROVIDER_TYPES = {
+const PROVIDER_TYPES = {
   KBZPAY: 'kbzpay',
   WAVEPAY: 'wavepay',
   CBPAY: 'cbpay',
@@ -17,7 +17,7 @@ export const PROVIDER_TYPES = {
 };
 
 // Provider status constants
-export const PROVIDER_STATUS = {
+const PROVIDER_STATUS = {
   ACTIVE: 'active',
   INACTIVE: 'inactive',
   MAINTENANCE: 'maintenance',
@@ -25,7 +25,7 @@ export const PROVIDER_STATUS = {
 };
 
 // Myanmar banks list
-export const MYANMAR_BANKS = {
+const MYANMAR_BANKS = {
   KBZ: { name: 'Kanbawza Bank', code: 'KBZ', swift: 'KBZBMMMY' },
   CB: { name: 'Co-operative Bank', code: 'CB', swift: 'CPOBMMMY' },
   AYA: { name: 'Ayeyarwady Bank', code: 'AYA', swift: 'AYABMMMY' },
@@ -697,4 +697,4 @@ PayoutProviderSchema.statics.initializeDefaults = async function() {
 // Create and export the model
 const PayoutProvider = mongoose.model('PayoutProvider', PayoutProviderSchema);
 
-export default PayoutProvider;
+module.exports = PayoutProvider;

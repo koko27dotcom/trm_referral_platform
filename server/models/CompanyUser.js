@@ -4,12 +4,12 @@
  * Maps users to companies with specific roles and permissions
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Permission constants
-export const PERMISSIONS = {
+const PERMISSIONS = {
   // Job permissions
   READ_JOBS: 'read:jobs',
   WRITE_JOBS: 'write:jobs',
@@ -33,7 +33,7 @@ export const PERMISSIONS = {
 };
 
 // Role to permissions mapping
-export const ROLE_PERMISSIONS = {
+const ROLE_PERMISSIONS = {
   admin: [
     PERMISSIONS.READ_JOBS,
     PERMISSIONS.WRITE_JOBS,
@@ -396,4 +396,4 @@ CompanyUserSchema.statics.countByRole = async function(companyId) {
 // Create and export the model
 const CompanyUser = mongoose.model('CompanyUser', CompanyUserSchema);
 
-export default CompanyUser;
+module.exports = CompanyUser;

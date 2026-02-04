@@ -4,7 +4,7 @@
  * Includes job details, requirements, referral settings, and application configuration
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -947,4 +947,4 @@ JobSchema.statics.getCategories = async function() {
 // Create and export the model
 const Job = mongoose.model('Job', JobSchema);
 
-export default Job;
+module.exports = Job;

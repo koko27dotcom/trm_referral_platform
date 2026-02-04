@@ -4,7 +4,7 @@
  * Provides predictive analytics, market insights, and data-driven recommendations
  */
 
-import {
+const {
   User,
   Company,
   Job,
@@ -15,7 +15,7 @@ import {
   MarketTrend,
   HiringVelocity,
   ReferrerPrediction,
-} from '../models/index.js';
+} = require('../models/index.js');
 
 // Cache configuration
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
@@ -1214,5 +1214,5 @@ class InsightEngine {
 }
 
 // Export singleton instance
-export const insightEngine = new InsightEngine();
-export default InsightEngine;
+const insightEngine = new InsightEngine();
+module.exports = InsightEngine;

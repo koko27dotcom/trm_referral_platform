@@ -4,8 +4,8 @@
  * Handles currency conversion, rate updates, caching, and external API integration
  */
 
-import CurrencyRate from '../models/CurrencyRate.js';
-import axios from 'axios';
+const CurrencyRate = require('../models/CurrencyRate.js');
+const axios = require('axios');
 
 /**
  * Cache entry with TTL support
@@ -518,5 +518,4 @@ class CurrencyService {
 // Create singleton instance
 const currencyService = new CurrencyService();
 
-export default currencyService;
-export { CurrencyService };
+module.exports = currencyService;

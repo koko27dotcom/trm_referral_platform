@@ -4,12 +4,12 @@
  * Supports key rotation, versioning, and secure key storage
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Key types
-export const KEY_TYPES = {
+const KEY_TYPES = {
   DATA_ENCRYPTION: 'data_encryption',
   FIELD_ENCRYPTION: 'field_encryption',
   BACKUP_ENCRYPTION: 'backup_encryption',
@@ -20,7 +20,7 @@ export const KEY_TYPES = {
 };
 
 // Key algorithms
-export const KEY_ALGORITHMS = {
+const KEY_ALGORITHMS = {
   AES_256_GCM: 'aes-256-gcm',
   AES_256_CBC: 'aes-256-cbc',
   RSA_2048: 'rsa-2048',
@@ -30,7 +30,7 @@ export const KEY_ALGORITHMS = {
 };
 
 // Key status
-export const KEY_STATUS = {
+const KEY_STATUS = {
   ACTIVE: 'active',
   ROTATING: 'rotating',
   DEPRECATED: 'deprecated',
@@ -40,7 +40,7 @@ export const KEY_STATUS = {
 };
 
 // Key usage
-export const KEY_USAGE = {
+const KEY_USAGE = {
   ENCRYPT_DECRYPT: 'encrypt_decrypt',
   SIGN_VERIFY: 'sign_verify',
   WRAP_UNWRAP: 'wrap_unwrap',
@@ -621,4 +621,4 @@ EncryptionKeySchema.methods.canAccess = function(user, service = null) {
 // Create and export the model
 const EncryptionKey = mongoose.model('EncryptionKey', EncryptionKeySchema);
 
-export default EncryptionKey;
+module.exports = EncryptionKey;

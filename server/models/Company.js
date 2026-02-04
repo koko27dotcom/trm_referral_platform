@@ -4,7 +4,7 @@
  * Includes subscription management, verification status, and company settings
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -1474,4 +1474,4 @@ CompanySchema.statics.validateApiKey = async function(apiKey) {
 // Create and export the model
 const Company = mongoose.model('Company', CompanySchema);
 
-export default Company;
+module.exports = Company;

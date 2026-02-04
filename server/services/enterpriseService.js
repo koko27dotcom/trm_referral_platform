@@ -10,8 +10,8 @@
  * - SSO/SAML integration
  */
 
-import { Company, EnterprisePlan, CompanyUser, Job, User, Application, Referral, BillingRecord } from '../models/index.js';
-import { createRequire } from 'module';
+const { Company, EnterprisePlan, CompanyUser, Job, User, Application, Referral, BillingRecord } = require('../models/index.js');
+const { createRequire } = require('module');
 const require = createRequire(import.meta.url);
 const crypto = require('crypto');
 
@@ -22,7 +22,7 @@ const crypto = require('crypto');
  * @param {string} companyId - Company ID
  * @returns {Promise<Object>}
  */
-export const getEnterpriseDashboard = async (companyId) => {
+const getEnterpriseDashboard = async (companyId) => {
   const company = await Company.findById(companyId)
     .populate('enterprisePlan', 'name tier pricing features')
     .populate('accountManager', 'name email phone avatar')
@@ -163,7 +163,7 @@ const validateJobData = (jobData) => {
  * @param {Object} options - Processing options
  * @returns {Promise<Object>}
  */
-export const bulkPostJobs = async (companyId, jobsData, format = 'json', options = {}) => {
+const bulkPostJobs = async (companyId, jobsData, format = 'json', options = {}) => {
   const company = await Company.findById(companyId);
   
   if (!company) {
@@ -266,7 +266,7 @@ export const bulkPostJobs = async (companyId, jobsData, format = 'json', options
  * @param {Object} keyData - Key configuration
  * @returns {Promise<Object>}
  */
-export const generateApiKey = async (companyId, keyData) => {
+const generateApiKey = async (companyId, keyData) => {
   const company = await Company.findById(companyId);
   
   if (!company) {
@@ -301,7 +301,7 @@ export const generateApiKey = async (companyId, keyData) => {
  * @param {string} companyId - Company ID
  * @returns {Promise<Array>}
  */
-export const getApiKeys = async (companyId) => {
+const getApiKeys = async (companyId) => {
   const company = await Company.findById(companyId).select('apiAccess.apiKeys');
   
   if (!company || !company.apiAccess?.apiKeys) {
@@ -329,7 +329,7 @@ export const getApiKeys = async (companyId) => {
  * @param {string} keyId - Key ID
  * @returns {Promise<boolean>}
  */
-export const revokeApiKey = async (companyId, keyId) => {
+const revokeApiKey = async (companyId, keyId) => {
   const company = await Company.findById(companyId);
   
   if (!company) {
@@ -346,7 +346,7 @@ export const revokeApiKey = async (companyId, keyId) => {
  * @param {string} companyId - Company ID
  * @returns {Promise<Object>}
  */
-export const getWebhookConfig = async (companyId) => {
+const getWebhookConfig = async (companyId) => {
   const company = await Company.findById(companyId).select('apiAccess');
   
   if (!company) {
@@ -369,7 +369,7 @@ export const getWebhookConfig = async (companyId) => {
  * @param {Object} config - Webhook configuration
  * @returns {Promise<Object>}
  */
-export const updateWebhookConfig = async (companyId, config) => {
+const updateWebhookConfig = async (companyId, config) => {
   const company = await Company.findById(companyId);
   
   if (!company) {
@@ -407,7 +407,7 @@ export const updateWebhookConfig = async (companyId, config) => {
  * @param {Object} payload - Event payload
  * @returns {Promise<Object>}
  */
-export const sendWebhook = async (companyId, event, payload) => {
+const sendWebhook = async (companyId, event, payload) => {
   const company = await Company.findById(companyId).select('apiAccess name');
   
   if (!company || !company.apiAccess?.webhookEnabled || !company.apiAccess?.webhookUrl) {
@@ -480,7 +480,7 @@ export const sendWebhook = async (companyId, event, payload) => {
  * @param {string} companyId - Company ID
  * @returns {Promise<Array>}
  */
-export const getTeamMembers = async (companyId) => {
+const getTeamMembers = async (companyId) => {
   const companyUsers = await CompanyUser.find({ companyId })
     .populate('userId', 'name email avatar phone')
     .sort({ createdAt: -1 });
@@ -507,7 +507,7 @@ export const getTeamMembers = async (companyId) => {
  * @param {Object} memberData - Member data
  * @returns {Promise<Object>}
  */
-export const addTeamMember = async (companyId, memberData) => {
+const addTeamMember = async (companyId, memberData) => {
   const company = await Company.findById(companyId);
   
   if (!company) {
@@ -581,7 +581,7 @@ export const addTeamMember = async (companyId, memberData) => {
  * @param {string} memberId - CompanyUser ID
  * @returns {Promise<boolean>}
  */
-export const removeTeamMember = async (companyId, memberId) => {
+const removeTeamMember = async (companyId, memberId) => {
   const companyUser = await CompanyUser.findOne({
     _id: memberId,
     companyId,
@@ -622,7 +622,7 @@ export const removeTeamMember = async (companyId, memberId) => {
  * @param {Object} updateData - Update data
  * @returns {Promise<Object>}
  */
-export const updateTeamMember = async (companyId, memberId, updateData) => {
+const updateTeamMember = async (companyId, memberId, updateData) => {
   const companyUser = await CompanyUser.findOne({
     _id: memberId,
     companyId,
@@ -663,7 +663,7 @@ export const updateTeamMember = async (companyId, memberId, updateData) => {
  * @param {string} companyId - Company ID
  * @returns {Promise<Object>}
  */
-export const getCustomBranding = async (companyId) => {
+const getCustomBranding = async (companyId) => {
   const company = await Company.findById(companyId).select('customBranding name');
   
   if (!company) {
@@ -690,7 +690,7 @@ export const getCustomBranding = async (companyId) => {
  * @param {Object} brandingData - Branding data
  * @returns {Promise<Object>}
  */
-export const updateCustomBranding = async (companyId, brandingData) => {
+const updateCustomBranding = async (companyId, brandingData) => {
   const company = await Company.findById(companyId);
   
   if (!company) {
@@ -726,7 +726,7 @@ export const updateCustomBranding = async (companyId, brandingData) => {
  * @param {string} companyId - Company ID
  * @returns {Promise<Object>}
  */
-export const getSsoConfig = async (companyId) => {
+const getSsoConfig = async (companyId) => {
   const company = await Company.findById(companyId).select('ssoConfig name');
   
   if (!company) {
@@ -769,7 +769,7 @@ export const getSsoConfig = async (companyId) => {
  * @param {Object} ssoData - SSO configuration
  * @returns {Promise<Object>}
  */
-export const updateSsoConfig = async (companyId, ssoData) => {
+const updateSsoConfig = async (companyId, ssoData) => {
   const company = await Company.findById(companyId);
   
   if (!company) {
@@ -800,7 +800,7 @@ export const updateSsoConfig = async (companyId, ssoData) => {
  * Get all enterprise plans
  * @returns {Promise<Array>}
  */
-export const getEnterprisePlans = async () => {
+const getEnterprisePlans = async () => {
   const plans = await EnterprisePlan.find({
     isActive: true,
     isPublic: true,
@@ -834,7 +834,7 @@ export const getEnterprisePlans = async () => {
  * @param {Object} subscriptionData - Subscription data
  * @returns {Promise<Object>}
  */
-export const subscribeToPlan = async (companyId, planId, subscriptionData) => {
+const subscribeToPlan = async (companyId, planId, subscriptionData) => {
   const company = await Company.findById(companyId);
   const plan = await EnterprisePlan.findById(planId);
   
@@ -900,7 +900,7 @@ export const subscribeToPlan = async (companyId, planId, subscriptionData) => {
  * @param {Object} dateRange - Date range
  * @returns {Promise<Object>}
  */
-export const getAdvancedReport = async (companyId, reportType, dateRange = {}) => {
+const getAdvancedReport = async (companyId, reportType, dateRange = {}) => {
   const company = await Company.findById(companyId);
   
   if (!company) {
@@ -1075,7 +1075,7 @@ const getSourceEffectivenessReport = async (companyId, startDate, endDate) => {
  * @param {string} companyId - Company ID
  * @returns {Promise<Object>}
  */
-export const getSupportContact = async (companyId) => {
+const getSupportContact = async (companyId) => {
   const company = await Company.findById(companyId)
     .populate('enterprisePlan', 'support')
     .populate('accountManager', 'name email phone avatar');
@@ -1099,7 +1099,7 @@ export const getSupportContact = async (companyId) => {
   };
 };
 
-export default {
+module.exports = {
   getEnterpriseDashboard,
   bulkPostJobs,
   generateApiKey,

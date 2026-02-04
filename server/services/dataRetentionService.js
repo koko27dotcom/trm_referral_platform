@@ -4,10 +4,10 @@
  * Supports GDPR, PDPA compliance with configurable retention rules
  */
 
-import { User, Company, Referral, Application, AuditLog } from '../models/index.js';
-import { DataRetentionPolicy, RETENTION_ACTIONS, DATA_CATEGORIES } from '../models/DataRetentionPolicy.js';
-import { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } from '../models/SecurityAudit.js';
-import encryptionService from './encryptionService.js';
+const { User, Company, Referral, Application, AuditLog } = require('../models/index.js');
+const { DataRetentionPolicy, RETENTION_ACTIONS, DATA_CATEGORIES } = require('../models/DataRetentionPolicy.js');
+const { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } = require('../models/SecurityAudit.js');
+const encryptionService = require('./encryptionService.js');
 
 // Processing configuration
 const PROCESSING_CONFIG = {
@@ -20,7 +20,7 @@ const PROCESSING_CONFIG = {
  * Process data retention for all active policies
  * @returns {Promise<Object>}
  */
-export const processRetention = async () => {
+const processRetention = async () => {
   const startTime = Date.now();
   const results = {
     policiesProcessed: 0,
@@ -379,7 +379,7 @@ const getPIIFieldsForModel = (modelName) => {
  * @param {Object} filters - Filters
  * @returns {Promise<Object>}
  */
-export const getRetentionStats = async (filters = {}) => {
+const getRetentionStats = async (filters = {}) => {
   const stats = {
     activePolicies: 0,
     totalRules: 0,
@@ -423,7 +423,7 @@ export const getRetentionStats = async (filters = {}) => {
  * @param {string} policyId - Policy ID
  * @returns {Promise<Object>}
  */
-export const previewRetention = async (policyId) => {
+const previewRetention = async (policyId) => {
   const policy = await DataRetentionPolicy.findById(policyId);
   if (!policy) {
     throw new Error('Policy not found');
@@ -464,7 +464,7 @@ export const previewRetention = async (policyId) => {
  * @param {string} userId - User ID
  * @returns {Promise<Object>}
  */
-export const checkUserDataRetention = async (userId) => {
+const checkUserDataRetention = async (userId) => {
   const user = await User.findById(userId);
   if (!user) {
     throw new Error('User not found');
@@ -503,7 +503,7 @@ export const checkUserDataRetention = async (userId) => {
  * @param {string} createdBy - User ID creating policies
  * @returns {Promise<Object>}
  */
-export const initializeDefaultPolicies = async (createdBy) => {
+const initializeDefaultPolicies = async (createdBy) => {
   const results = {
     created: [],
     errors: [],
@@ -528,7 +528,7 @@ export const initializeDefaultPolicies = async (createdBy) => {
   return results;
 };
 
-export default {
+module.exports = {
   processRetention,
   getRetentionStats,
   previewRetention,

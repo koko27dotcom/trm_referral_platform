@@ -3,12 +3,12 @@
  * API endpoints for partner management
  */
 
-import express from 'express';
-import partnerService from '../services/partnerService.js';
-import whiteLabelService from '../services/whiteLabelService.js';
-import apiService from '../services/apiService.js';
-import { authenticate, requireAuth } from '../middleware/auth.js';
-import { partnerAuth } from '../middleware/partnerAuth.js';
+const express = require('express');
+const partnerService = require('../services/partnerService.js');
+const whiteLabelService = require('../services/whiteLabelService.js');
+const apiService = require('../services/apiService.js');
+const { authenticate, requireAuth } = require('../middleware/auth.js');
+const { partnerAuth } = require('../middleware/partnerAuth.js');
 
 const router = express.Router();
 
@@ -494,4 +494,4 @@ router.post('/admin/:partnerId/reactivate', requireAuth, async (req, res, next) 
   }
 });
 
-export default router;
+module.exports = router;

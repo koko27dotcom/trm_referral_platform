@@ -4,12 +4,12 @@
  * Part of the Auto-Followup Workflow Engine for TRM platform
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Workflow Trigger Types
-export const TRIGGER_TYPES = {
+const TRIGGER_TYPES = {
   CANDIDATE_APPLIED_INCOMPLETE: 'candidate_applied_incomplete',
   COMPANY_NO_REFERRALS: 'company_no_referrals',
   REFERRER_PENDING_REFERRALS: 'referrer_pending_referrals',
@@ -21,7 +21,7 @@ export const TRIGGER_TYPES = {
 };
 
 // Workflow Status
-export const WORKFLOW_STATUS = {
+const WORKFLOW_STATUS = {
   ACTIVE: 'active',
   PAUSED: 'paused',
   DRAFT: 'draft',
@@ -29,7 +29,7 @@ export const WORKFLOW_STATUS = {
 };
 
 // Action Types
-export const ACTION_TYPES = {
+const ACTION_TYPES = {
   SEND_EMAIL: 'send_email',
   SEND_WHATSAPP: 'send_whatsapp',
   SEND_NOTIFICATION: 'send_notification',
@@ -40,7 +40,7 @@ export const ACTION_TYPES = {
 };
 
 // Condition Operators
-export const CONDITION_OPERATORS = {
+const CONDITION_OPERATORS = {
   EQUALS: 'equals',
   NOT_EQUALS: 'not_equals',
   GREATER_THAN: 'greater_than',
@@ -466,4 +466,4 @@ WorkflowSchema.methods.incrementStats = async function(status) {
 
 const Workflow = mongoose.model('Workflow', WorkflowSchema);
 
-export default Workflow;
+module.exports = Workflow;

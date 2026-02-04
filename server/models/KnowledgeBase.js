@@ -4,7 +4,7 @@
  * Stores articles, categories, tags, and helpfulness ratings
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -832,4 +832,4 @@ The minimum payout amount is 50,000 MMK. Amounts below this will roll over to th
 
 const KnowledgeBase = mongoose.model('KnowledgeBase', KnowledgeBaseSchema);
 
-export default KnowledgeBase;
+module.exports = KnowledgeBase;

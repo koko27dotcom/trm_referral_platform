@@ -4,7 +4,7 @@
  * Tracks conversation metrics, user satisfaction, and bot performance
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -554,4 +554,4 @@ ChatAnalyticsSchema.statics.getSourceDistribution = async function(startDate, en
 
 const ChatAnalytics = mongoose.model('ChatAnalytics', ChatAnalyticsSchema);
 
-export default ChatAnalytics;
+module.exports = ChatAnalytics;

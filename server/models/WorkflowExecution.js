@@ -4,12 +4,12 @@
  * Part of the Auto-Followup Workflow Engine for TRM platform
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Execution Status
-export const EXECUTION_STATUS = {
+const EXECUTION_STATUS = {
   PENDING: 'pending',
   RUNNING: 'running',
   COMPLETED: 'completed',
@@ -20,7 +20,7 @@ export const EXECUTION_STATUS = {
 };
 
 // Action Execution Status
-export const ACTION_STATUS = {
+const ACTION_STATUS = {
   PENDING: 'pending',
   RUNNING: 'running',
   COMPLETED: 'completed',
@@ -31,7 +31,7 @@ export const ACTION_STATUS = {
 };
 
 // Entity Types
-export const ENTITY_TYPES = {
+const ENTITY_TYPES = {
   USER: 'user',
   JOB: 'job',
   COMPANY: 'company',
@@ -529,4 +529,4 @@ WorkflowExecutionSchema.statics.getStatistics = async function(workflowId, dateR
 
 const WorkflowExecution = mongoose.model('WorkflowExecution', WorkflowExecutionSchema);
 
-export default WorkflowExecution;
+module.exports = WorkflowExecution;

@@ -3,18 +3,18 @@
  * API routes for GDPR data export, right to be forgotten, and compliance management
  */
 
-import express from 'express';
-import { authenticate, authorize } from '../middleware/auth.js';
-import { validateBody, validateQuery } from '../middleware/requestValidator.js';
-import complianceService from '../services/complianceService.js';
-import auditService from '../services/auditService.js';
-import ComplianceReport from '../models/ComplianceReport.js';
-import User from '../models/User.js';
-import Application from '../models/Application.js';
-import Referral from '../models/Referral.js';
-import PayoutRequest from '../models/PayoutRequest.js';
-import AuditLog from '../models/AuditLog.js';
-import Notification from '../models/Notification.js';
+const express = require('express');
+const { authenticate, authorize } = require('../middleware/auth.js');
+const { validateBody, validateQuery } = require('../middleware/requestValidator.js');
+const complianceService = require('../services/complianceService.js');
+const auditService = require('../services/auditService.js');
+const ComplianceReport = require('../models/ComplianceReport.js');
+const User = require('../models/User.js');
+const Application = require('../models/Application.js');
+const Referral = require('../models/Referral.js');
+const PayoutRequest = require('../models/PayoutRequest.js');
+const AuditLog = require('../models/AuditLog.js');
+const Notification = require('../models/Notification.js');
 
 const router = express.Router();
 
@@ -731,4 +731,4 @@ router.post(
   }
 );
 
-export default router;
+module.exports = router;

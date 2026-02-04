@@ -4,8 +4,8 @@
  * Handles region detection, configuration management, language support, and compliance
  */
 
-import RegionConfig from '../models/RegionConfig.js';
-import User from '../models/User.js';
+const RegionConfig = require('../models/RegionConfig.js');
+const User = require('../models/User.js');
 
 /**
  * Cache entry with TTL support
@@ -1314,5 +1314,4 @@ class RegionService {
 // Create singleton instance
 const regionService = new RegionService();
 
-export default regionService;
-export { RegionService };
+module.exports = regionService;

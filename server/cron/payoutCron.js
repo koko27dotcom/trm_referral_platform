@@ -5,10 +5,10 @@
  * Part of the Automated Payout Processing System for TRM platform
  */
 
-import cron from 'node-cron';
-import payoutProcessor from '../services/payoutProcessor.js';
-import PayoutBatch from '../models/PayoutBatch.js';
-import PayoutTransaction from '../models/PayoutTransaction.js';
+const cron = require('node-cron');
+const payoutProcessor = require('../services/payoutProcessor.js');
+const PayoutBatch = require('../models/PayoutBatch.js');
+const PayoutTransaction = require('../models/PayoutTransaction.js');
 
 // Active cron job storage
 let dailyPayoutJob = null;
@@ -18,7 +18,7 @@ let hourlyBatchJob = null;
 /**
  * Initialize payout processing cron jobs
  */
-export const initializePayoutCron = () => {
+const initializePayoutCron = () => {
   // Initialize payout processor
   payoutProcessor.initialize().catch(error => {
     console.error('[PayoutCron] Failed to initialize payout processor:', error);
@@ -60,7 +60,7 @@ export const initializePayoutCron = () => {
 /**
  * Stop payout cron jobs
  */
-export const stopPayoutCron = () => {
+const stopPayoutCron = () => {
   if (dailyPayoutJob) {
     dailyPayoutJob.stop();
     console.log('[PayoutCron] Daily payout job stopped');
@@ -163,7 +163,7 @@ async function processScheduledBatches() {
  * @param {Object} options - Batch options
  * @returns {Promise<Object>}
  */
-export const createWeeklyBatch = async (options = {}) => {
+const createWeeklyBatch = async (options = {}) => {
   try {
     const result = await payoutProcessor.createScheduledBatch({
       type: 'weekly',
@@ -185,7 +185,7 @@ export const createWeeklyBatch = async (options = {}) => {
  * @param {Object} options - Batch options
  * @returns {Promise<Object>}
  */
-export const createMonthlyBatch = async (options = {}) => {
+const createMonthlyBatch = async (options = {}) => {
   try {
     const result = await payoutProcessor.createScheduledBatch({
       type: 'monthly',
@@ -207,7 +207,7 @@ export const createMonthlyBatch = async (options = {}) => {
  * @param {string} batchId - Batch ID
  * @returns {Promise<Object>}
  */
-export const processBatchImmediate = async (batchId) => {
+const processBatchImmediate = async (batchId) => {
   try {
     console.log(`[PayoutCron] Processing batch ${batchId} immediately...`);
     const result = await payoutProcessor.processBatch(batchId);
@@ -225,7 +225,7 @@ export const processBatchImmediate = async (batchId) => {
  * @param {string} transactionId - Transaction ID
  * @returns {Promise<Object>}
  */
-export const retryTransactionImmediate = async (transactionId) => {
+const retryTransactionImmediate = async (transactionId) => {
   try {
     console.log(`[PayoutCron] Retrying transaction ${transactionId}...`);
     const result = await payoutProcessor.retryTransaction(transactionId);
@@ -242,7 +242,7 @@ export const retryTransactionImmediate = async (transactionId) => {
  * Returns current status of payout processing queue
  * @returns {Promise<Object>}
  */
-export const getPayoutQueueStatus = async () => {
+const getPayoutQueueStatus = async () => {
   try {
     const [
       pendingBatches,
@@ -283,7 +283,7 @@ export const getPayoutQueueStatus = async () => {
  * Get next scheduled run times
  * @returns {Object}
  */
-export const getScheduleInfo = () => {
+const getScheduleInfo = () => {
   const now = new Date();
   const timezone = 'Asia/Yangon';
 
@@ -322,7 +322,7 @@ export const getScheduleInfo = () => {
   };
 };
 
-export default {
+module.exports = {
   initializePayoutCron,
   stopPayoutCron,
   createWeeklyBatch,

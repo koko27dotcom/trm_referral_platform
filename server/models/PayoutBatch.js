@@ -4,12 +4,12 @@
  * Tracks batch status, processing details, and reconciliation
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
 // Batch status constants
-export const BATCH_STATUS = {
+const BATCH_STATUS = {
   PENDING: 'pending',
   PROCESSING: 'processing',
   COMPLETED: 'completed',
@@ -19,7 +19,7 @@ export const BATCH_STATUS = {
 };
 
 // Batch type constants
-export const BATCH_TYPE = {
+const BATCH_TYPE = {
   DAILY: 'daily',
   WEEKLY: 'weekly',
   MONTHLY: 'monthly',
@@ -574,4 +574,4 @@ PayoutBatchSchema.statics.getRecent = function(options = {}) {
 // Create and export the model
 const PayoutBatch = mongoose.model('PayoutBatch', PayoutBatchSchema);
 
-export default PayoutBatch;
+module.exports = PayoutBatch;

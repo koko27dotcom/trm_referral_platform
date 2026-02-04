@@ -5,7 +5,7 @@
  * Handles real-time and background score calculations
  */
 
-import { LeadScore, ReferrerQuality, Company, User, Job, Referral } from '../models/index.js';
+const { LeadScore, ReferrerQuality, Company, User, Job, Referral } = require('../models/index.js');
 
 /**
  * Service class for managing lead scoring operations
@@ -921,5 +921,5 @@ class LeadScoreService {
 }
 
 // Export singleton instance
-export const leadScoreService = new LeadScoreService();
-export default leadScoreService;
+const leadScoreService = new LeadScoreService();
+module.exports = leadScoreService;

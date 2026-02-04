@@ -4,7 +4,7 @@
  * Tracks the full referral lifecycle from submission to payment
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -159,7 +159,7 @@ const PayoutSchema = new Schema({
 }, { _id: false });
 
 // Referral status constants
-export const REFERRAL_STATUS = {
+const REFERRAL_STATUS = {
   SUBMITTED: 'submitted',
   UNDER_REVIEW: 'under_review',
   SHORTLISTED: 'shortlisted',
@@ -174,7 +174,7 @@ export const REFERRAL_STATUS = {
 };
 
 // Status flow - defines valid status transitions
-export const STATUS_FLOW = {
+const STATUS_FLOW = {
   [REFERRAL_STATUS.SUBMITTED]: [REFERRAL_STATUS.UNDER_REVIEW, REFERRAL_STATUS.REJECTED, REFERRAL_STATUS.WITHDRAWN],
   [REFERRAL_STATUS.UNDER_REVIEW]: [REFERRAL_STATUS.SHORTLISTED, REFERRAL_STATUS.REJECTED, REFERRAL_STATUS.WITHDRAWN],
   [REFERRAL_STATUS.SHORTLISTED]: [REFERRAL_STATUS.INTERVIEW_SCHEDULED, REFERRAL_STATUS.REJECTED, REFERRAL_STATUS.WITHDRAWN],
@@ -675,4 +675,4 @@ ReferralSchema.statics.generateCode = function() {
 // Create and export the model
 const Referral = mongoose.model('Referral', ReferralSchema);
 
-export default Referral;
+module.exports = Referral;

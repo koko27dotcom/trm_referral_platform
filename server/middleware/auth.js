@@ -4,11 +4,12 @@
  * Includes token verification, user loading, and security checks
  */
 
-import jwt from 'jsonwebtoken';
-import { User } from '../models/index.js';
+const jwt = require('jsonwebtoken');
+const { User } = require('../models/index.js');
 
 // Re-export requireRole from rbac.js for backward compatibility
-export { requireRole } from './rbac.js';
+const { requireRole } = require('./rbac.js');
+module.exports.requireRole = requireRole;
 
 // Token configuration
 const JWT_CONFIG = {
@@ -23,7 +24,7 @@ const JWT_CONFIG = {
  * @param {Object} payload - Token payload
  * @returns {string} JWT token
  */
-export const generateAccessToken = (payload) => {
+const generateAccessToken = (payload) => {
   return jwt.sign(payload, JWT_CONFIG.accessTokenSecret, {
     expiresIn: JWT_CONFIG.accessTokenExpiry,
   });
@@ -34,7 +35,7 @@ export const generateAccessToken = (payload) => {
  * @param {Object} payload - Token payload
  * @returns {string} JWT refresh token
  */
-export const generateRefreshToken = (payload) => {
+const generateRefreshToken = (payload) => {
   return jwt.sign(payload, JWT_CONFIG.refreshTokenSecret, {
     expiresIn: JWT_CONFIG.refreshTokenExpiry,
   });
@@ -45,7 +46,7 @@ export const generateRefreshToken = (payload) => {
  * @param {Object} user - User object
  * @returns {Object} Object containing accessToken and refreshToken
  */
-export const generateTokens = (user) => {
+const generateTokens = (user) => {
   const payload = {
     sub: user._id.toString(),
     email: user.email,
@@ -74,7 +75,7 @@ export const generateTokens = (user) => {
  * @returns {Object} Decoded token payload
  * @throws {Error} If token is invalid or expired
  */
-export const verifyAccessToken = (token) => {
+const verifyAccessToken = (token) => {
   return jwt.verify(token, JWT_CONFIG.accessTokenSecret);
 };
 
@@ -84,7 +85,7 @@ export const verifyAccessToken = (token) => {
  * @returns {Object} Decoded token payload
  * @throws {Error} If token is invalid or expired
  */
-export const verifyRefreshToken = (token) => {
+const verifyRefreshToken = (token) => {
   return jwt.verify(token, JWT_CONFIG.refreshTokenSecret);
 };
 
@@ -93,7 +94,7 @@ export const verifyRefreshToken = (token) => {
  * @param {Object} req - Express request object
  * @returns {string|null} JWT token or null
  */
-export const extractTokenFromHeader = (req) => {
+const extractTokenFromHeader = (req) => {
   const authHeader = req.headers.authorization;
   
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -108,7 +109,7 @@ export const extractTokenFromHeader = (req) => {
  * @param {Object} req - Express request object
  * @returns {string|null} JWT token or null
  */
-export const extractTokenFromCookie = (req) => {
+const extractTokenFromCookie = (req) => {
   return req.cookies?.accessToken || null;
 };
 
@@ -116,7 +117,7 @@ export const extractTokenFromCookie = (req) => {
  * Main authentication middleware
  * Verifies JWT token and attaches user to request
  */
-export const authenticate = async (req, res, next) => {
+const authenticate = async (req, res, next) => {
   try {
     // Extract token from header or cookie
     let token = extractTokenFromHeader(req) || extractTokenFromCookie(req);
@@ -204,7 +205,7 @@ export const authenticate = async (req, res, next) => {
  * Optional authentication middleware
  * Attaches user to request if token is valid, but doesn't require it
  */
-export const optionalAuth = async (req, res, next) => {
+const optionalAuth = async (req, res, next) => {
   try {
     const token = extractTokenFromHeader(req) || extractTokenFromCookie(req);
     
@@ -232,7 +233,7 @@ export const optionalAuth = async (req, res, next) => {
  * Refresh token middleware
  * Issues new access token using refresh token
  */
-export const refreshToken = async (req, res, next) => {
+const refreshToken = async (req, res, next) => {
   try {
     const { refreshToken: token } = req.body;
     
@@ -296,7 +297,7 @@ export const refreshToken = async (req, res, next) => {
  * Verify email token middleware
  * For email verification flows
  */
-export const verifyEmailToken = (token) => {
+const verifyEmailToken = (token) => {
   const secret = process.env.JWT_EMAIL_SECRET || 'email-verification-secret';
   return jwt.verify(token, secret);
 };
@@ -306,7 +307,7 @@ export const verifyEmailToken = (token) => {
  * @param {string} userId - User ID
  * @returns {string} Verification token
  */
-export const generateEmailVerificationToken = (userId) => {
+const generateEmailVerificationToken = (userId) => {
   const secret = process.env.JWT_EMAIL_SECRET || 'email-verification-secret';
   return jwt.sign({ sub: userId, purpose: 'email_verification' }, secret, {
     expiresIn: '24h',
@@ -318,7 +319,7 @@ export const generateEmailVerificationToken = (userId) => {
  * @param {string} userId - User ID
  * @returns {string} Reset token
  */
-export const generatePasswordResetToken = (userId) => {
+const generatePasswordResetToken = (userId) => {
   const secret = process.env.JWT_RESET_SECRET || 'password-reset-secret';
   return jwt.sign({ sub: userId, purpose: 'password_reset' }, secret, {
     expiresIn: '1h',
@@ -330,12 +331,12 @@ export const generatePasswordResetToken = (userId) => {
  * @param {string} token - Reset token
  * @returns {Object} Decoded token
  */
-export const verifyPasswordResetToken = (token) => {
+const verifyPasswordResetToken = (token) => {
   const secret = process.env.JWT_RESET_SECRET || 'password-reset-secret';
   return jwt.verify(token, secret);
 };
 
-export default {
+module.exports = {
   authenticate,
   optionalAuth,
   refreshToken,
@@ -350,4 +351,5 @@ export default {
   verifyEmailToken,
   generatePasswordResetToken,
   verifyPasswordResetToken,
+  requireRole,
 };

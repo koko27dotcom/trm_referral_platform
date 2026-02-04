@@ -3,11 +3,11 @@
  * API endpoints for affiliate marketing
  */
 
-import express from 'express';
-import affiliateService from '../services/affiliateService.js';
-import partnerService from '../services/partnerService.js';
-import { requireAuth } from '../middleware/auth.js';
-import { partnerAuth } from '../middleware/partnerAuth.js';
+const express = require('express');
+const affiliateService = require('../services/affiliateService.js');
+const partnerService = require('../services/partnerService.js');
+const { requireAuth } = require('../middleware/auth.js');
+const { partnerAuth } = require('../middleware/partnerAuth.js');
 
 const router = express.Router();
 
@@ -343,4 +343,4 @@ router.get('/performance', requireAuth, partnerAuth, async (req, res, next) => {
   }
 });
 
-export default router;
+module.exports = router;

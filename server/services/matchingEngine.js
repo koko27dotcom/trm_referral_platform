@@ -4,9 +4,9 @@
  * Calculates compatibility ratings based on multiple factors
  */
 
-import { User, Job, MatchScore, Referral, Application, ReferralNetwork } from '../models/index.js';
-import { sendNotification } from './notificationService.js';
-import { NOTIFICATION_TYPES, NOTIFICATION_PRIORITY, NOTIFICATION_CHANNELS } from '../models/Notification.js';
+const { User, Job, MatchScore, Referral, Application, ReferralNetwork } = require('../models/index.js');
+const { sendNotification } = require('./notificationService.js');
+const { NOTIFICATION_TYPES, NOTIFICATION_PRIORITY, NOTIFICATION_CHANNELS } = require('../models/Notification.js');
 
 // Default weights for scoring factors
 const DEFAULT_WEIGHTS = {
@@ -885,25 +885,25 @@ class MatchingEngine {
 }
 
 // Export singleton instance
-export const matchingEngine = new MatchingEngine();
+const matchingEngine = new MatchingEngine();
 
 // Export individual functions for convenience
-export const calculateMatchScore = (jobId, candidateId) => 
+const calculateMatchScore = (jobId, candidateId) => 
   matchingEngine.calculateMatchScore(jobId, candidateId);
 
-export const getTopCandidatesForJob = (jobId, options) => 
+const getTopCandidatesForJob = (jobId, options) => 
   matchingEngine.getTopCandidatesForJob(jobId, options);
 
-export const getTopJobsForCandidate = (candidateId, options) => 
+const getTopJobsForCandidate = (candidateId, options) => 
   matchingEngine.getTopJobsForCandidate(candidateId, options);
 
-export const getSuggestionsForReferrer = (referrerId, options) => 
+const getSuggestionsForReferrer = (referrerId, options) => 
   matchingEngine.getSuggestionsForReferrer(referrerId, options);
 
-export const findAndNotifyPerfectMatches = (jobId) => 
+const findAndNotifyPerfectMatches = (jobId) => 
   matchingEngine.findAndNotifyPerfectMatches(jobId);
 
-export const sendSuggestionsToReferrer = (referrerId, jobId) => 
+const sendSuggestionsToReferrer = (referrerId, jobId) => 
   matchingEngine.sendSuggestionsToReferrer(referrerId, jobId);
 
-export default matchingEngine;
+module.exports = matchingEngine;

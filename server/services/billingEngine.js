@@ -4,13 +4,13 @@
  * Supports multiple payment providers and handles dunning management
  */
 
-import {
+const {
   BillingRecord,
   Subscription,
   Company,
   User,
-} from '../models/index.js';
-import mongoose from 'mongoose';
+} = require('../models/index.js');
+const mongoose = require('mongoose');
 
 class BillingEngine {
   constructor() {
@@ -605,5 +605,5 @@ class BillingEngine {
 }
 
 // Export singleton instance
-export const billingEngine = new BillingEngine();
-export default BillingEngine;
+const billingEngine = new BillingEngine();
+module.exports = BillingEngine;

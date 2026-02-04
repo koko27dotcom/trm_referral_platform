@@ -4,7 +4,7 @@
  * Tracks prediction accuracy and provides historical insight data
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -419,4 +419,4 @@ AnalyticsInsightSchema.statics.cleanupExpired = async function() {
 
 const AnalyticsInsight = mongoose.model('AnalyticsInsight', AnalyticsInsightSchema);
 
-export default AnalyticsInsight;
+module.exports = AnalyticsInsight;

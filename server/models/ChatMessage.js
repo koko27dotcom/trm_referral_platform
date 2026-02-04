@@ -4,7 +4,7 @@
  * Tracks message content, intent, entities, and metadata
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -438,4 +438,4 @@ ChatMessageSchema.statics.getIntentDistribution = async function(startDate, endD
 
 const ChatMessage = mongoose.model('ChatMessage', ChatMessageSchema);
 
-export default ChatMessage;
+module.exports = ChatMessage;

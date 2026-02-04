@@ -3,10 +3,10 @@
  * Handles blog posts, podcasts, videos, and content management
  */
 
-import express from 'express';
-import ContentService from '../services/contentService.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, ForbiddenError } from '../middleware/errorHandler.js';
+const express = require('express');
+const ContentService = require('../services/contentService.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, ForbiddenError } = require('../middleware/errorHandler.js');
 
 const router = express.Router();
 const contentService = new ContentService();
@@ -452,4 +452,4 @@ router.post('/:id/seo', authenticate, asyncHandler(async (req, res) => {
   res.json(result);
 }));
 
-export default router;
+module.exports = router;

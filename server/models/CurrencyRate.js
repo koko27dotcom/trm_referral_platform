@@ -4,7 +4,7 @@
  * Supports multiple rate sources and automatic updates
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -319,4 +319,4 @@ CurrencyRateSchema.methods.convertWithSpread = function(amount, type = 'buy') {
 
 const CurrencyRate = mongoose.model('CurrencyRate', CurrencyRateSchema);
 
-export default CurrencyRate;
+module.exports = CurrencyRate;

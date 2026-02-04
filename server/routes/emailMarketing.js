@@ -3,18 +3,18 @@
  * API endpoints for campaigns, templates, sequences, segments, and email operations
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import {
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const {
   EmailCampaign,
   EmailTemplate,
   EmailSequence,
   UserSegment,
   EmailLog,
   User,
-} from '../models/index.js';
-import {
+} = require('../models/index.js');
+const {
   sendEmail,
   queueEmail,
   sendBroadcast,
@@ -25,13 +25,13 @@ import {
   removeFromSuppressionList,
   verifyUnsubscribeToken,
   getServiceStatus,
-} from '../services/emailMarketingService.js';
-import {
+} = require('../services/emailMarketingService.js');
+const {
   enrollInSequence,
   unenrollFromSequence,
   getSequenceStats,
   createPredefinedSequences,
-} from '../services/sequenceEngineService.js';
+} = require('../services/sequenceEngineService.js');
 
 const router = express.Router();
 
@@ -1605,4 +1605,4 @@ router.post('/webhook/sendgrid', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

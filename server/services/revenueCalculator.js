@@ -4,7 +4,7 @@
  * Provides comprehensive financial analytics for the TRM platform
  */
 
-import {
+const {
   BillingRecord,
   Subscription,
   Job,
@@ -14,7 +14,7 @@ import {
   User,
   PayoutRequest,
   RevenueAnalytics,
-} from '../models/index.js';
+} = require('../models/index.js');
 
 class RevenueCalculator {
   constructor() {
@@ -1110,5 +1110,5 @@ class RevenueCalculator {
 }
 
 // Export singleton instance
-export const revenueCalculator = new RevenueCalculator();
-export default RevenueCalculator;
+const revenueCalculator = new RevenueCalculator();
+module.exports = RevenueCalculator;

@@ -3,10 +3,10 @@
  * API endpoints for leaderboard features
  */
 
-import express from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { requireRole } from '../middleware/rbac.js';
-import leaderboardService from '../services/leaderboardService.js';
+const express = require('express');
+const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
+const leaderboardService = require('../services/leaderboardService.js');
 
 const router = express.Router();
 
@@ -320,4 +320,4 @@ router.post('/archive', requireRole('admin'), async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

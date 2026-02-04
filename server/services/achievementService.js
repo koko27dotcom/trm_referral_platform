@@ -3,14 +3,14 @@
  * Manages achievement tracking, unlocking, and rewards
  */
 
-import Achievement, { 
+const Achievement = require 
   PREDEFINED_ACHIEVEMENTS,
   ACHIEVEMENT_CATEGORIES,
   CRITERIA_OPERATORS 
-} from '../models/Achievement.js';
-import GamificationProfile from '../models/GamificationProfile.js';
-import UserActivity from '../models/UserActivity.js';
-import Notification from '../models/Notification.js';
+} = require('../models/Achievement.js');
+const GamificationProfile = require('../models/GamificationProfile.js');
+const UserActivity = require('../models/UserActivity.js');
+const Notification = require('../models/Notification.js');
 
 class AchievementService {
   constructor() {
@@ -477,5 +477,5 @@ class AchievementService {
   }
 }
 
-export const achievementService = new AchievementService();
-export default achievementService;
+const achievementService = new AchievementService();
+module.exports = achievementService;

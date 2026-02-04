@@ -496,5 +496,4 @@ class Local_NLP {
   }
 }
 
-export default Local_NLP;
-export { Local_NLP };
+module.exports = Local_NLP;

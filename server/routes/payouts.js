@@ -4,31 +4,31 @@
  * Includes batch processing, provider management, and reconciliation
  */
 
-import express from 'express';
-import {
+const express = require('express');
+const {
   PayoutRequest,
   PayoutBatch,
   PayoutProvider,
   PayoutTransaction,
   User,
   AuditLog,
-} from '../models/index.js';
-import { PAYOUT_STATUS } from '../models/PayoutRequest.js';
-import { BATCH_STATUS, BATCH_TYPE } from '../models/PayoutBatch.js';
-import { TRANSACTION_STATUS } from '../models/PayoutTransaction.js';
-import { authenticate } from '../middleware/auth.js';
-import { asyncHandler, ValidationError, NotFoundError, AuthorizationError } from '../middleware/errorHandler.js';
-import { requireReferrer, requireAdmin } from '../middleware/rbac.js';
-import { sendPayoutNotification } from '../services/notificationService.js';
-import payoutProcessor from '../services/payoutProcessor.js';
-import {
+} = require('../models/index.js');
+const { PAYOUT_STATUS } = require('../models/PayoutRequest.js');
+const { BATCH_STATUS, BATCH_TYPE } = require('../models/PayoutBatch.js');
+const { TRANSACTION_STATUS } = require('../models/PayoutTransaction.js');
+const { authenticate } = require('../middleware/auth.js');
+const { asyncHandler, ValidationError, NotFoundError, AuthorizationError } = require('../middleware/errorHandler.js');
+const { requireReferrer, requireAdmin } = require('../middleware/rbac.js');
+const { sendPayoutNotification } = require('../services/notificationService.js');
+const payoutProcessor = require('../services/payoutProcessor.js');
+const {
   createWeeklyBatch,
   createMonthlyBatch,
   processBatchImmediate,
   retryTransactionImmediate,
   getPayoutQueueStatus,
   getScheduleInfo,
-} from '../cron/payoutCron.js';
+} = require('../cron/payoutCron.js');
 
 const router = express.Router();
 
@@ -841,4 +841,4 @@ router.post('/webhook/:provider', asyncHandler(async (req, res) => {
   }
 }));
 
-export default router;
+module.exports = router;

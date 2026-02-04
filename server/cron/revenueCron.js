@@ -5,9 +5,9 @@
  * Part of the Revenue Analytics Dashboard for TRM platform
  */
 
-import cron from 'node-cron';
-import { revenueCalculator } from '../services/revenueCalculator.js';
-import RevenueAnalytics from '../models/RevenueAnalytics.js';
+const cron = require('node-cron');
+const { revenueCalculator } = require('../services/revenueCalculator.js');
+const RevenueAnalytics = require('../models/RevenueAnalytics.js');
 
 // Active cron job storage
 let dailyRevenueJob = null;
@@ -17,7 +17,7 @@ let mrrUpdateJob = null;
 /**
  * Initialize revenue analytics cron jobs
  */
-export const initializeRevenueCron = () => {
+const initializeRevenueCron = () => {
   // Daily revenue calculation - runs at 1:00 AM every day
   dailyRevenueJob = cron.schedule('0 1 * * *', async () => {
     console.log('[RevenueCron] Starting daily revenue calculation...');
@@ -54,7 +54,7 @@ export const initializeRevenueCron = () => {
 /**
  * Stop revenue analytics cron jobs
  */
-export const stopRevenueCron = () => {
+const stopRevenueCron = () => {
   if (dailyRevenueJob) {
     dailyRevenueJob.stop();
     console.log('[RevenueCron] Daily revenue job stopped');
@@ -73,7 +73,7 @@ export const stopRevenueCron = () => {
  * Calculate daily revenue snapshot
  * Creates a comprehensive analytics snapshot for the previous day
  */
-export const calculateDailyRevenue = async () => {
+const calculateDailyRevenue = async () => {
   try {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -113,7 +113,7 @@ export const calculateDailyRevenue = async () => {
  * Generate weekly revenue report
  * Creates a comprehensive weekly analytics snapshot
  */
-export const generateWeeklyReport = async () => {
+const generateWeeklyReport = async () => {
   try {
     // Get the previous week
     const now = new Date();
@@ -155,7 +155,7 @@ export const generateWeeklyReport = async () => {
  * Update monthly MRR
  * Creates a comprehensive monthly analytics snapshot
  */
-export const updateMonthlyMRR = async () => {
+const updateMonthlyMRR = async () => {
   try {
     // Get the previous month
     const now = new Date();
@@ -200,7 +200,7 @@ export const updateMonthlyMRR = async () => {
  * @param {String} period - 'daily', 'weekly', 'monthly'
  * @param {Date} date - The date to calculate for
  */
-export const triggerRevenueCalculation = async (period = 'daily', date = new Date()) => {
+const triggerRevenueCalculation = async (period = 'daily', date = new Date()) => {
   try {
     console.log(`[RevenueCron] Manually triggering ${period} revenue calculation for ${date.toISOString()}...`);
     
@@ -219,7 +219,7 @@ export const triggerRevenueCalculation = async (period = 'daily', date = new Dat
  * Get cron job status
  * @returns {Object} Status of all cron jobs
  */
-export const getRevenueCronStatus = () => {
+const getRevenueCronStatus = () => {
   return {
     dailyRevenueJob: dailyRevenueJob ? 'running' : 'stopped',
     weeklyReportJob: weeklyReportJob ? 'running' : 'stopped',
@@ -235,7 +235,7 @@ export const getRevenueCronStatus = () => {
  * @param {Date} startDate - Start date for backfill
  * @param {Date} endDate - End date for backfill
  */
-export const backfillSnapshots = async (period = 'daily', startDate, endDate = new Date()) => {
+const backfillSnapshots = async (period = 'daily', startDate, endDate = new Date()) => {
   try {
     console.log(`[RevenueCron] Backfilling ${period} snapshots from ${startDate.toISOString()} to ${endDate.toISOString()}...`);
     
@@ -285,7 +285,7 @@ export const backfillSnapshots = async (period = 'daily', startDate, endDate = n
   }
 };
 
-export default {
+module.exports = {
   initializeRevenueCron,
   stopRevenueCron,
   calculateDailyRevenue,

@@ -3,7 +3,7 @@
  * Stores user's gamification data including points, levels, streaks, and achievements
  */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -585,4 +585,4 @@ GamificationProfileSchema.statics.createOrUpdateProfile = async function(userId,
 
 const GamificationProfile = mongoose.model('GamificationProfile', GamificationProfileSchema);
 
-export default GamificationProfile;
+module.exports = GamificationProfile;
