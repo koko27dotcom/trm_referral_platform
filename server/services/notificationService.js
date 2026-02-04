@@ -4,10 +4,11 @@
  * Handles in-app, email, SMS, and push notifications
  */
 
-const Notification = require 
-  NOTIFICATION_TYPES, 
+const Notification = require('../models/Notification.js');
+const {
+  NOTIFICATION_TYPES,
   NOTIFICATION_PRIORITY,
-  NOTIFICATION_CHANNELS 
+  NOTIFICATION_CHANNELS
 } = require('../models/Notification.js');
 const { User } = require('../models/index.js');
 
