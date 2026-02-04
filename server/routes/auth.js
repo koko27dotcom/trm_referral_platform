@@ -6,7 +6,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { User, Company, CompanyUser, AuditLog } = require('../models/index.js');
-const { authenticate, generateTokens, generateEmailVerificationToken, generatePasswordResetToken, verifyPasswordResetToken, refreshToken as refreshTokenHandler } = require('../middleware/auth.js');
+const { authenticate, generateTokens, generateEmailVerificationToken, generatePasswordResetToken, verifyPasswordResetToken, refreshToken: refreshTokenHandler } = require('../middleware/auth.js');
 const { asyncHandler, ValidationError, AuthenticationError, ConflictError, NotFoundError } = require('../middleware/errorHandler.js');
 const { requireRole } = require('../middleware/rbac.js');
 const referralNetworkService = require('../services/referralNetworkService.js');
