@@ -168,6 +168,14 @@ const SubscriptionSchema = new Schema({
       type: Number,
       default: 0,
     },
+    aiCreditsUsed: {
+      type: Number,
+      default: 0,
+    },
+    bonusAiCredits: {
+      type: Number,
+      default: 0,
+    },
   },
   
   // Invoice settings

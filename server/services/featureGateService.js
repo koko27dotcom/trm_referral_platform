@@ -144,6 +144,12 @@ class FeatureGateService {
           description: 'Access to exclusive jobs',
           tier: ['elite'],
         },
+        aiResumeOptimization: {
+          name: 'AI Resume Optimization',
+          description: 'AI-powered resume optimization',
+          limitField: 'aiCreditsLimit',
+          usageField: 'aiCreditsUsed',
+        },
       },
     };
 
@@ -225,21 +231,30 @@ class FeatureGateService {
     // Check limit-based features
     if (feature.limitField) {
       const plan = subscription.planId;
-      const limit = plan.features?.[feature.limitField] || 0;
+      const baseLimit = plan.features?.[feature.limitField] || 0;
       const usage = await this.getUsage(subscriberId, subscriberType, feature.usageField);
-
-      const hasAccess = limit === -1 || usage < limit; // -1 means unlimited
+      
+      // Include bonus credits for AI resume optimization
+      let bonusCredits = 0;
+      if (featureKey === 'aiResumeOptimization') {
+        bonusCredits = subscription.usage?.bonusAiCredits || 0;
+      }
+      
+      const totalLimit = baseLimit === -1 ? -1 : baseLimit + bonusCredits;
+      const hasAccess = totalLimit === -1 || usage < totalLimit;
 
       return {
         hasAccess,
         feature: featureKey,
         featureName: feature.name,
-        limit,
+        limit: baseLimit,
+        totalLimit: totalLimit === -1 ? 'Unlimited' : totalLimit,
         usage,
-        remaining: limit === -1 ? 'Unlimited' : Math.max(0, limit - usage),
+        bonusCredits: featureKey === 'aiResumeOptimization' ? bonusCredits : 0,
+        remaining: totalLimit === -1 ? 'Unlimited' : Math.max(0, totalLimit - usage),
         planName: plan.name,
         reason: hasAccess ? null : 'LIMIT_REACHED',
-        message: hasAccess ? null : `You have reached your ${feature.name} limit. Upgrade to continue.`,
+        message: hasAccess ? null : `You have reached your ${feature.name} limit. Refer candidates to earn bonus credits or upgrade to continue.`,
       };
     }
 
@@ -331,6 +346,11 @@ class FeatureGateService {
           },
         });
 
+      case 'aiCreditsUsed': {
+        const subscription = await this.getSubscription(subscriberId, subscriberType);
+        return subscription?.usage?.aiCreditsUsed || 0;
+      }
+
       default:
         return 0;
     }
@@ -380,6 +400,8 @@ class FeatureGateService {
       storageUsed: 0,
       apiCalls: 0,
       referrals: 0,
+      aiCreditsUsed: 0,
+      // Note: bonusAiCredits persists across billing periods
     };
 
     await subscription.save();
@@ -415,15 +437,25 @@ class FeatureGateService {
 
     for (const [key, feature] of Object.entries(features)) {
       if (feature.limitField) {
-        const limit = plan.features?.[feature.limitField] || 0;
+        const baseLimit = plan.features?.[feature.limitField] || 0;
         const usage = await this.getUsage(subscriberId, subscriberType, feature.usageField);
+        
+        // Include bonus credits for AI resume optimization
+        let bonusCredits = 0;
+        if (key === 'aiResumeOptimization') {
+          bonusCredits = subscription.usage?.bonusAiCredits || 0;
+        }
+        
+        const totalLimit = baseLimit === -1 ? -1 : baseLimit + bonusCredits;
 
         limits[key] = {
           name: feature.name,
-          limit,
+          limit: baseLimit,
+          totalLimit: totalLimit === -1 ? 'Unlimited' : totalLimit,
           usage,
-          remaining: limit === -1 ? 'Unlimited' : Math.max(0, limit - usage),
-          percentageUsed: limit > 0 ? Math.round((usage / limit) * 100) : 0,
+          bonusCredits: key === 'aiResumeOptimization' ? bonusCredits : 0,
+          remaining: totalLimit === -1 ? 'Unlimited' : Math.max(0, totalLimit - usage),
+          percentageUsed: totalLimit > 0 && totalLimit !== -1 ? Math.round((usage / totalLimit) * 100) : 0,
         };
       }
     }
@@ -464,16 +496,26 @@ class FeatureGateService {
     }
 
     const plan = subscription.planId;
-    const limit = plan.features?.[feature.limitField] || 0;
+    const baseLimit = plan.features?.[feature.limitField] || 0;
     const usage = await this.getUsage(subscriberId, subscriberType, feature.usageField);
+    
+    // Include bonus credits for AI resume optimization
+    let bonusCredits = 0;
+    if (featureKey === 'aiResumeOptimization') {
+      bonusCredits = subscription.usage?.bonusAiCredits || 0;
+    }
+    
+    const totalLimit = baseLimit === -1 ? -1 : baseLimit + bonusCredits;
 
     return {
       hasLimit: true,
-      limit,
+      limit: baseLimit,
+      totalLimit: totalLimit === -1 ? 'Unlimited' : totalLimit,
       usage,
-      remaining: limit === -1 ? 'Unlimited' : Math.max(0, limit - usage),
-      isReached: limit !== -1 && usage >= limit,
-      percentageUsed: limit > 0 ? Math.round((usage / limit) * 100) : 0,
+      bonusCredits: featureKey === 'aiResumeOptimization' ? bonusCredits : 0,
+      remaining: totalLimit === -1 ? 'Unlimited' : Math.max(0, totalLimit - usage),
+      isReached: totalLimit !== -1 && usage >= totalLimit,
+      percentageUsed: totalLimit > 0 && totalLimit !== -1 ? Math.round((usage / totalLimit) * 100) : 0,
     };
   }
 

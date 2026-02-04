@@ -4,7 +4,7 @@
  */
 
 const express = require('express');
-const { Referral, Job, Company, User, AuditLog } = require('../models/index.js');
+const { Referral, Job, Company, User, AuditLog, Subscription } = require('../models/index.js');
 const { authenticate, optionalAuth } = require('../middleware/auth.js');
 const { asyncHandler, ValidationError, NotFoundError, AuthorizationError, ConflictError } = require('../middleware/errorHandler.js');
 const { requireReferrer, requireReferralManager, requireAdmin } = require('../middleware/rbac.js');
@@ -294,6 +294,31 @@ router.put('/:id/status', authenticate, asyncHandler(async (req, res) => {
         'referrerProfile.successfulHires': 1,
       },
     });
+  }
+  
+  // Refer to Unlock: Award bonus AI credit when referral reaches interview_scheduled
+  if (status === 'interview_scheduled') {
+    try {
+      // Find referrer's active subscription
+      const subscription = await Subscription.findOne({
+        userId: referral.referrerId,
+        status: { $in: ['active', 'trialing'] },
+      });
+      
+      if (subscription) {
+        // Increment bonus AI credits
+        subscription.usage.bonusAiCredits = (subscription.usage.bonusAiCredits || 0) + 1;
+        await subscription.save();
+        
+        console.log(`🎉 Refer to Unlock: Awarded 1 bonus AI credit to user ${referral.referrerId} for referral ${referral.code} reaching interview_scheduled`);
+        
+        // Create notification for the referrer
+        // Note: Notification would be sent via notification service
+      }
+    } catch (error) {
+      console.error('Error awarding bonus AI credit:', error);
+      // Don't fail the status update if bonus credit fails
+    }
   }
   
   // Log status change

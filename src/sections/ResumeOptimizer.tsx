@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Upload,
@@ -18,16 +18,46 @@ import {
   ChevronDown,
   ChevronUp,
   Wand2,
+  Gift,
+  Zap,
+  User,
+  Mail,
+  Phone,
+  Building,
 } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs'
 import { Textarea } from '../components/ui/textarea'
+import { Input } from '../components/ui/input'
 import { Alert, AlertDescription } from '../components/ui/alert'
 import { Progress } from '../components/ui/progress'
+import { Badge } from '../components/ui/badge'
 import { useToast } from '../hooks/useToast'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://trm-referral-backend.onrender.com/api'
+
+interface Job {
+  _id: string
+  title: string
+  companyId: {
+    name: string
+  }
+  referralBonus: number
+}
+
+interface CreditInfo {
+  usage: number
+  limit: number
+  bonusCredits: number
+  remaining: number | string
+}
+
+interface GamificationMessage {
+  title: string
+  message: string
+  actionRequired: string
+}
 
 interface OptimizationResult {
   originalText: string
@@ -53,6 +83,10 @@ interface OptimizationResult {
     hasJobDescription: boolean
     timestamp: string
   }
+  referralId?: string
+  referralCode?: string
+  creditInfo?: CreditInfo
+  gamificationMessage?: GamificationMessage
 }
 
 interface ResumeAnalysis {
@@ -93,8 +127,77 @@ export default function ResumeOptimizer() {
     ats: true,
   })
   
+  // Refer to Unlock: Job selection state
+  const [jobs, setJobs] = useState<Job[]>([])
+  const [selectedJobId, setSelectedJobId] = useState('')
+  const [isLoadingJobs, setIsLoadingJobs] = useState(false)
+  
+  // Refer to Unlock: Candidate details state
+  const [candidateName, setCandidateName] = useState('')
+  const [candidateEmail, setCandidateEmail] = useState('')
+  const [candidatePhone, setCandidatePhone] = useState('')
+  const [candidateTitle, setCandidateTitle] = useState('')
+  
+  // Credit info state
+  const [creditInfo, setCreditInfo] = useState<CreditInfo | null>(null)
+  
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
+
+  // Fetch available jobs on mount
+  useEffect(() => {
+    fetchJobs()
+    fetchCreditInfo()
+  }, [])
+
+  const fetchJobs = async () => {
+    setIsLoadingJobs(true)
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_BASE_URL}/jobs?status=active&limit=50`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success) {
+          setJobs(data.data.jobs || [])
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch jobs:', err)
+    } finally {
+      setIsLoadingJobs(false)
+    }
+  }
+
+  const fetchCreditInfo = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_BASE_URL}/subscriptions/my-limits`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success && data.data.limits?.aiResumeOptimization) {
+          const limitInfo = data.data.limits.aiResumeOptimization
+          setCreditInfo({
+            usage: limitInfo.usage,
+            limit: limitInfo.limit,
+            bonusCredits: limitInfo.bonusCredits || 0,
+            remaining: limitInfo.remaining,
+          })
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch credit info:', err)
+    }
+  }
 
   // Handle drag events
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -152,6 +255,18 @@ export default function ResumeOptimizer() {
       return
     }
 
+    // Refer to Unlock: Validate job selection
+    if (!selectedJobId) {
+      setError('Please select a job to apply for')
+      return
+    }
+
+    // Refer to Unlock: Validate candidate details
+    if (!candidateName.trim() || !candidateEmail.trim()) {
+      setError('Please provide candidate name and email')
+      return
+    }
+
     setIsLoading(true)
     setError(null)
 
@@ -163,6 +278,13 @@ export default function ResumeOptimizer() {
         // File upload optimization
         const formData = new FormData()
         formData.append('resume', file)
+        formData.append('jobId', selectedJobId)
+        formData.append('referredPerson', JSON.stringify({
+          name: candidateName,
+          email: candidateEmail,
+          phone: candidatePhone,
+          currentTitle: candidateTitle,
+        }))
         if (jobDescription.trim()) {
           formData.append('jobDescription', jobDescription)
         }
@@ -175,7 +297,7 @@ export default function ResumeOptimizer() {
           body: formData,
         })
       } else {
-        // Text-based optimization
+        // Text-based optimization - also requires jobId now
         response = await fetch(`${API_BASE_URL}/v1/ai/resume/text-optimize`, {
           method: 'POST',
           headers: {
@@ -184,6 +306,13 @@ export default function ResumeOptimizer() {
           },
           body: JSON.stringify({
             resumeText: resumeText.trim(),
+            jobId: selectedJobId,
+            referredPerson: {
+              name: candidateName,
+              email: candidateEmail,
+              phone: candidatePhone,
+              currentTitle: candidateTitle,
+            },
             jobDescription: jobDescription.trim() || undefined,
           }),
         })
@@ -191,6 +320,12 @@ export default function ResumeOptimizer() {
 
       if (!response.ok) {
         const errorData = await response.json()
+        
+        // Handle credit exhausted error
+        if (errorData.code === 'CREDITS_EXHAUSTED') {
+          setCreditInfo(errorData.creditInfo)
+        }
+        
         throw new Error(errorData.message || 'Failed to optimize resume')
       }
 
@@ -199,10 +334,13 @@ export default function ResumeOptimizer() {
       if (data.success) {
         setResult(data.data)
         setAnalysis(data.data.analysis)
+        if (data.data.creditInfo) {
+          setCreditInfo(data.data.creditInfo)
+        }
         setActiveTab('result')
         toast({
-          title: 'Resume Optimized Successfully',
-          description: 'Your resume has been enhanced with AI-powered improvements.',
+          title: '🎉 Resume Optimized Successfully!',
+          description: data.data.gamificationMessage?.message || 'Your resume has been enhanced with AI-powered improvements.',
           variant: 'default',
         })
       } else {
@@ -330,6 +468,11 @@ export default function ResumeOptimizer() {
     setFile(null)
     setResumeText('')
     setJobDescription('')
+    setSelectedJobId('')
+    setCandidateName('')
+    setCandidateEmail('')
+    setCandidatePhone('')
+    setCandidateTitle('')
     setResult(null)
     setAnalysis(null)
     setError(null)
@@ -337,6 +480,22 @@ export default function ResumeOptimizer() {
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
+  }
+
+  // Calculate total available credits (base + bonus)
+  const getTotalCredits = () => {
+    if (!creditInfo) return 0
+    const baseLimit = typeof creditInfo.limit === 'number' ? creditInfo.limit : 0
+    const bonus = creditInfo.bonusCredits || 0
+    return baseLimit + bonus
+  }
+
+  // Calculate percentage used for progress bar
+  const getCreditPercentage = () => {
+    if (!creditInfo) return 0
+    const total = getTotalCredits()
+    if (total === 0) return 0
+    return Math.min(100, Math.round((creditInfo.usage / total) * 100))
   }
 
   // Render score badge
@@ -370,10 +529,57 @@ export default function ResumeOptimizer() {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900">AI Resume Optimizer</h1>
-              <p className="text-gray-600">Enhance your resume with AI-powered suggestions</p>
+              <p className="text-gray-600">Enhance resumes with AI-powered suggestions</p>
             </div>
           </motion.div>
         </div>
+
+        {/* Credit Status Card */}
+        {creditInfo && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
+          >
+            <Card className={getCreditPercentage() >= 90 ? 'border-red-300' : getCreditPercentage() >= 70 ? 'border-yellow-300' : ''}>
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-yellow-500" />
+                    <span className="font-medium text-gray-900">AI Credits</span>
+                    {creditInfo.bonusCredits > 0 && (
+                      <Badge variant="secondary" className="bg-green-100 text-green-800">
+                        <Gift className="w-3 h-3 mr-1" />
+                        +{creditInfo.bonusCredits} Bonus
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    <span className="font-bold">{creditInfo.usage}</span> used of{' '}
+                    <span className="font-bold">{getTotalCredits()}</span> total
+                  </div>
+                </div>
+                <Progress 
+                  value={getCreditPercentage()} 
+                  className={`h-2 ${getCreditPercentage() >= 90 ? 'bg-red-100' : ''}`}
+                />
+                <div className="mt-3 flex items-center justify-between text-sm">
+                  <span className="text-gray-500">
+                    {typeof creditInfo.remaining === 'number' 
+                      ? `${creditInfo.remaining} credits remaining`
+                      : 'Unlimited credits'}
+                  </span>
+                  {getCreditPercentage() >= 70 && (
+                    <span className="text-amber-600 font-medium flex items-center gap-1">
+                      <Gift className="w-4 h-4" />
+                      Refer candidates to earn bonus credits!
+                    </span>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
 
         {/* Error Alert */}
         <AnimatePresence>
@@ -485,20 +691,105 @@ export default function ResumeOptimizer() {
                   )}
                 </div>
 
+                {/* Job Selection - Required for Refer to Unlock */}
+                <div className="border rounded-lg p-4 bg-blue-50 border-blue-200">
+                  <label className="flex items-center gap-2 text-sm font-medium text-blue-900 mb-2">
+                    <Briefcase className="w-4 h-4" />
+                    Select Job to Apply For <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={selectedJobId}
+                    onChange={(e) => setSelectedJobId(e.target.value)}
+                    className="w-full p-2 border rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    disabled={isLoadingJobs}
+                  >
+                    <option value="">{isLoadingJobs ? 'Loading jobs...' : 'Select a job...'}</option>
+                    {jobs.map((job) => (
+                      <option key={job._id} value={job._id}>
+                        {job.title} at {job.companyId?.name || 'Unknown Company'} 
+                        {job.referralBonus ? ` - ${job.referralBonus.toLocaleString()} MMK bonus` : ''}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-blue-600 mt-2">
+                    <Gift className="w-3 h-3 inline mr-1" />
+                    Refer to Unlock: Complete this referral to earn 1 bonus AI credit when the candidate gets an interview!
+                  </p>
+                </div>
+
+                {/* Candidate Details - Required */}
+                <div className="border rounded-lg p-4 bg-gray-50">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-3">
+                    <User className="w-4 h-4" />
+                    Candidate Details <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Full Name *</label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input
+                          value={candidateName}
+                          onChange={(e) => setCandidateName(e.target.value)}
+                          placeholder="Candidate's full name"
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Email *</label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input
+                          type="email"
+                          value={candidateEmail}
+                          onChange={(e) => setCandidateEmail(e.target.value)}
+                          placeholder="candidate@email.com"
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Phone</label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input
+                          value={candidatePhone}
+                          onChange={(e) => setCandidatePhone(e.target.value)}
+                          placeholder="+95 9 xxx xxx xxx"
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Current Title</label>
+                      <div className="relative">
+                        <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input
+                          value={candidateTitle}
+                          onChange={(e) => setCandidateTitle(e.target.value)}
+                          placeholder="e.g. Senior Developer"
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Job Description */}
                 <div>
                   <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <Briefcase className="w-4 h-4" />
+                    <FileText className="w-4 h-4" />
                     Target Job Description (Optional)
                   </label>
                   <Textarea
-                    placeholder="Paste the job description here to tailor your resume for a specific position..."
+                    placeholder="Paste the job description here to tailor the resume for a specific position..."
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
                     className="min-h-[120px]"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Adding a job description helps the AI optimize your resume for ATS compatibility and keyword matching.
+                    Adding a job description helps the AI optimize the resume for ATS compatibility and keyword matching.
                   </p>
                 </div>
 
@@ -506,7 +797,7 @@ export default function ResumeOptimizer() {
                 <div className="flex flex-wrap gap-3">
                   <Button
                     onClick={handleOptimize}
-                    disabled={!file || isLoading}
+                    disabled={!file || isLoading || !selectedJobId || !candidateName || !candidateEmail}
                     className="flex-1 sm:flex-none"
                   >
                     {isLoading ? (
@@ -517,25 +808,7 @@ export default function ResumeOptimizer() {
                     ) : (
                       <>
                         <Sparkles className="w-4 h-4 mr-2" />
-                        Optimize Resume
-                      </>
-                    )}
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    onClick={handleAnalyze}
-                    disabled={!file || isAnalyzing}
-                  >
-                    {isAnalyzing ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Analyzing...
-                      </>
-                    ) : (
-                      <>
-                        <Eye className="w-4 h-4 mr-2" />
-                        Analyze Only
+                        Optimize & Create Referral
                       </>
                     )}
                   </Button>
@@ -548,7 +821,7 @@ export default function ResumeOptimizer() {
           <TabsContent value="text">
             <Card>
               <CardHeader>
-                <CardTitle>Paste Your Resume Text</CardTitle>
+                <CardTitle>Paste Resume Text</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Resume Text */}
@@ -557,21 +830,106 @@ export default function ResumeOptimizer() {
                     Resume Content
                   </label>
                   <Textarea
-                    placeholder="Paste your resume text here..."
+                    placeholder="Paste resume text here..."
                     value={resumeText}
                     onChange={(e) => setResumeText(e.target.value)}
                     className="min-h-[300px] font-mono text-sm"
                   />
                 </div>
 
+                {/* Job Selection - Required for Refer to Unlock */}
+                <div className="border rounded-lg p-4 bg-blue-50 border-blue-200">
+                  <label className="flex items-center gap-2 text-sm font-medium text-blue-900 mb-2">
+                    <Briefcase className="w-4 h-4" />
+                    Select Job to Apply For <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={selectedJobId}
+                    onChange={(e) => setSelectedJobId(e.target.value)}
+                    className="w-full p-2 border rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    disabled={isLoadingJobs}
+                  >
+                    <option value="">{isLoadingJobs ? 'Loading jobs...' : 'Select a job...'}</option>
+                    {jobs.map((job) => (
+                      <option key={job._id} value={job._id}>
+                        {job.title} at {job.companyId?.name || 'Unknown Company'} 
+                        {job.referralBonus ? ` - ${job.referralBonus.toLocaleString()} MMK bonus` : ''}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-blue-600 mt-2">
+                    <Gift className="w-3 h-3 inline mr-1" />
+                    Refer to Unlock: Complete this referral to earn 1 bonus AI credit when the candidate gets an interview!
+                  </p>
+                </div>
+
+                {/* Candidate Details - Required */}
+                <div className="border rounded-lg p-4 bg-gray-50">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-3">
+                    <User className="w-4 h-4" />
+                    Candidate Details <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Full Name *</label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input
+                          value={candidateName}
+                          onChange={(e) => setCandidateName(e.target.value)}
+                          placeholder="Candidate's full name"
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Email *</label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input
+                          type="email"
+                          value={candidateEmail}
+                          onChange={(e) => setCandidateEmail(e.target.value)}
+                          placeholder="candidate@email.com"
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Phone</label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input
+                          value={candidatePhone}
+                          onChange={(e) => setCandidatePhone(e.target.value)}
+                          placeholder="+95 9 xxx xxx xxx"
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Current Title</label>
+                      <div className="relative">
+                        <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input
+                          value={candidateTitle}
+                          onChange={(e) => setCandidateTitle(e.target.value)}
+                          placeholder="e.g. Senior Developer"
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Job Description */}
                 <div>
                   <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <Briefcase className="w-4 h-4" />
+                    <FileText className="w-4 h-4" />
                     Target Job Description (Optional)
                   </label>
                   <Textarea
-                    placeholder="Paste the job description here to tailor your resume for a specific position..."
+                    placeholder="Paste the job description here to tailor the resume for a specific position..."
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
                     className="min-h-[120px]"
@@ -581,7 +939,7 @@ export default function ResumeOptimizer() {
                 {/* Action Button */}
                 <Button
                   onClick={handleOptimize}
-                  disabled={!resumeText.trim() || isLoading}
+                  disabled={!resumeText.trim() || isLoading || !selectedJobId || !candidateName || !candidateEmail}
                   className="w-full sm:w-auto"
                 >
                   {isLoading ? (
@@ -592,7 +950,7 @@ export default function ResumeOptimizer() {
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4 mr-2" />
-                      Optimize Resume
+                      Optimize & Create Referral
                     </>
                   )}
                 </Button>
@@ -604,6 +962,32 @@ export default function ResumeOptimizer() {
           <TabsContent value="result">
             {result && (
               <div className="space-y-6">
+                {/* Gamification Success Banner */}
+                {result.gamificationMessage && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-6 text-white"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 bg-white/20 rounded-full">
+                        <Gift className="w-8 h-8" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold mb-1">{result.gamificationMessage.title}</h3>
+                        <p className="text-blue-100 mb-2">{result.gamificationMessage.message}</p>
+                        <p className="text-sm text-blue-200">{result.gamificationMessage.actionRequired}</p>
+                        {result.referralCode && (
+                          <div className="mt-3 p-3 bg-white/10 rounded-lg">
+                            <span className="text-sm">Referral Code: </span>
+                            <span className="font-mono font-bold text-lg">{result.referralCode}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
                 {/* Score Overview */}
                 <Card>
                   <CardHeader>
