@@ -46,6 +46,7 @@ const reportsRoutes = require('./routes/reports.js');
 const marketIntelligenceRoutes = require('./routes/marketIntelligence.js');
 const dataAPIRoutes = require('./routes/dataAPI.js');
 const predictiveRoutes = require('./routes/predictive.js');
+const aiRoutes = require('./routes/ai.js');
 
 // Load environment variables
 dotenv.config();
@@ -208,6 +209,9 @@ app.use(`${API_PREFIX}/data-api`, dataAPIRoutes);
 
 // Predictive Analytics routes (Phase 4 - ML Predictions)
 app.use(`${API_PREFIX}/predictive`, predictiveRoutes);
+
+// AI routes (Resume Optimizer and other AI features)
+app.use(`${API_PREFIX}/ai`, aiRoutes);
 
 // ==================== ERROR HANDLING ====================
 
