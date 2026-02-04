@@ -12,6 +12,48 @@ const { PERMISSIONS } = require('../models/CompanyUser.js');
 
 const router = express.Router();
 
+// Twilio configuration
+const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
+const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER;
+const twilioEnabled = TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_PHONE_NUMBER;
+
+/**
+ * Send jackpot SMS notification to referrer when their referral is hired
+ * @param {Object} referrer - User object of the referrer
+ * @param {Object} referral - Referral object
+ */
+async function sendJackpotSMS(referrer, referral) {
+  if (!twilioEnabled) {
+    console.log('📱 Twilio not configured. Jackpot SMS would be sent to:', referrer.phone);
+    console.log(`   Message: Congratulations! Your referral was hired! You earned ${referral.referrerPayout.toLocaleString()} MMK.`);
+    return;
+  }
+  
+  try {
+    const twilio = require('twilio');
+    const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+    
+    // Format phone number (ensure it has + prefix for international)
+    let phoneNumber = referrer.phone;
+    if (!phoneNumber.startsWith('+')) {
+      // Assume Myanmar number if no country code
+      phoneNumber = '+95' + phoneNumber.replace(/^0/, '');
+    }
+    
+    const message = await client.messages.create({
+      body: `🎉 Congratulations ${referrer.name}! Your referral was successfully hired! You've earned ${referral.referrerPayout.toLocaleString()} MMK. The amount has been added to your pending balance. - TRM Referral Platform`,
+      from: TWILIO_PHONE_NUMBER,
+      to: phoneNumber,
+    });
+    
+    console.log(`📱 Jackpot SMS sent to ${referrer.phone}. SID: ${message.sid}`);
+  } catch (error) {
+    console.error('Error sending jackpot SMS:', error);
+    throw error;
+  }
+}
+
 /**
  * @route   GET /api/referrals
  * @desc    Get current user's referrals (referrer only)
@@ -286,14 +328,25 @@ router.put('/:id/status', authenticate, asyncHandler(async (req, res) => {
     notes,
   });
   
-  // If hired, update referrer's pending balance
+  // If hired, update referrer's pending balance and send jackpot SMS notification
   if (status === 'hired') {
     await User.findByIdAndUpdate(referral.referrerId, {
-      $inc: { 
+      $inc: {
         'referrerProfile.pendingBalance': referral.referrerPayout,
         'referrerProfile.successfulHires': 1,
       },
     });
+    
+    // Send jackpot SMS notification to referrer
+    try {
+      const referrer = await User.findById(referral.referrerId);
+      if (referrer && referrer.phone) {
+        await sendJackpotSMS(referrer, referral);
+      }
+    } catch (smsError) {
+      console.error('Error sending jackpot SMS:', smsError);
+      // Don't fail the status update if SMS fails
+    }
   }
   
   // Refer to Unlock: Award bonus AI credit when referral reaches interview_scheduled
