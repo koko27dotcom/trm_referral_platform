@@ -6,7 +6,7 @@
 import express from 'express';
 import multer from 'multer';
 import kycService from '../services/kycService.js';
-import { authenticate, requireAuth } from '../middleware/auth.js';
+import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
 import { asyncHandler, ValidationError, NotFoundError, ForbiddenError } from '../middleware/errorHandler.js';
 import { DOCUMENT_TYPES } from '../models/KYCDocument.js';
