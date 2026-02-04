@@ -3,7 +3,8 @@
  * Manages leaderboard rankings, calculations, and rewards
  */
 
-const LeaderboardEntry = require 
+const {
+  LeaderboardEntry,
   LEADERBOARD_PERIODS, 
   LEADERBOARD_CATEGORIES,
   RANK_CHANGE 
