@@ -397,3 +397,4 @@ CompanyUserSchema.statics.countByRole = async function(companyId) {
 const CompanyUser = mongoose.model('CompanyUser', CompanyUserSchema);
 
 module.exports = CompanyUser;
+module.exports.PERMISSIONS = PERMISSIONS;
