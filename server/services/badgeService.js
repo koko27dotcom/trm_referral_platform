@@ -3,7 +3,8 @@
  * Manages badge definitions, eligibility checking, and awarding
  */
 
-const Badge = require PREDEFINED_BADGES, BADGE_RARITY, BADGE_CATEGORIES } = require('../models/Badge.js');
+const Badge = require('../models/Badge.js');
+const { PREDEFINED_BADGES, BADGE_RARITY, BADGE_CATEGORIES } = require('../models/Badge.js');
 const GamificationProfile = require('../models/GamificationProfile.js');
 const UserActivity = require('../models/UserActivity.js');
 const Notification = require('../models/Notification.js');

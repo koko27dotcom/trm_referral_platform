@@ -4,7 +4,8 @@
  * Integrates with existing AuditLog model and adds security-specific logging
  */
 
-const AuditLog = require AUDIT_ACTIONS, ENTITY_TYPES } = require('../models/AuditLog.js');
+const AuditLog = require('../models/AuditLog.js');
+const { AUDIT_ACTIONS, ENTITY_TYPES } = require('../models/AuditLog.js');
 const { SecurityAudit, SECURITY_EVENT_TYPES, SEVERITY_LEVELS } = require('../models/SecurityAudit.js');
 
 // Audit configuration

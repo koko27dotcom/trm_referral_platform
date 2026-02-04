@@ -7,9 +7,12 @@
 
 const axios = require('axios');
 const crypto = require('crypto');
-const WhatsAppTemplate = require TEMPLATE_STATUS, TEMPLATE_TYPE } = require('../models/WhatsAppTemplate.js');
-const WhatsAppSession = require SESSION_STATUS, CONTEXT_TYPE, USER_TYPE } = require('../models/WhatsAppSession.js');
-const WhatsAppMessage = require MESSAGE_DIRECTION, MESSAGE_TYPE, MESSAGE_STATUS } = require('../models/WhatsAppMessage.js');
+const WhatsAppTemplate = require('../models/WhatsAppTemplate.js');
+const { TEMPLATE_STATUS, TEMPLATE_TYPE } = require('../models/WhatsAppTemplate.js');
+const WhatsAppSession = require('../models/WhatsAppSession.js');
+const { SESSION_STATUS, CONTEXT_TYPE, USER_TYPE } = require('../models/WhatsAppSession.js');
+const WhatsAppMessage = require('../models/WhatsAppMessage.js');
+const { MESSAGE_DIRECTION, MESSAGE_TYPE, MESSAGE_STATUS } = require('../models/WhatsAppMessage.js');
 const { User, Referral, Job, Company } = require('../models/index.js');
 
 // Platform types for multi-platform support

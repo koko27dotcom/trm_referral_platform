@@ -5,8 +5,10 @@
 
 const express = require('express');
 const whatsappService = require('../services/whatsappService.js');
-const WhatsAppTemplate = require TEMPLATE_TYPE, TEMPLATE_STATUS } = require('../models/WhatsAppTemplate.js');
-const WhatsAppSession = require SESSION_STATUS } = require('../models/WhatsAppSession.js');
+const WhatsAppTemplate = require('../models/WhatsAppTemplate.js');
+const { TEMPLATE_TYPE, TEMPLATE_STATUS } = require('../models/WhatsAppTemplate.js');
+const WhatsAppSession = require('../models/WhatsAppSession.js');
+const { SESSION_STATUS } = require('../models/WhatsAppSession.js');
 const WhatsAppMessage = require('../models/WhatsAppMessage.js');
 const { User } = require('../models/index.js');
 const { authenticate } = require('../middleware/auth.js');

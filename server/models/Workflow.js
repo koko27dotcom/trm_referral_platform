@@ -467,3 +467,7 @@ WorkflowSchema.methods.incrementStats = async function(status) {
 const Workflow = mongoose.model('Workflow', WorkflowSchema);
 
 module.exports = Workflow;
+module.exports.TRIGGER_TYPES = TRIGGER_TYPES;
+module.exports.WORKFLOW_STATUS = WORKFLOW_STATUS;
+module.exports.ACTION_TYPES = ACTION_TYPES;
+module.exports.CONDITION_OPERATORS = CONDITION_OPERATORS;

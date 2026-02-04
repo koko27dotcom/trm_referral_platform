@@ -8,8 +8,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { authenticate } = require('../middleware/auth.js');
 const { requireRole } = require('../middleware/rbac.js');
-const Workflow = require WORKFLOW_STATUS, TRIGGER_TYPES } = require('../models/Workflow.js');
-const WorkflowExecution = require EXECUTION_STATUS } = require('../models/WorkflowExecution.js');
+const Workflow = require('../models/Workflow.js');
+const { WORKFLOW_STATUS, TRIGGER_TYPES } = require('../models/Workflow.js');
+const WorkflowExecution = require('../models/WorkflowExecution.js');
+const { EXECUTION_STATUS } = require('../models/WorkflowExecution.js');
 const { 
   triggerWorkflow, 
   executeWorkflow, 

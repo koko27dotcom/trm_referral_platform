@@ -530,3 +530,6 @@ WorkflowExecutionSchema.statics.getStatistics = async function(workflowId, dateR
 const WorkflowExecution = mongoose.model('WorkflowExecution', WorkflowExecutionSchema);
 
 module.exports = WorkflowExecution;
+module.exports.EXECUTION_STATUS = EXECUTION_STATUS;
+module.exports.ACTION_STATUS = ACTION_STATUS;
+module.exports.ENTITY_TYPES = ENTITY_TYPES;
