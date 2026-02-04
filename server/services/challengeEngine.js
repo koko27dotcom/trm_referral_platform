@@ -3,7 +3,8 @@
  * Manages dynamic challenges, progress tracking, and rewards
  */
 
-const Challenge = require 
+const {
+  Challenge,
   CHALLENGE_TYPES, 
   TARGET_ACTIONS,
   CHALLENGE_DIFFICULTY,
