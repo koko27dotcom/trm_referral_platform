@@ -64,8 +64,8 @@ RUN npm ci --omit=dev && npm cache clean --force
 # Copy built frontend assets from build stage
 COPY --from=build /app/dist ./dist
 
-# Copy server files
-COPY server ./server
+# Copy server files (force fresh copy, no cache)
+COPY --chmod=755 server ./server
 COPY server.cjs ./
 
 # Copy environment file (will be overridden by docker-compose)
