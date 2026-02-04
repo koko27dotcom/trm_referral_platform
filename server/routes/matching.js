@@ -5,6 +5,7 @@
 
 const express = require('express');
 const { authenticate } = require('../middleware/auth.js');
+const { requireRole } = require('../middleware/rbac.js');
 const { matchingEngine } = require('../services/matchingEngine.js');
 const { MatchScore, Job, User } = require('../models/index.js');
 const { asyncHandler, AppError } = require('../middleware/errorHandler.js');
