@@ -3,7 +3,8 @@
  * Manages achievement tracking, unlocking, and rewards
  */
 
-const Achievement = require 
+const {
+  Achievement,
   PREDEFINED_ACHIEVEMENTS,
   ACHIEVEMENT_CATEGORIES,
   CRITERIA_OPERATORS 
