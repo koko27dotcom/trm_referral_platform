@@ -761,28 +761,6 @@ async function initializeDefaultPricingRules() {
 }
 
 // Export all functions
-  calculateJobPostingPrice,
-  calculateBasePrice,
-  calculateSurgePricing,
-  applyPromotionalCode,
-  previewPricing,
-  getVolumeDiscountInfo,
-  recordJobPricing,
-  initializeDefaultPricingRules,
-  getVolumeDiscountTier,
-  applyDynamicPricingRules,
-  isWeekend,
-  isHoliday,
-  getCategoryTier,
-  BASE_PRICING,
-  VOLUME_DISCOUNTS,
-  SURGE_PRICING,
-  CATEGORY_TIERS,
-  MYANMAR_HOLIDAYS,
-  MYANMAR_TIMEZONE,
-};
-
-// Default export
 module.exports = {
   calculateJobPostingPrice,
   calculateBasePrice,
@@ -804,3 +782,5 @@ module.exports = {
   MYANMAR_HOLIDAYS,
   MYANMAR_TIMEZONE,
 };
+
+// Default export - consolidated above
