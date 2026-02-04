@@ -88,6 +88,15 @@ export default function Navigation() {
               For Recruiters
             </Link>
             
+            <Link
+              to="/resume-optimizer"
+              className={`font-medium hover:opacity-80 transition-opacity ${
+                isScrolled ? 'text-gray-700' : 'text-white'
+              }`}
+            >
+              AI Resume
+            </Link>
+            
             {user ? (
               <div className="relative">
                 <button

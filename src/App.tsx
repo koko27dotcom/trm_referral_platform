@@ -19,6 +19,7 @@ import BillingDashboard from './sections/BillingDashboard'
 import SubscriptionPlans from './sections/SubscriptionPlans'
 import LeadScoreDashboard from './sections/LeadScoreDashboard'
 import EmailCampaignManager from './sections/EmailCampaignManager'
+import ResumeOptimizer from './sections/ResumeOptimizer'
 
 export interface Job {
   id: number
@@ -434,6 +435,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/leads" element={<><Navigation /><LeadScoreDashboard /><MobileNav /></>} />
           <Route path="/admin/email" element={<><Navigation /><EmailCampaignManager /><MobileNav /></>} />
+          <Route path="/resume-optimizer" element={<><Navigation /><ResumeOptimizer /><MobileNav /></>} />
           <Route path="/billing" element={<><Navigation /><BillingDashboard /><MobileNav /></>} />
           <Route path="/plans" element={<><Navigation /><SubscriptionPlans /><MobileNav /></>} />
           <Route path="/referral-tracking" element={<><Navigation /><ReferralTracking /><MobileNav /></>} />

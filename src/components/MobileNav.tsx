@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Home, Briefcase, Users, User, Plus, Wallet, Building2, BarChart3 } from 'lucide-react'
+import { Home, Briefcase, Users, User, Plus, Wallet, Building2, BarChart3, Sparkles } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -28,6 +28,7 @@ export default function MobileNav() {
     { icon: Wallet, label: 'My Referrals', path: '/referral-tracking', color: 'bg-purple-500' },
     { icon: Building2, label: 'Corporate', path: '/corporate', color: 'bg-amber-500' },
     { icon: BarChart3, label: 'Analytics', path: '/referrals', color: 'bg-pink-500' },
+    { icon: Sparkles, label: 'AI Resume', path: '/resume-optimizer', color: 'bg-indigo-500' },
   ]
 
   return (
