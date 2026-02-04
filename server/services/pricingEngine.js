@@ -782,5 +782,3 @@ module.exports = {
   MYANMAR_HOLIDAYS,
   MYANMAR_TIMEZONE,
 };
-
-// Default export - consolidated above
