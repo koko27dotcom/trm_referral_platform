@@ -33,7 +33,8 @@ const {
 } = require('../models/index.js');
 const { sendEmail } = require('./emailMarketingService.js');
 const { sendTemplateMessage, formatPhoneNumber } = require('./whatsappService.js');
-const { sendNotification as sendAppNotification } = require('./notificationService.js');
+const notificationService = require('./notificationService.js');
+const sendAppNotification = notificationService.sendNotification;
 
 // ==================== PREDEFINED WORKFLOWS ====================
 
