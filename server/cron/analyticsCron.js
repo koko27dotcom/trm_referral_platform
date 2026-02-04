@@ -163,4 +163,5 @@ class AnalyticsCron {
   }
 }
 
-module.exports = new AnalyticsCron();
+const analyticsCron = new AnalyticsCron();
+export default analyticsCron;
