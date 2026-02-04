@@ -428,3 +428,7 @@ NotificationSchema.statics.getByType = function(type, options = {}) {
 const Notification = mongoose.model('Notification', NotificationSchema);
 
 module.exports = Notification;
+module.exports.NOTIFICATION_TYPES = NOTIFICATION_TYPES;
+module.exports.NOTIFICATION_PRIORITY = NOTIFICATION_PRIORITY;
+module.exports.NOTIFICATION_CHANNELS = NOTIFICATION_CHANNELS;
+module.exports.NOTIFICATION_STATUS = NOTIFICATION_STATUS;
