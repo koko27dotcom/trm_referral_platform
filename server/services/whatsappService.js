@@ -837,13 +837,13 @@ const processMessageIntent = async (message, session) => {
       actionTaken = await handleJobList(session);
       intent = 'job_list';
     } else if (text === 'opt out' || text === 'ရပ်ဆိုင်း') {
-      await session.optOut();
+      await session.optOutUser();
       response = session.language === 'my'
         ? 'မက်ဆေ့ချ်များရပ်ဆိုင်းပြီးပါပြီ။ ပြန်လည်ချိတ်ဆက်လိုပါက "opt in" ဟုရိုက်ထည့်ပါ။'
         : 'You have opted out. Type "opt in" to re-subscribe.';
       intent = 'opt_out';
     } else if (text === 'opt in' || text === 'ချိတ်ဆက်ရန်') {
-      await session.optIn('whatsapp');
+      await session.optInUser('whatsapp');
       response = session.language === 'my'
         ? 'မက်ဆေ့ချ်များပြန်လည်ချိတ်ဆက်ပြီးပါပြီ!'
         : 'You have opted back in!';

@@ -218,7 +218,7 @@ router.post('/opt-in', authenticate, asyncHandler(async (req, res) => {
   const session = await whatsappService.getOrCreateSession(formattedPhone);
   
   // Opt in
-  await session.optIn('web');
+  await session.optInUser('web');
   
   // Link to user
   await session.linkToUser(userId, req.user.role === 'referrer' ? 'referrer' : 'job_seeker');
@@ -269,7 +269,7 @@ router.post('/opt-out', authenticate, asyncHandler(async (req, res) => {
   }
   
   // Opt out
-  await session.optOut();
+  await session.optOutUser();
   
   // Update user
   if (req.user.role === 'referrer') {

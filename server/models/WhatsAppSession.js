@@ -353,7 +353,7 @@ WhatsAppSessionSchema.methods.clearContext = async function() {
  * Opt in user
  * @param {string} source - Opt-in source
  */
-WhatsAppSessionSchema.methods.optIn = async function(source = 'whatsapp') {
+WhatsAppSessionSchema.methods.optInUser = async function(source = 'whatsapp') {
   this.optIn.status = true;
   this.optIn.optedInAt = new Date();
   this.optIn.source = source;
@@ -363,7 +363,7 @@ WhatsAppSessionSchema.methods.optIn = async function(source = 'whatsapp') {
 /**
  * Opt out user
  */
-WhatsAppSessionSchema.methods.optOut = async function() {
+WhatsAppSessionSchema.methods.optOutUser = async function() {
   this.optIn.status = false;
   this.optIn.optedOutAt = new Date();
   await this.save();
