@@ -11,8 +11,6 @@
  */
 
 const { Company, EnterprisePlan, CompanyUser, Job, User, Application, Referral, BillingRecord } = require('../models/index.js');
-const { createRequire } = require('module');
-const require = createRequire(import.meta.url);
 const crypto = require('crypto');
 
 // ==================== DASHBOARD DATA ====================

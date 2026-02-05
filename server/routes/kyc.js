@@ -6,7 +6,7 @@
 const express = require('express');
 const multer = require('multer');
 const kycService = require('../services/kycService.js');
-const { authenticate } = require('../middleware/auth.js');
+const { authenticate, requireAuth } = require('../middleware/auth.js');
 const { requireRole } = require('../middleware/rbac.js');
 const { asyncHandler, ValidationError, NotFoundError, ForbiddenError } = require('../middleware/errorHandler.js');
 const { DOCUMENT_TYPES } = require('../models/KYCDocument.js');

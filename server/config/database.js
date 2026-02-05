@@ -98,4 +98,10 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
-module.exports = mongoose;
+module.exports = {
+  connectDatabase,
+  disconnectDatabase,
+  isDatabaseConnected,
+  getConnectionStats,
+};
+module.exports.default = mongoose;

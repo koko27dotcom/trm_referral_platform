@@ -879,27 +879,6 @@ function getFeaturedSlotPricingInfo() {
 }
 
 // Export all functions
-  getFeaturedJobsForCarousel,
-  placeFeaturedJob,
-  bidOnPremiumSlot,
-  getAvailableSlots,
-  getCompanyFeaturedJobs,
-  getSlotPerformanceAnalytics,
-  cancelFeaturedListing,
-  approveFeaturedJob,
-  rejectFeaturedJob,
-  processFeaturedSlotPayment,
-  rotateFeaturedJobs,
-  trackFeaturedJobMetrics,
-  getAuctionLeaderboard,
-  expireOldFeaturedSlots,
-  getFeaturedSlotPricingInfo,
-  calculateMinimumBid,
-  SLOT_BASE_PRICING,
-  POSITION_MULTIPLIERS,
-};
-
-// Default export
 module.exports = {
   getFeaturedJobsForCarousel,
   placeFeaturedJob,

@@ -244,11 +244,15 @@ const startServer = async () => {
       // Initialize payout processing cron jobs
       initializePayoutCron();
       
-      // Initialize leaderboard/gamification cron jobs
+    // Initialize leaderboard/gamification cron jobs
+    if (leaderboardCron && typeof leaderboardCron.init === 'function') {
       leaderboardCron.init();
+    }
       
-      // Initialize analytics cron jobs (Phase 4)
+    // Initialize analytics cron jobs (Phase 4)
+    if (analyticsCron && typeof analyticsCron.start === 'function') {
       analyticsCron.start();
+    }
       
       // Start server
     const server = app.listen(PORT, HOST, () => {

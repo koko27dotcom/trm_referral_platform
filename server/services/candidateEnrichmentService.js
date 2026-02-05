@@ -9,10 +9,16 @@ const TalentPool = require('../models/TalentPool.js');
 const Job = require('../models/Job.js');
 const { AuditLog } = require('../models/index.js');
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize OpenAI client (lazy loading)
+let openai = null;
+const getOpenAI = () => {
+  if (!openai && process.env.OPENAI_API_KEY) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return openai;
+};
 
 /**
  * Service class for AI-powered candidate enrichment
@@ -46,7 +52,7 @@ class CandidateEnrichmentService {
     `;
 
     try {
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
           {
@@ -100,7 +106,7 @@ class CandidateEnrichmentService {
     `;
 
     try {
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
           {
@@ -163,7 +169,7 @@ class CandidateEnrichmentService {
     `;
 
     try {
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
           {
@@ -217,7 +223,7 @@ class CandidateEnrichmentService {
     `;
 
     try {
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
           {
@@ -273,7 +279,7 @@ class CandidateEnrichmentService {
     `;
 
     try {
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
           {
@@ -459,7 +465,7 @@ class CandidateEnrichmentService {
       `;
 
       try {
-        const response = await openai.chat.completions.create({
+        const response = await getOpenAI().chat.completions.create({
           model: 'gpt-4o-mini',
           messages: [
             {
@@ -519,7 +525,7 @@ class CandidateEnrichmentService {
     `;
 
     try {
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
           {

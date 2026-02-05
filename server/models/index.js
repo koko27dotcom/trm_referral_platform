@@ -20,8 +20,11 @@ const AuditLog = require('./AuditLog.js');
 const ReferralNetwork = require('./ReferralNetwork.js');
 const TierBenefits = require('./TierBenefits.js');
 const WhatsAppTemplate = require('./WhatsAppTemplate.js');
+const { TEMPLATE_TYPE, TEMPLATE_STATUS, TEMPLATE_CATEGORY } = require('./WhatsAppTemplate.js');
 const WhatsAppSession = require('./WhatsAppSession.js');
+const { SESSION_STATUS, CONTEXT_TYPE, USER_TYPE } = require('./WhatsAppSession.js');
 const WhatsAppMessage = require('./WhatsAppMessage.js');
+const { MESSAGE_DIRECTION, MESSAGE_TYPE, MESSAGE_STATUS, INTERACTIVE_TYPE } = require('./WhatsAppMessage.js');
 const LeadScore = require('./LeadScore.js');
 const ReferrerQuality = require('./ReferrerQuality.js');
 const EmailCampaign = require('./EmailCampaign.js');
@@ -99,8 +102,18 @@ module.exports = {
   ReferralNetwork,
   TierBenefits,
   WhatsAppTemplate,
+  TEMPLATE_TYPE,
+  TEMPLATE_STATUS,
+  TEMPLATE_CATEGORY,
   WhatsAppSession,
+  SESSION_STATUS,
+  CONTEXT_TYPE,
+  USER_TYPE,
   WhatsAppMessage,
+  MESSAGE_DIRECTION,
+  MESSAGE_TYPE,
+  MESSAGE_STATUS,
+  INTERACTIVE_TYPE,
   LeadScore,
   ReferrerQuality,
   EmailCampaign,

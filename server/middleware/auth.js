@@ -336,8 +336,12 @@ const verifyPasswordResetToken = (token) => {
   return jwt.verify(token, secret);
 };
 
+// Alias for authenticate - used in some routes
+const requireAuth = authenticate;
+
 module.exports = {
   authenticate,
+  requireAuth,
   optionalAuth,
   refreshToken,
   generateTokens,

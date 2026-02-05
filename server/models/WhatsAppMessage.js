@@ -636,4 +636,8 @@ WhatsAppMessageSchema.statics.getDeliveryRate = async function() {
 const WhatsAppMessage = mongoose.model('WhatsAppMessage', WhatsAppMessageSchema);
 
 module.exports = WhatsAppMessage;
+module.exports.MESSAGE_DIRECTION = MESSAGE_DIRECTION;
+module.exports.MESSAGE_TYPE = MESSAGE_TYPE;
+module.exports.MESSAGE_STATUS = MESSAGE_STATUS;
+module.exports.INTERACTIVE_TYPE = INTERACTIVE_TYPE;
 

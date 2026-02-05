@@ -8,11 +8,17 @@ const OpenAI = require('openai');
 const pdfParse = require('pdf-parse');
 const fs = require('fs').promises;
 
-// Initialize Moonshot AI client (Kimi)
-const moonshotClient = new OpenAI({
-  apiKey: process.env.MOONSHOT_API_KEY,
-  baseURL: 'https://api.moonshot.cn/v1',
-});
+// Initialize Moonshot AI client (Kimi) - lazy loading
+let moonshotClient = null;
+const getMoonshotClient = () => {
+  if (!moonshotClient && process.env.MOONSHOT_API_KEY) {
+    moonshotClient = new OpenAI({
+      apiKey: process.env.MOONSHOT_API_KEY,
+      baseURL: 'https://api.moonshot.cn/v1',
+    });
+  }
+  return moonshotClient;
+};
 
 class ResumeOptimizer {
   constructor() {
@@ -137,7 +143,7 @@ Return ONLY the optimized resume in Markdown format, without any additional comm
       try {
         console.log(`Attempting resume optimization (attempt ${attempt}/${this.maxRetries})...`);
         
-        const response = await moonshotClient.chat.completions.create({
+        const response = await getMoonshotClient().chat.completions.create({
           model: this.model,
           messages: [
             {
@@ -203,7 +209,7 @@ Please provide your analysis in the following JSON format:
 Return ONLY the JSON response, no additional text.`;
 
     try {
-      const response = await moonshotClient.chat.completions.create({
+      const response = await getMoonshotClient().chat.completions.create({
         model: this.model,
         messages: [
           {

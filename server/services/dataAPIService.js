@@ -1,8 +1,5 @@
-const AnalyticsQuery = require('../models/AnalyticsQuery');
-const Job = require('../models/Job');
-const Company = require('../models/Company');
-const User = require('../models/User');
-const Application = require('../models/Application');
+// const AnalyticsQuery = require('../models/AnalyticsQuery'); // Model doesn't exist yet
+const { Job, Company, User, Application } = require('../models/index.js');
 const crypto = require('crypto');
 
 class DataAPIService {

@@ -529,4 +529,7 @@ WhatsAppSessionSchema.statics.cleanupExpired = async function() {
 const WhatsAppSession = mongoose.model('WhatsAppSession', WhatsAppSessionSchema);
 
 module.exports = WhatsAppSession;
+module.exports.SESSION_STATUS = SESSION_STATUS;
+module.exports.CONTEXT_TYPE = CONTEXT_TYPE;
+module.exports.USER_TYPE = USER_TYPE;
 

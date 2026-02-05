@@ -603,3 +603,6 @@ KYCDocumentSchema.pre('save', function(next) {
 const KYCDocument = mongoose.model('KYCDocument', KYCDocumentSchema);
 
 module.exports = KYCDocument;
+module.exports.DOCUMENT_TYPES = DOCUMENT_TYPES;
+module.exports.DOCUMENT_STATUS = DOCUMENT_STATUS;
+module.exports.ALLOWED_FILE_TYPES = ALLOWED_FILE_TYPES;
