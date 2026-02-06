@@ -7,6 +7,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 const { connectDatabase, disconnectDatabase } = require('./config/database.js');
 const { errorHandler, notFoundHandler, setupUnhandledRejectionHandler, setupUncaughtExceptionHandler } = require('./middleware/errorHandler.js');
 const { initializeWorkflowCron, stopWorkflowCron } = require('./cron/workflowCron.js');
@@ -26,6 +27,7 @@ const billingRoutes = require('./routes/billing.js');
 const subscriptionRoutes = require('./routes/subscriptions.js');
 const payoutRoutes = require('./routes/payouts.js');
 const whatsappRoutes = require('./routes/whatsapp.js');
+const messagingRoutes = require('./routes/messaging.js');
 const leadRoutes = require('./routes/leads.js');
 const emailMarketingRoutes = require('./routes/emailMarketing.js');
 const matchingRoutes = require('./routes/matching.js');
@@ -48,6 +50,10 @@ const dataAPIRoutes = require('./routes/dataAPI.js');
 const predictiveRoutes = require('./routes/predictive.js');
 const aiRoutes = require('./routes/ai.js');
 const adminRoutes = require('./routes/admin.js');
+const academyRoutes = require('./routes/academy.js');
+const cvScrapingRoutes = require('./routes/cvScraping.js');
+const marketAnalysisRoutes = require('./routes/marketAnalysis.js');
+const securityRoutes = require('./routes/security.js');
 
 // Load environment variables
 dotenv.config();
@@ -107,6 +113,7 @@ app.use((req, res, next) => {
 
 // ==================== HEALTH CHECK ====================
 
+// Basic health check for Railway
 app.get('/health', (req, res) => {
   res.json({
     success: true,
@@ -115,6 +122,42 @@ app.get('/health', (req, res) => {
     environment: process.env.NODE_ENV || 'development',
     version: process.env.npm_package_version || '1.0.0',
   });
+});
+
+// Detailed health check with database status
+app.get('/api/health', async (req, res) => {
+  try {
+    const { isDatabaseConnected, getConnectionStats } = require('./config/database.js');
+    const dbConnected = isDatabaseConnected();
+    const dbStats = dbConnected ? getConnectionStats() : null;
+    
+    const healthStatus = {
+      success: true,
+      status: dbConnected ? 'healthy' : 'degraded',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      environment: process.env.NODE_ENV || 'development',
+      version: process.env.npm_package_version || '1.0.0',
+      database: {
+        connected: dbConnected,
+        stats: dbStats
+      },
+      memory: {
+        used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
+        total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024) + 'MB'
+      }
+    };
+    
+    const statusCode = dbConnected ? 200 : 503;
+    res.status(statusCode).json(healthStatus);
+  } catch (error) {
+    res.status(503).json({
+      success: false,
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      error: error.message
+    });
+  }
 });
 
 // ==================== API ROUTES ====================
@@ -136,8 +179,8 @@ app.use(`${API_PREFIX}/jobs`, jobRoutes);
 // Referral routes (existing job referral system)
 app.use(`${API_PREFIX}/referrals`, referralRoutes);
 
-// Referral Network routes (viral referral system)
-app.use(`${API_PREFIX}/referrals`, referralNetworkRoutes);
+// Referral Network routes (viral referral system) - FIXED PATH
+app.use(`${API_PREFIX}/referral-networks`, referralNetworkRoutes);
 
 // Billing routes
 app.use(`${API_PREFIX}/billing`, billingRoutes);
@@ -148,8 +191,20 @@ app.use(`${API_PREFIX}/subscriptions`, subscriptionRoutes);
 // Payout routes
 app.use(`${API_PREFIX}/payouts`, payoutRoutes);
 
-// WhatsApp routes
+// WhatsApp routes (legacy - kept for backward compatibility)
 app.use(`${API_PREFIX}/whatsapp`, whatsappRoutes);
+
+// Messaging routes (Viber & Telegram - Primary for Myanmar market)
+app.use(`${API_PREFIX}/messaging`, messagingRoutes);
+
+// Referral Academy routes
+app.use(`${API_PREFIX}/academy`, academyRoutes);
+
+// CV Scraping routes
+app.use(`${API_PREFIX}/cv-scraping`, cvScrapingRoutes);
+
+// Market Analysis routes (Salary Survey, Job Market Trends)
+app.use(`${API_PREFIX}/market`, marketAnalysisRoutes);
 
 // Lead scoring routes
 app.use(`${API_PREFIX}/leads`, leadRoutes);
@@ -217,6 +272,24 @@ app.use(`${API_PREFIX}/ai`, aiRoutes);
 // Admin routes (God Mode dashboard)
 app.use(`${API_PREFIX}/admin`, adminRoutes);
 
+// Security routes (Security dashboard and monitoring)
+app.use(`${API_PREFIX}/security`, securityRoutes);
+
+// ==================== STATIC FILES & SPA ====================
+
+// Determine dist path - use process.cwd() for containerized environments (Render, Railway)
+// Fallback to __dirname resolution for local development compatibility
+const distPath = process.env.DIST_PATH || path.join(process.cwd(), 'dist');
+
+// Serve static files from the dist directory (React build)
+app.use(express.static(distPath));
+
+// Catch-all route to serve React app for client-side routing
+// This must be AFTER all API routes but BEFORE error handlers
+app.get('*', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
+});
+
 // ==================== ERROR HANDLING ====================
 
 // 404 handler for undefined routes
@@ -241,20 +314,20 @@ const startServer = async () => {
     // Initialize revenue analytics cron jobs
     initializeRevenueCron();
 
-      // Initialize payout processing cron jobs
-      initializePayoutCron();
-      
+    // Initialize payout processing cron jobs
+    initializePayoutCron();
+    
     // Initialize leaderboard/gamification cron jobs
     if (leaderboardCron && typeof leaderboardCron.init === 'function') {
       leaderboardCron.init();
     }
-      
+    
     // Initialize analytics cron jobs (Phase 4)
     if (analyticsCron && typeof analyticsCron.start === 'function') {
       analyticsCron.start();
     }
-      
-      // Start server
+    
+    // Start server
     const server = app.listen(PORT, HOST, () => {
       console.log('='.repeat(60));
       console.log('🚀 Server started successfully');
@@ -272,31 +345,44 @@ const startServer = async () => {
       console.log('='.repeat(60));
     });
     
-    // Graceful shutdown
+    // Graceful shutdown - FIXED WITH SAFETY CHECKS
     const gracefulShutdown = async (signal) => {
       console.log(`\n${signal} received. Starting graceful shutdown...`);
       
-      // Stop workflow cron jobs
-      stopWorkflowCron();
+      try {
+        // Stop workflow cron jobs
+        stopWorkflowCron();
 
-      // Stop revenue analytics cron jobs
-      stopRevenueCron();
+        // Stop revenue analytics cron jobs
+        stopRevenueCron();
 
-      // Stop payout processing cron jobs
-      stopPayoutCron();
-      
-      // Stop leaderboard/gamification cron jobs
-      leaderboardCron.stop();
-      
-      // Stop analytics cron jobs (Phase 4)
-      analyticsCron.stop();
+        // Stop payout processing cron jobs
+        stopPayoutCron();
+        
+        // Stop leaderboard/gamification cron jobs - FIXED WITH SAFETY CHECK
+        if (leaderboardCron && typeof leaderboardCron.stop === 'function') {
+          leaderboardCron.stop();
+        }
+        
+        // Stop analytics cron jobs (Phase 4) - FIXED WITH SAFETY CHECK
+        if (analyticsCron && typeof analyticsCron.stop === 'function') {
+          analyticsCron.stop();
+        }
+      } catch (cronError) {
+        console.error('Error stopping cron jobs:', cronError);
+      }
       
       // Close HTTP server
       server.close(async () => {
         console.log('HTTP server closed');
         
-        // Disconnect from database
-        await disconnectDatabase();
+        try {
+          // Disconnect from database
+          await disconnectDatabase();
+          console.log('Database disconnected');
+        } catch (dbError) {
+          console.error('Error disconnecting from database:', dbError);
+        }
         
         console.log('Graceful shutdown complete');
         process.exit(0);
@@ -320,3 +406,4 @@ const startServer = async () => {
 
 // Start the server
 startServer();
+

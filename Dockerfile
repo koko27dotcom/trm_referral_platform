@@ -9,7 +9,7 @@
 # =============================================================================
 # STAGE 1: Dependencies
 # =============================================================================
-FROM node:18-alpine AS dependencies
+FROM node:20-alpine AS dependencies
 
 # Set working directory
 WORKDIR /app
@@ -26,7 +26,7 @@ RUN npm ci --include=dev
 # =============================================================================
 # STAGE 2: Build
 # =============================================================================
-FROM node:18-alpine AS build
+FROM node:20-alpine AS build
 
 # Set working directory
 WORKDIR /app
@@ -43,7 +43,7 @@ RUN npm run build
 # =============================================================================
 # STAGE 3: Production
 # =============================================================================
-FROM node:18-alpine AS production
+FROM node:20-alpine AS production
 
 # Security: Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
