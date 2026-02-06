@@ -283,15 +283,82 @@ app.use(`${API_PREFIX}/security`, securityRoutes);
 
 // Determine dist path - use process.cwd() for containerized environments (Render, Railway)
 // Fallback to __dirname resolution for local development compatibility
-const distPath = process.env.DIST_PATH || path.join(process.cwd(), 'dist');
+const fs = require('fs');
+
+// Try multiple possible dist locations
+const possibleDistPaths = [
+  process.env.DIST_PATH,
+  path.join(process.cwd(), 'dist'),
+  path.join(__dirname, '..', 'dist'),
+  path.join(__dirname, '..', '..', 'dist'),
+  '/opt/render/project/dist',
+].filter(Boolean);
+
+let distPath = null;
+let distExists = false;
+
+console.log('🔍 [DIAGNOSTIC] Searching for dist folder...');
+console.log('🔍 [DIAGNOSTIC] process.cwd():', process.cwd());
+console.log('🔍 [DIAGNOSTIC] __dirname:', __dirname);
+console.log('🔍 [DIAGNOSTIC] NODE_ENV:', process.env.NODE_ENV);
+
+for (const testPath of possibleDistPaths) {
+  const exists = fs.existsSync(testPath);
+  const indexExists = exists && fs.existsSync(path.join(testPath, 'index.html'));
+  console.log(`🔍 [DIAGNOSTIC] Checking ${testPath}: exists=${exists}, index.html=${indexExists}`);
+  
+  if (exists && indexExists) {
+    distPath = testPath;
+    distExists = true;
+    console.log('✅ [DIAGNOSTIC] Found valid dist folder at:', distPath);
+    break;
+  }
+}
+
+if (!distPath) {
+  console.error('❌ [DIAGNOSTIC] CRITICAL: No valid dist folder found!');
+  console.error('❌ [DIAGNOSTIC] Checked paths:', possibleDistPaths);
+  // Fallback to process.cwd() for error handling
+  distPath = path.join(process.cwd(), 'dist');
+}
+
+// List contents of working directory for debugging
+try {
+  const cwdContents = fs.readdirSync(process.cwd());
+  console.log('🔍 [DIAGNOSTIC] Contents of process.cwd():', cwdContents);
+} catch (err) {
+  console.error('❌ [DIAGNOSTIC] Error reading process.cwd():', err.message);
+}
 
 // Serve static files from the dist directory (React build)
-app.use(express.static(distPath));
+app.use(express.static(distPath, {
+  fallthrough: true, // Continue to next middleware if file not found
+}));
 
 // Catch-all route to serve React app for client-side routing
 // This must be AFTER all API routes but BEFORE error handlers
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
+app.get('*', (req, res, next) => {
+  console.log(`🔍 [DIAGNOSTIC] Catch-all route hit: ${req.method} ${req.originalUrl}`);
+  console.log(`🔍 [DIAGNOSTIC] distPath: ${distPath}`);
+  console.log(`🔍 [DIAGNOSTIC] distExists: ${distExists}`);
+  
+  const indexPath = path.join(distPath, 'index.html');
+  console.log(`🔍 [DIAGNOSTIC] Looking for index.html at: ${indexPath}`);
+  
+  if (!distExists || !fs.existsSync(indexPath)) {
+    console.error(`❌ [DIAGNOSTIC] index.html not found at ${indexPath}`);
+    // Don't call next() with error, let the notFoundHandler deal with it
+    return next();
+  }
+  
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error(`❌ [DIAGNOSTIC] Error sending index.html:`, err);
+      next(err);
+    } else {
+      console.log(`✅ [DIAGNOSTIC] Successfully served index.html for ${req.originalUrl}`);
+    }
+  });
 });
 
 // ==================== ERROR HANDLING ====================
