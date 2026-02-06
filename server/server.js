@@ -26,6 +26,7 @@ const referralNetworkRoutes = require('./routes/referralNetwork.js');
 const billingRoutes = require('./routes/billing.js');
 const subscriptionRoutes = require('./routes/subscriptions.js');
 const payoutRoutes = require('./routes/payouts.js');
+const paymentRoutes = require('./routes/payments.js');
 const whatsappRoutes = require('./routes/whatsapp.js');
 const messagingRoutes = require('./routes/messaging.js');
 const leadRoutes = require('./routes/leads.js');
@@ -190,6 +191,9 @@ app.use(`${API_PREFIX}/subscriptions`, subscriptionRoutes);
 
 // Payout routes
 app.use(`${API_PREFIX}/payouts`, payoutRoutes);
+
+// Payment routes (KBZPay, WavePay, AYAPay integration)
+app.use(`${API_PREFIX}/payments`, paymentRoutes);
 
 // WhatsApp routes (legacy - kept for backward compatibility)
 app.use(`${API_PREFIX}/whatsapp`, whatsappRoutes);
