@@ -5,10 +5,10 @@
 services:
   # Main Web Service
   - type: web
-    name: myanjobs-api
+    name: trm-referral-platform-1
     runtime: node
     plan: standard
-    buildCommand: npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
